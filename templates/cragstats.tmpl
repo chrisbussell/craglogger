@@ -1,0 +1,23 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1>Crag Stats 2014</h1>
+       <table>
+	<tr>
+        <td>Total crags visited:<b>{{ data|length }}</b></td>
+	</tr>
+	<tr>
+        <td>Crag with most visits crag:<b>{{ data|length }}</b></td>
+	</tr>
+	<tr>
+        <td>Most visited pub:<b>{{ data|length }}</b></td>
+	</tr>
+	<tr>
+        <td>Top 5 Tuesday Nighters:<b>{{ data|length }}</b></td>
+	</tr>
+       <table>
+{% endblock %}

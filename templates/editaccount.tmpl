@@ -1,0 +1,30 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h1>Edit Account</h1>
+<form action="{{php_self}}" method="post">
+    Username:<br />
+    <b>{{username}}</b>
+    <br /><br />
+    First name:<br />
+    <input type="text" name="firstname" value="{{firstname}}" />
+    <br /><br />
+    Surname:<br />
+    <input type="text" name="surname" value="{{surname}}" />
+    <br /><br />
+    E-Mail Address:<br />
+    <input type="text" name="email" value="{{email}}" />
+    <br /><br />
+    Password:<br />
+    <input type="password" name="password" value="" /><br />
+    <i>(leave blank if you do not want to change your password)</i>
+    <br /><br />
+    <input type="submit" value="Update Account" />
+</form>
+{% endblock %}

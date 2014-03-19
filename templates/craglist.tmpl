@@ -1,0 +1,57 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1>Crag List 2014</h1>
+	<form method="post" action="{{ php_self }}">
+    <table>
+      <tr class="heading">
+        <td>Date</td>
+        <td>Venue</td>
+        <td>Area</td>
+        <td>URL</td>
+        <td>Rock</td>
+        <td>Attendence</td>
+      </tr> 
+
+      {% for d in data %}
+	<input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"</td>
+       <tr>
+        <td>{{ d.date|date ('d M Y') }}</td>
+        <td>{{ d.venue|escape }}</td>
+        <td>{{ d.area|escape }}</td>
+        <td>{{ d.web|escape }}</td>
+        <td>{{ d.rock|escape }}</td>
+
+	<td>
+		{% set has_attended_this_crag = 0 %}
+
+		{% for a in attended %}
+			{% if a.crag_id == d.crag_id %}
+				{% set has_attended_this_crag = 1 %}
+			{% endif %}
+      		{% endfor %}
+
+		{% if has_attended_this_crag == 1 %}
+			Yes!!!!
+		{% else %}
+		<input type="checkbox" name="crag[]" value="{{ d.crag_id }}"/>
+		{% endif %}
+	</td>
+	<td><a href="craglist.php?undo=true&crag_id={{d.crag_id}}">undo</a></td>
+	</tr>
+      	{% endfor %}
+       </table>
+
+       <table>
+	<tr>
+        <br>
+        <input type="submit" name="submit" value="Log my visit">
+		</form>
+<b>{{ crag_visited }}</b>
+	 </tr>
+        </table>
+{% endblock %}

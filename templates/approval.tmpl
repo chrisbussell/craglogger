@@ -1,0 +1,12 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+<h1>Waiting Approval</h1>
+
+Thank you for registering to Tuesday Night Climbers Craglogger<br>
+Your account is waiting for approval, you will recieve an email when your account has been approved.
+{% endblock %}

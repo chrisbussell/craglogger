@@ -1,0 +1,32 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h1>Add A Crag</h1>
+<form action="{{php_self}}" method="post">
+    Date: (eg: 2014/03/01)<br />
+    <input type="date" name="date" value="" />
+    <br /><br />
+    Venue:<br />
+    <input type="text" name="venue" value="" />
+    <br /><br />
+    Area:<br />
+    <input type="text" name="area" value="" />
+    <br /><br />
+    Web URL:<br />
+    <input type="url" name="web" value="" />
+    <br /><br />
+    Weather:<br />
+    <input type="text" name="conditions" value="" />
+    <br /><br />
+    Rock:<br />
+    <input type="text" name="rock" value="" />
+    <br /><br />
+    <input type="submit" value="Add the Crag" />
+</form>
+{% endblock %}

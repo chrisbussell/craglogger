@@ -1,0 +1,18 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<h1>Forgotten Password?</h1>
+do this to reset your password
+
+<form action="{{ php_self }}" method="post">
+    Email:<input type="email" name="email" />
+    <input type="submit" value="Email Reset Code" />
+</form>
+
+
+{% endblock %}

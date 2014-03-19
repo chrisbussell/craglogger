@@ -1,0 +1,54 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+{{ parent() }}
+{% endblock %}
+
+{% block content %}
+      {% for d in data %}
+    <h1>Details for {{d.venue}}</h1>
+    <table>
+      <tr class="heading">
+        <td>Date</td>
+        <td>Venue</td>
+        <td>Area</td>
+        <td>URL</td>
+        <td>Rock</td>
+        <td>Conditions</td>
+        <td>Pub</td>
+        <td>Rained Off</td>
+      </tr> 
+       <tr>
+        <td>{{ d.date|date ('d M Y') }}</td>
+        <td>{{ d.venue|escape }}</td>
+        <td>{{ d.area|escape }}</td>
+        <td>{{ d.web|escape }}</td>
+        <td>{{ d.rock|escape }}</td>
+        <td>{{ d.conditions|escape }}</td>
+        <td>{{ d.pub|escape }}</td>
+	{% if d.rainedoff == 1 %}
+        <td>Yes</td>
+	{% else %}
+        <td>No</td>
+	{% endif %}
+	</td>
+	</tr>
+      	{% endfor %}
+       </table>
+
+    <h1>Who was there?</h1>
+       <table>
+	<tr>
+	{% set i_did = 0 %}
+	{% for v in visiteddata %}
+	<td>{{v.firstname}} {{v.surname}}</td>
+	 </tr>
+		{% if v.user_id == user_id %}
+			{% set i_did = 1 %}
+		{% endif %}
+	{% endfor %}	
+	{% if i_did != 1 %}
+		Did you visit this crag? Click <a href="craglist.php">here</a> to log your visit. 
+	{% endif %}
+        </table>
+{% endblock %}

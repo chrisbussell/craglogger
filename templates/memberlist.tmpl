@@ -1,0 +1,22 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+{% block content %}
+<h1>Memberlist</h1>
+<table>
+    <tr>
+        <th>Username</th>
+        <th>E-Mail Address</th>
+    </tr>
+{% for m in members %}
+        <tr>
+            <td>{{ m.firstname }} {{m.surname}}</td>
+            <td>{{ m.email }}</td>
+        </tr>
+{% endfor %}
+            <td><b>Total Members</b> {{ members|length}}</TD>
+</table>
+{% endblock %}

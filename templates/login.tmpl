@@ -1,0 +1,22 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h1>Login TWIG</h1>
+<form action="{{ php_self }}" method="post">
+    Username:<br />
+    <input type="text" name="username" value="{{submitted_username|escape}}" />
+    <br /><br />
+    Password:<br />
+    <input type="password" name="password" value="" />
+	<a href="reset.php">forgot password?</a><br>
+    <br /><br />
+    <input type="submit" value="Login" />
+</form>
+{% endblock %}

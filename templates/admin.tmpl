@@ -1,0 +1,14 @@
+{% extends "base.tmpl" %}
+
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h2>Admin Stuff</h2>
+<a href="cragcreate.php">Add a Crag</a><br />
+<a href="cragupdate.php">Update a Crag</a><br />
+<a href="approveaccount.php">Approve Account</a><br />
+{% endblock %}

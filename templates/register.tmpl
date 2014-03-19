@@ -1,0 +1,30 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        .important { color: #336699; }
+    </style>
+{% endblock %}
+{% block content %}
+<h1>Register Twig</h1>
+<form action="{{ php_self }}" method="post">
+    Your firstname:<br />
+    <input type="text" name="firstname" value="" />
+    <br /><br />
+    Your surname:<br />
+    <input type="text" name="surname" value="" />
+    <br /><br />
+    Your username (used to login to the site):<br />
+    <input type="text" name="username" value="" />
+    <br /><br />
+    Your email<br />
+    <input type="text" name="email" value="" />
+    <br /><br />
+    Choose password:<br />
+    <input type="password" name="password" value="" />
+    <br /><br />
+    <input type="submit" value="Register" />
+</form>
+{% endblock %}
