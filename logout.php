@@ -1,4 +1,4 @@
- <?php
+<?php
 
     	// Execute common code to connection to the database and start the session
     	require("includes/common.php");
@@ -9,4 +9,3 @@
     	// We redirect them to the login page
     	header("Location: home.php");
     	die("Redirecting to: home.php"); 
-?>
