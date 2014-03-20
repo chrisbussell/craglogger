@@ -14,7 +14,7 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `admin` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   `approved` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
-  `activation_code` int(10) NOT NULL default'0',
+  `activation_code` varchar(10) NOT NULL default'0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)

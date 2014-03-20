@@ -1,0 +1,41 @@
+{% extends "base.tmpl" %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<h1>Reset forgotten password</h1>
+
+{% set failed = 0 %}
+
+{% if passcodefail == 1 %}
+
+{% set failed = 1 %}
+Sorry something doesn't match up, please request a new activation code <a href="reset.php">here</a>
+
+{% endif %}
+
+{% if failed != 1 %}
+	{% if passed != 1 %}
+	Enter a new password
+	<p>
+	<form action="{{ php_self }}" method="post">
+	<input type="hidden" name="code" value="{{ code|escape }}"</td>
+	<input type="hidden" name="email" value="{{ email|escape }}"</td>
+	    New password:<input type="password" name="password" />
+	<input type="submit" name="submit" value="Change Password">
+	</form>
+	{% else %}
+
+	Password reset complete.
+
+	To login into Tuesday Nighters Craglogger just click <a href="login.php">here</a>
+
+
+{% endif %}
+{% endif %}
+
+{% endblock %}
+

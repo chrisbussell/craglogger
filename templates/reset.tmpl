@@ -6,13 +6,21 @@
 {% endblock %}
 
 {% block content %}
-<h1>Forgotten Password?</h1>
-do this to reset your password
+
+<h1>Forgotten your password?</h1>
+{% if passed != 1 %}
+Please complete this form to get your password reset link.<p>
 
 <form action="{{ php_self }}" method="post">
-    Email:<input type="email" name="email" />
+    Your email:<input type="email" name="email" />
     <input type="submit" value="Email Reset Code" />
 </form>
+{% else %}
 
+Thank you, we have sent an email to {{email}} with your password reset link.<br>  Please follow the link to reset your password.<p>
+
+{% endif %}
 
 {% endblock %}
+
+

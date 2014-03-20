@@ -5,6 +5,58 @@
 		return str_replace($bad,"",$string);
         }
 
+	function checkpasswordcode($db, $query_params)
+	{
+		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code";
+
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+                return $stmt;
+	}
+
+	//update member pasword
+	function updatememberpassword($db, $query_params)
+	{
+		$query = "
+                        UPDATE users
+                        SET
+                        password = :password,
+                        salt = :salt
+                        WHERE
+                        email = :email";
+                try{
+                        // Execute the query
+                        $stmt = $db->prepare($query);
+                        $result = $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+	return true;
+	}
+	
+	
+	//update user password reset activation code
+	function updatepasswordreset($db, $query_params)
+	{
+		$query = "UPDATE users SET activation_code = :code WHERE email = :email";
+
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+                return true;
+	
+	}
+
 	// Get all member accounts if approved or not
 	function getaccounts($db, $getapproved)
         {
