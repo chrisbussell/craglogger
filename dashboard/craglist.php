@@ -32,18 +32,18 @@
 
         		foreach ($name as $names=>$value) {
 				// if user attended insert row
+				//insertattendeddata($db, $user_id, $value);
 				insertattendeddata($db, $user_id, $value);
         		}
 			$cragvisited = "Thanks, your attendance has been logged and appreciated";
 		}
 	}
 
-
 	if(isset($_GET['undo']) == true)
 	{
 		$query_params = array(
                 ':user_id' => $_SESSION['user']['user_id'],
-                ':crag_id' => $_GET['crag_id']
+                ':cragvisit_id' => $_GET['cragvisit_id']
                 );
 
 		//remove db entry for this attdence by user
@@ -51,7 +51,14 @@
 	}
 
 	// get list of all crags this year
-	$stmt = getcragdata($db, $query_params = null);
+
+	//Get list of crags available this year
+	$query_params = array(
+                ':year' => '2014'
+                );
+
+	// get list of all crags this year
+	$stmt = getcragdata($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;

@@ -30,7 +30,7 @@
 		{% set has_attended_this_crag = 0 %}
 
 		{% for a in attended %}
-			{% if a.crag_id == d.crag_id %}
+			{% if a.cragvisit_id == d.cragvisit_id %}
 				{% set has_attended_this_crag = 1 %}
 			{% endif %}
       		{% endfor %}
@@ -38,10 +38,10 @@
 		{% if has_attended_this_crag == 1 %}
 			Yes!!!!
 		{% else %}
-		<input type="checkbox" name="crag[]" value="{{ d.crag_id }}"/>
+		<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
 		{% endif %}
 	</td>
-	<td><a href="craglist.php?undo=true&crag_id={{d.crag_id}}">undo</a></td>
+	<td><a href="craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a></td>
 	</tr>
       	{% endfor %}
        </table>

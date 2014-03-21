@@ -23,8 +23,13 @@
         // load template
         $template = $twig->loadTemplate('cragattendence.tmpl');
 
+	//Get list of crags available this year
+        $query_params = array(
+                ':year' => '2014'
+                );
+
 	//Get list of crags
-	$stmt = getcragdata($db, $query_params = null);
+        $stmt = getcragdata($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) 
 	{
@@ -37,6 +42,7 @@
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS
 	$results = getattended($db);
+
         $rows = $results->fetchAll();
 
 	$date = date('Y-m-d H:i:s');

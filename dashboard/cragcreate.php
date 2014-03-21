@@ -29,20 +29,25 @@
 
    	if($_SESSION['user']['admin'] == 0){
         header("Location: craglist.php");
-        die("Redirecting to login.php");
+        die("Redirecting to craglist.php");
    	}
 	
 	if(!empty($_POST)){ 
         	$query_params = array(
             	':venue' => $_POST['venue'],
             	':area' => $_POST['area'],
+            	':rock' => $_POST['rock'],
+            	':country' => $_POST['country'],
+            	':county' => $_POST['county'],
+            	':altitude' => $_POST['altitude'],
+            	':faces' => $_POST['faces'],
             	':web' => $_POST['web'],
-            	':conditions' => $_POST['conditions'],
-            	':date' => $_POST['date'],
-            	':rock' => $_POST['rock']
+            	':lat' => $_POST['lat'],
+            	':lng' => $_POST['lng']
         	);
 
 	// Insert crag data
+	//insertcragdata($db, $query_params);
 	insertcragdata($db, $query_params);
         
         header("Location: ../dashboard/admin.php");

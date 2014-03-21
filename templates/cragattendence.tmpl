@@ -20,7 +20,7 @@
       <tr class="heading">
         <td>Venue</td>
       {% for d in data %}
-	<td><a href="cragdetail.php?crag_id={{d.crag_id}}">{{ d.venue|escape }}</a></td>
+	<td><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a></td>
       {% endfor %}
       </tr> 
       <tr class="heading">
@@ -42,7 +42,7 @@
 		{% set has_attended_this_crag = 0 %}
 
 		{% for a in attended %}
-			{% if a.user_id == m.user_id and a.crag_id == d.crag_id %}
+			{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
 				{% set has_attended_this_crag = 1 %}
 			{% endif %}
       		{% endfor %}

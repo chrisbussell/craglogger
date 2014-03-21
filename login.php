@@ -10,7 +10,7 @@
 		$username = $_POST['username'];
 
 		// get member account details
-		$stmt = getaccountsall($db, $username);
+		$stmt = getaccountsall($db, $username, $query_params = NULL);
 
 		// Set login to false, variable set to true on succesful login
         	$login_ok = false;
@@ -20,20 +20,28 @@
         	$row = $stmt->fetch();
         
 		if($row){
-	    		// Get and check password submited by comparing it to hashed version stored in db.
-            		$check_password = hash('sha256', $_POST['password'] . $row['salt']);
-            		for($round = 0; $round < 65536; $round++){
-                		$check_password = hash('sha256', $check_password . $row['salt']);
-            		}
-			// Check is account is approved for login
-			if($row['approved'] === '1'){ 
-            			if($check_password === $row['password']){
-                			// If they do, then we flip this to true
-                			$login_ok = true;
+			// Ensure that the user has entered a non-empty password
+                	if(empty($_POST['password'])){
+                		echo("Please enter a password.");
+                	}	
+			else
+			{
+
+	    			// Get and check password submited by comparing it to hashed version stored in db.
+            			$check_password = hash('sha256', $_POST['password'] . $row['salt']);
+            			for($round = 0; $round < 65536; $round++){
+                			$check_password = hash('sha256', $check_password . $row['salt']);
             			}
-			}
-			else{
-				print("Account not approved");
+				// Check is account is approved for login
+				if($row['approved'] === '1'){ 
+            				if($check_password === $row['password']){
+                				// If they do, then we flip this to true
+                				$login_ok = true;
+            				}
+				}
+				else{
+					print("Account not approved");
+				}	
 			}
         	}
         

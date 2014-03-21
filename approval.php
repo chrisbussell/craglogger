@@ -16,5 +16,3 @@
         $template = $twig->loadTemplate('approval.tmpl');
 
 	$template->display(array());
-
-?>

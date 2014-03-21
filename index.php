@@ -16,7 +16,7 @@
         $template = $twig->loadTemplate('base.tmpl');
 
 	$template->display(array(
-	'sid' => $_SESSION['user']
+	'sid' => isset($_SESSION['user'])
 ));
 
 ?>

@@ -14,7 +14,9 @@
 {% for m in members %}
         <tr>
             <td>{{ m.firstname }} {{m.surname}}</td>
+	{% if m.emailshow == 1 %}
             <td>{{ m.email }}</td>
+	{% endif %}
         </tr>
 {% endfor %}
             <td><b>Total Members</b> {{ members|length}}</TD>

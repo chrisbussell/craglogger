@@ -89,6 +89,7 @@
             ':user_id' => $_SESSION['user']['user_id'],
             ':firstname' => $_POST['firstname'],
             ':surname' => $_POST['surname'],
+            ':emailshow' => $_POST['emailshow'],
         );
         
         // If the user is changing their password, then we need parameter values
@@ -104,7 +105,8 @@
             SET
 		firstname = :firstname,
 		surname = :surname,
-                email = :email
+                email = :email,
+		emailshow = :emailshow
         ";
         
         if($password !== null)
@@ -151,6 +153,7 @@
         'username' =>$_SESSION['user']['username'],
         'firstname' =>$rows['0']['firstname'],
         'surname' =>$rows['0']['surname'],
+        'emailshow' =>$rows['0']['emailshow'],
         'email' =>$_SESSION['user']['email']
   ));
 

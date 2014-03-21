@@ -73,7 +73,8 @@
             	':username' => $_POST['username'],
             	':password' => $password,
             	':salt' => $salt,
-            	':email' => $_POST['email']
+            	':email' => $_POST['email'],
+            	':emailshow' => $_POST['emailshow']
         	);
 
 		// All ok, so lets add the user to the database
