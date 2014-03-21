@@ -54,7 +54,7 @@
                 $mail = new PHPMailer();
                 $mail->IsHTML(true);
 
-                $mail->From     = "chrisbussell@gmail.com";
+                $mail->From     = "acidsmile@acidsmile.co.uk";
                 $mail->AddAddress("$email");
 
                 $mail->Subject  = "Tuesday Nighters Password Reset";
