@@ -34,7 +34,8 @@
 
 	if($row)
 	{
-		$code=rand(1000,9999);
+		$code= md5(rand(100,999));
+
 		$email = $_POST['email'];
 
 	 	// Set query params for sql call

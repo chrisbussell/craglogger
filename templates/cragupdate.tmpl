@@ -10,12 +10,11 @@
     <h2>Crag Details Update</h2>
     <table>
       <tr class="heading">
-        <td>Crag ID</td>
         <td>Date</td>
         <td>Venue</td>
         <td>Area</td>
-        <td>URL</td>
         <td>Rock</td>
+        <td>URL</td>
         <td>Weather</td>
         <td>Pub</td>
         <td>Rained Off</td>
@@ -25,12 +24,11 @@
 	<form method="post" action="{{ php_self }}">
         <input type="hidden" name="crag_id" value="{{ d.crag_id|escape }}"</td>
        <tr>
-        <td><b>{{ d.crag_id|escape }}</b></td>
         <td><input type="date" name="date" value="{{ d.date|escape}}"</td>
         <td><input type="text" name="venue" value="{{ d.venue|escape }}"</td>
         <td><input type="text" name="area" value="{{ d.area|escape }}"</td>
-        <td><input type="url" name="web" value="{{ d.web|escape }}"</td>
         <td><input type="text" name="rock" value="{{ d.rock|escape }}"</td>
+        <td><input type="url" name="web" value="{{ d.web|escape }}"</td>
         <td><input type="text" name="conditions" value="{{ d.conditions|escape }}"</td>
         <td><input type="text" name="pub" value="{{ d.pub|escape }}"</td>
 	{% if d.rainedoff == 1 %}

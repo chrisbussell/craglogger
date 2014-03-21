@@ -20,6 +20,11 @@
     <br /><br />
     E-Mail Address:<br />
     <input type="text" name="email" value="{{email}}" />
+    {% if emailshow == 1%}
+    <input type="checkbox" name="emailshow" value="1" checked><i>(check to allow other members to see your email address on the members list)</i>
+    {% else %}
+    <input type="checkbox" name="emailshow" value="1"><i>(check to allow other members to see your email address on the members list)</i>
+    {% endif %} 
     <br /><br />
     Password:<br />
     <input type="password" name="password" value="" /><br />

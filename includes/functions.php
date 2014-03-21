@@ -72,7 +72,8 @@
                 	username,
                 	email,
                 	admin,
-                	approved
+                	approved,
+			emailshow
                 	FROM users";
 		if($getapproved == 0){
 			$query .="
@@ -109,7 +110,8 @@
                         username,
                         email,
                         admin,
-                        approved
+                        approved,
+			emailshow
                         FROM users";
 		if(isset($username)){
 			$query .="
@@ -199,14 +201,16 @@
                 username,
                 password,
                 salt,
-                email
+                email,
+		emailshow
             ) VALUES (
                 :firstname,
                 :surname,
                 :username,
                 :password,
                 :salt,
-                :email
+                :email,
+		:emailshow
             )
         	";
 
@@ -219,51 +223,73 @@
             		die("Failed to run query: " . $ex->getMessage());
         	}
 	}
-	
+
+	////////////////////////////////////////
 	function getcragdata($db, $query_params)
 	{
-		// Get Crag List Data
-        	$query = "
-                	SELECT
-                	crag_id,
-                	date,
-                	venue,
-			area,
-			web,
-                	rock,
-                	conditions,
-                	rainedoff,
-			pub
-                	FROM craglist";
-		if(isset($query_params)){
-			$query .=" WHERE crag_id = :crag_id";
+		$query = "SELECT cd.cragdetail_id, 
+				 cv.cragvisit_id, 
+				 cv.date, 
+				 cd.venue, 
+				 cd.area, 
+				 cd.web, 
+				 cd.rock, 
+				 cv.conditions, 
+				 cv.rainedoff, 
+				 cv.pub 
+			  FROM cragdetail as cd, 
+				cragvisit as cv 
+			  WHERE cd.cragdetail_id = cv.cragdetail_id";
+		if(isset($query_params[':cragdetail_id'])){
+			  $query .=" AND cd.cragdetail_id = :cragdetail_id";
 		}
-        	try{
-                	$stmt = $db->prepare($query);
-                	$stmt->execute($query_params);
-        	}
-        	catch(PDOException $ex){
-                	die("Failed to run query: " . $ex->getMessage());
-        	}
+		if(isset($query_params[':year'])){
+			$query .=" AND YEAR(cv.date) = :year";
+		}
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
 
-		return $stmt;
+                return $stmt;
+	}
+
+	function getcragdetail($db)
+	{
+		$query = "SELECT cd.cragdetail_id, 
+				 cd.venue, 
+				 cd.area 
+			  FROM cragdetail as cd 
+			  ORDER BY cd.venue";
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute();
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+
+                return $stmt;
 	}
 
 	function getattended($db)
-	{
-		$attendsql = "SELECT 
-				a.user_id, 
-				a.crag_id 
-			      FROM attended a, 
-				   users u 
-			      WHERE u.user_id = a.user_id 
-			      ORDER BY u.user_id"; //query the db
+        {
+                $attendsql = "SELECT 
+                                a.user_id, 
+                                a.cragvisit_id 
+                              FROM attended a, 
+                                   users u 
+                              WHERE u.user_id = a.user_id 
+                              ORDER BY u.user_id"; //query the db
 
-        	$results = $db->prepare($attendsql);
-        	$results->execute();
-	
-		return $results;
-	}
+                $results = $db->prepare($attendsql);
+                $results->execute();
+
+                return $results;
+        }
 
 	function getattendendbycragid($db, $query_params)
 	{
@@ -303,71 +329,102 @@
 	}
 
 	function insertcragdata($db, $query_params)
-	{
-		$query = "
-            INSERT INTO craglist (
+        {
+                $query = "
+            INSERT INTO cragdetail (
                 venue,
                 area,
+                rock,
+                country,
+                county,
+                altitude,
+                faces,
                 web,
-                conditions,
-                date,
-                rock
+                lat,
+                lng
             ) VALUES (
                 :venue,
                 :area,
+                :rock,
+                :country,
+                :county,
+                :altitude,
+                :faces,
                 :web,
-                :conditions,
-                :date,
-                :rock
+                :lat,
+                :lng
             )
-        	";
-        	try{
-            		// Execute the query to create the crag
-            		$stmt = $db->prepare($query);
-            		$result = $stmt->execute($query_params);
-        	}
-        	catch(PDOException $ex){
-            		die("Failed to run query bugger: " . $ex->getMessage());
-        	}
+                ";
+                try{
+                        // Execute the query to create the crag
+                        $stmt = $db->prepare($query);
+                        $result = $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query bugger: " . $ex->getMessage());
+                }
+        }
+
+	function insertcragvisit($db,$query_params)
+	{
+		$query = "INSERT INTO cragvisit 
+			  (cragdetail_id, date, conditions, pub, rainedoff) 
+			  VALUES (
+				:cragdetail_id,
+				:date,
+				:conditions,
+				:pub,
+				:rainedoff)";
+			try{
+                        	$stmt = $db->prepare($query);
+                        	$stmt->execute($query_params);
+	
+				return true;
+                	}
+                	catch(PDOException $ex){
+				return false;
+                	        die("Failed to run query: " . $ex->getMessage());
+                	}
+		
 	}
 
 	function insertattendeddata($db, $user_id, $value)
 	{
 		$insert=
 		("INSERT INTO attended
-                (user_id, crag_id) 
-                VALUES ('$user_id','$value')");
+		(user_id, cragvisit_id)
+		VALUE ('$user_id', '$value')");
 		try{
-                	$stmt = $db->prepare($insert);
-			$stmt->execute();
+                        $stmt = $db->prepare($insert);
+                        $stmt->execute();
                 }
-		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
-		}
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
 	}
 
 	function getuserattended($db, $query_params)
-	{
-		$attendsql = "SELECT crag_id 
-			       FROM attended 
-			       WHERE user_id = :user_id "; //query the db
+        {
+                $attendsql = "SELECT cragvisit_id 
+                               FROM attended 
+                               WHERE user_id = :user_id "; //query the db
 
-        	$results = $db->prepare($attendsql);
-        	$results->execute($query_params);
+                $results = $db->prepare($attendsql);
+                $results->execute($query_params);
 
-		return $results;
-	}
+                return $results;
+        }
 
 	function removeattdence($db, $query_params)
-	{
-		$sql = " DELETE FROM attended 
-			 WHERE user_id = :user_id 
-			 AND crag_id = :crag_id
-			       "; //query the db
+        {
+                $sql = " DELETE FROM attended 
+                         WHERE user_id = :user_id 
+                         AND cragvisit_id = :cragvisit_id
+                               "; //query the db
 
-        	$results = $db->prepare($sql);
-        	$results->execute($query_params);
+                $results = $db->prepare($sql);
+                $results->execute($query_params);
 
-		return $results;
-	}
+                return $results;
+        }
 ?>

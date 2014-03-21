@@ -24,7 +24,7 @@
         $template = $twig->loadTemplate('cragdetail.tmpl');
 	
 	$query_params = array(
-                ':crag_id' => $_GET['crag_id']
+                ':cragvisit_id' => $_GET['cragvisit_id']
                 );
 
 	$stmt = getcragdata($db, $query_params);

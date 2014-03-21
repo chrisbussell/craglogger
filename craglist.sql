@@ -14,33 +14,57 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `admin` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   `approved` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
-  `activation_code` varchar(10) NOT NULL default'0',
+  `activation_code` varchar(100) NOT NULL default'0',
+  `emailshow` int(1) NOT NULL default'0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
 ); 
 
-CREATE TABLE craglist (
-  crag_id int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE cragdetail (
+  cragdetail_id int(11) NOT NULL AUTO_INCREMENT,
   venue varchar(255) NOT NULL,
   area varchar(255) NOT NULL,
-  web varchar(255) NOT NULL,
-  conditions varchar(255) NOT NULL,
-  date date NOT NULL,
   rock char(64) NOT NULL,
-  rainedoff int(1) NOT NULL,
-  pub varchar(255) NOT NULL,
-PRIMARY KEY (crag_id)
+  country char(64) NOT NULL,
+  county char(64) NOT NULL,
+  altitude char(64) NOT NULL,
+  faces char(64) NOT NULL,
+  web varchar(255) NOT NULL,
+  lat FLOAT( 10, 6 ) NOT NULL,
+  lng FLOAT( 10, 6 ) NOT NULL,
+  timestamp timestamp,
+PRIMARY KEY (cragdetail_id)
 );
 
-INSERT INTO craglist (crag_id, venue, area, web, conditions, date, rock, rainedoff, pub)VALUES ('','High Tor', 'All', 'http://www.ukclimbing.com', '','2014/02/01','Limestone','0','Millstone');
-INSERT INTO craglist (crag_id, venue, area, web, conditions, date, rock, rainedoff, pub)VALUES ('','Burbage', 'Knights Move', 'http://www.ukclimbing.com', '','2014/3/11','Grit','0','Queens Arms');
-INSERT INTO craglist (crag_id, venue, area, web, conditions, date, rock, rainedoff, pub)VALUES ('','Stanage', 'All', 'http://www.ukclimbing.com', '','2014/03/01','Grit','1','Millstone');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('1','High Tor','All','Limestone','England','Derbyshire', '100', 'W','http://www.ukc.com','53.369494','-1.6648134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('2','Stanage','Popular','Grit','England','Derbyshire', '300', 'W','http://www.ukc.com','53.369494','-1.6648134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('3','Froggatt','All','Grit','England','Derbyshire', '100', 'S','http://www.ukc.com','53.369494','-1.6648134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('4','Stanage','High Neb','Grit','England','Derbyshire', '500', 'E','http://www.ukc.com','53.369494','-1.6648134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('5','Roaches','All','Grit','England','Staffordshire', '100', 'W','http://www.ukc.com','53.369494','-1.6648134');
+
+CREATE TABLE cragvisit (
+  cragvisit_id int(11) NOT NULL AUTO_INCREMENT,
+  cragdetail_id int(11) NOT NULL,
+  date date NOT NULL,
+  conditions varchar(255) NOT NULL,
+  pub varchar(255) NOT NULL,
+  rainedoff int(1) default 0,
+  timestamp timestamp,
+PRIMARY KEY (cragvisit_id)
+);
+
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('1','1','2013/02/01','Dry','The Moon','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('2','1','2014/02/01','Dry','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('3','2','2014/02/07','Moist','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('4','3','2014/02/14','Wet','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('5','4','2014/02/21','Dry','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('6','5','2014/02/28','Dry','Millstone','0');
 
 CREATE TABLE attended (
   attended_id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11) NOT NULL,
-  crag_id int(11) NOT NULL,
+  cragvisit_id int(11) NOT NULL,
   timestamp timestamp,
 PRIMARY KEY (attended_id)
 );
