@@ -9,6 +9,12 @@
         	header("Location: ../login.php");
         	die("Redirecting to login.php");
     	}
+	
+	if($_SESSION['user']['admin'] == 0)
+   	{
+        	header("Location: craglist.php");
+        	die("Redirecting to login.php");
+   	}
 
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';
@@ -21,26 +27,31 @@
         $twig = new Twig_Environment($loader);
 
         // load template
-        $template = $twig->loadTemplate('cragdetail.tmpl');
-	
-	$query_params = array(
-                ':cragvisit_id' => $_GET['cragvisit_id'],
-                ':year' => '2014'
-                );
+        $template = $twig->loadTemplate('updatevisit.tmpl');
 
-	$stmt = getcragdata($db, $query_params);
-
-	while ($row = $stmt->fetchObject()) 
+	// Update Crag Detail Data
+	if(isset($_POST['submit']))
 	{
-		$data[] = $row;
+		// Initial query parameter values
+        	$query_params = array(
+            	':cragvisit_id' => $_POST['cragvisit_id'],
+            	':conditions' => $_POST['conditions'],
+            	':date' => $_POST['date'],
+            	':rainedoff' => $_POST['rainedoff'],
+            	':pub' => $_POST['pub'],
+        	);
+
+		// update crag details
+		updatecragvisit($db, $query_params);
 	}
 
-	$results = getattendendbycragid($db, $query_params);
+	// get all crag details
+	$stmt = getcragdata($db, $query_params = null);
 
-	while ($row = $results->fetchObject()) 
-	{
-		$visiteddata[] = $row;
-	}
+        while ($row = $stmt->fetchObject())
+        {
+                $data[] = $row;
+        }
 
 	$date = date('Y-m-d H:i:s');
 
@@ -48,9 +59,7 @@
   	// render template
   	echo $template->render(array (
     	'data' => $data,
-    	'visiteddata' => $visiteddata,
     	'sid' => $_SESSION['user'],
-    	'user_id' => $_SESSION['user']['user_id'],
     	'admin' => $_SESSION['user']['admin'],
 	'updated' => '14 Feb 2014',
 	'date' => $date,

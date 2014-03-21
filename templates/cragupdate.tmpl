@@ -10,33 +10,32 @@
     <h2>Crag Details Update</h2>
     <table>
       <tr class="heading">
-        <td>Date</td>
         <td>Venue</td>
         <td>Area</td>
         <td>Rock</td>
-        <td>URL</td>
-        <td>Weather</td>
-        <td>Pub</td>
-        <td>Rained Off</td>
+        <td>Country</td>
+        <td>County</td>
+        <td>Altitdue</td>
+        <td>Direction</td>
+        <td>Web</td>
+        <td>Lat</td>
+        <td>Long</td>
       </tr> 
 
       {% for d in data %}
 	<form method="post" action="{{ php_self }}">
-        <input type="hidden" name="crag_id" value="{{ d.crag_id|escape }}"</td>
+        <input type="hidden" name="cragdetail_id" value="{{ d.cragdetail_id|escape }}"</td>
        <tr>
-        <td><input type="date" name="date" value="{{ d.date|escape}}"</td>
         <td><input type="text" name="venue" value="{{ d.venue|escape }}"</td>
         <td><input type="text" name="area" value="{{ d.area|escape }}"</td>
         <td><input type="text" name="rock" value="{{ d.rock|escape }}"</td>
-        <td><input type="url" name="web" value="{{ d.web|escape }}"</td>
-        <td><input type="text" name="conditions" value="{{ d.conditions|escape }}"</td>
-        <td><input type="text" name="pub" value="{{ d.pub|escape }}"</td>
-	{% if d.rainedoff == 1 %}
-        <td><input type="checkbox" name="rainedoff" value="1" checked></td>
-	{% else %}
-        <td><input type="checkbox" name="rainedoff" value="1"</td>
-	{% endif %}
-
+        <td><input type="text" name="country" value="{{ d.country|escape }}"</td>
+        <td><input type="text" name="county" value="{{ d.county|escape }}"</td>
+        <td><input type="text" name="altitude" value="{{ d.altitude|escape }}"</td>
+        <td><input type="text" name="faces" value="{{ d.faces|escape }}"</td>
+        <td><input type="text" name="web" value="{{ d.web|escape }}"</td>
+        <td><input type="text" name="lat" value="{{ d.lat|escape }}"</td>
+        <td><input type="text" name="lng" value="{{ d.lng|escape }}"</td>
         <td><input type="submit" name="submit" value="Update Crag"></td>
 		</form>
       	{% endfor %}

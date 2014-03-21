@@ -25,6 +25,11 @@
         	if(empty($_POST['password'])){
             	die("Please enter a password.");
         	}
+
+        	// Ensure that the user has entered a non-empty password
+        	if(empty($_POST['emailshow'])){
+            		$_POST['emailshow'] = 0;
+        	}
         
         	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
             	die("Invalid E-Mail Address");
@@ -119,7 +124,7 @@
                 echo 'Message was not sent.';
                 echo 'Mailer error: ' . $mail->ErrorInfo;
                 } else {
-                echo 'Message has been sent.';
+                //echo 'Message has been sent.';
                 header("Location: approval.php");
 
                 die("Redirecting to approval.php");

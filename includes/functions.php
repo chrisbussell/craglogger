@@ -243,9 +243,13 @@
 		if(isset($query_params[':cragdetail_id'])){
 			  $query .=" AND cd.cragdetail_id = :cragdetail_id";
 		}
+		if(isset($query_params[':cragvisit_id'])){
+			  $query .=" AND cv.cragvisit_id = :cragvisit_id";
+		}
 		if(isset($query_params[':year'])){
 			$query .=" AND YEAR(cv.date) = :year";
 		}
+			$query .=" ORDER BY cv.date ASC";
 		try{
                         $stmt = $db->prepare($query);
                         $stmt->execute($query_params);
@@ -261,7 +265,15 @@
 	{
 		$query = "SELECT cd.cragdetail_id, 
 				 cd.venue, 
-				 cd.area 
+				 cd.area, 
+				 cd.rock, 
+				 cd.country, 
+				 cd.county, 
+				 cd.altitude, 
+				 cd.faces, 
+				 cd.web, 
+				 cd.lat, 
+				 cd.lng
 			  FROM cragdetail as cd 
 			  ORDER BY cd.venue";
 		try{
@@ -296,7 +308,7 @@
 		$query = "SELECT u.user_id, u.firstname, u.surname 
 			FROM users as u, attended as a 
 			WHERE u.user_id = a.user_id 
-			AND a.crag_id = :crag_id";
+			AND a.cragvisit_id = :cragvisit_id";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -304,19 +316,15 @@
                 return $results;
 	}
 
-	function updatecragdetails($db, $query_params)
+	function updatecragdetail($db, $query_params)
 	{
 		$update=("
-                        UPDATE craglist SET
+                        UPDATE cragdetail SET
                         venue = :venue,
                         area = :area,
                         web = :web,
-                        conditions = :conditions,
-                        date = :date,
                         rock = :rock, 
-                        rainedoff = :rainedoff, 
-                        pub = :pub 
-                        WHERE crag_id = :crag_id
+                        WHERE cragdetail_id = :cragdetail_id
                         ");
 
                         try{
@@ -327,6 +335,26 @@
                                 die("Failed to run query: " . $ex->getMessage());
                         }
 	}
+
+	function updatecragvisit($db, $query_params)
+        {
+                $update=("
+                        UPDATE cragvisit SET
+                        date = :date,
+                        conditions = :conditions,
+                        pub = :pub, 
+                        rainedoff = :rainedoff 
+                        WHERE cragvisit_id = :cragvisit_id
+                        ");
+
+                        try{
+                                $stmt = $db->prepare($update);
+                                $stmt->execute($query_params);
+                        }
+                        catch(PDOException $ex){
+                                die("Failed to run query: " . $ex->getMessage());
+                        }
+        }
 
 	function insertcragdata($db, $query_params)
         {
