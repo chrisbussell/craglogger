@@ -50,7 +50,7 @@
 	}
 
 	// get all crag details
-	$stmt = getcragdata($db, $query_params = null);
+	$stmt = getcragdetail($db);
 
         while ($row = $stmt->fetchObject())
         {
