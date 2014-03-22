@@ -1,0 +1,45 @@
+@import "mixins";
+@import "globals";
+
+@if import-once("tables") {
+
+	.flexitable {
+		margin: 1em 0;
+		min-width: em-calc(285);
+		th {
+			display: none;
+		}
+		td {
+			display: block;
+			&:first-child {
+				padding-top: .5em;
+			}
+			&:last-child {
+				padding-bottom: .5em;
+			}
+			&:before {
+				content: attr(data-th) ": ";
+				font-weight: 600;
+				@include rem-size('width', 100px);
+				display: inline-block;
+				@media (min-width: $flexitable-breakpoint) {
+					display: none;
+				}
+			}
+		}
+		th, td {
+			text-align: left;
+			@media (min-width: $flexitable-breakpoint) {
+				display: table-cell;
+				padding: .25em .5em;
+				&:first-child {
+					padding-left: 0;
+				}
+				&:last-child {
+					padding-right: 0;
+				}
+			}
+		}
+	}
+
+}

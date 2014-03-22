@@ -1,0 +1,37 @@
+{% extends "base.tmpl" %}
+
+{% block content %}
+<h1>Who has been where in 2014</h1>
+<table class="flexitable">
+  <tr>
+    <th scope="row">Visit</th>
+		{% for d in data %}    
+    <td data-th="Visit"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a><br/> {{ d.date|date("d M Y") }} <br/> {{ d.rock }}</td>
+    {% endfor %}
+  </tr>
+  {% for m in member %}
+  <tr>
+    <th scope="row">{{ m.firstname }} {{m.surname}}</th>
+
+    <td data-th="{{ m.firstname }} {{m.surname}}">
+			{% for d in data %}
+				{% set has_attended_this_crag = 0 %}
+
+		{% for a in attended %}
+			{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+				{% set has_attended_this_crag = 1 %}
+			{% endif %}
+      		{% endfor %}
+
+		{% if has_attended_this_crag == 1 %}
+			Yes!!!!
+		{% else %}
+			NO
+		{% endif %}
+			{% endfor %}
+	
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

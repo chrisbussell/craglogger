@@ -1,0 +1,62 @@
+{% extends "base.tmpl" %}
+
+{% block content %}
+<h1>Add a new crag</h1>
+<form action="{{ php_self }}" method="post">
+	<div>
+		<label for="venue">
+			Crag name <i>(stanage)</i>
+		</label>
+		<br/>
+		<input type="text" name="venue" id="venue" value="" />
+	</div>
+	<div>
+		<label for="area">
+			Crag area <i>(popular)</i>
+		</label>
+		<br />
+		<input type="text" name="area" id="area" value="" />
+	</div>
+	<div>
+		<label for="rock">Rock type:</label>
+		<br />
+		<input type="text" name="rock" id="rock" value="" />
+	</div>
+	<div>
+		<label for="country">Country:</label>
+		<br />
+		<input type="text" name="country" id="country" value="" />
+	</div>
+	<div>
+		<label for="county">County:</label>
+		<br />
+		<input type="text" name="county" id="county" value="" />
+	</div>
+	<div>
+		<label for="altitude">Altitude:</label>
+		<br />
+		<input type="text" name="altitude" id="altitude" value="" />
+	</div>
+	<div>
+		<label for="faces">Faces:</label>
+		<br />
+		<input type="text" name="faces" id="faces" value="" />
+	</div>
+	<div>
+		<label for="web">Web:</label>
+		<br />
+		<input type="url" name="web" id="web" value="" />
+	</div>
+	<div>
+		<label for="lat">Latitude:</label>
+		<br />
+		<input type="text" name="lat" id="lat" value="" />
+	</div>
+	<div>
+		<label for="lng">Longtiude:</label>
+		<br />
+		<input type="text" name="lng" id="lng" value="" />
+	</div>
+	<input type="submit" value="Add the Crag" />
+</form>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.tmpl" %}
+
+{% block content %}
+<h1>Crag List 2014</h1>
+<form method="post" action="{{ php_self }}" class="flexitable">
+	<table>
+		<tr>
+			<th>Date</th>
+			<th>Venue</th>
+			<th>Area</th>
+			<th>URL</th>
+			<th>Rock</th>
+			<th>Attendence</th>
+		</tr>
+		{% for d in data %}
+		<input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"/>
+		<tr>
+			<td data-th="Date">{{ d.date|date ('d M Y') }}</td>
+			<td data-th="Venue">{{ d.venue|escape }}</td>
+			<td data-th="Area">{{ d.area|escape }}</td>
+			<td data-th="URL">{{ d.web|escape }}</td>
+			<td data-th="Rock">{{ d.rock|escape }}</td>
+			<td data-th="Attendence">
+				{% set has_attended_this_crag = 0 %}
+				{% for a in attended %}
+					{% if a.cragvisit_id == d.cragvisit_id %}
+						{% set has_attended_this_crag = 1 %}
+					{% endif %}
+				{% endfor %}
+				{% if has_attended_this_crag == 1 %}
+					Yes!!!!
+				{% else %}
+					<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
+				{% endif %}
+				{% if has_attended_this_crag == 1 %}
+				<a href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+	<input type="submit" name="submit" value="Log my visit">
+	</form>
+	<p><b>{{ crag_visited }}</b></p>
+{% endblock %}

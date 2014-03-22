@@ -1,69 +1,98 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% block head %}
-		<meta charset="utf-8" />
-        
-        	<!-- Our CSS stylesheet file -->
-        	<link rel="stylesheet" href="/craglogger/assets/css/styles.css" />
-        
-        	<!-- Enabling HTML5 support for Internet Explorer -->
-        	<!--[if lt IE 9]>
-          	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        	<![endif]-->
-        {% endblock %}
-    </head>
-    <body>
-        <div>
-            {% block header %}
-		{% if sid == true %}
-			Signed in as <b>{{ username|escape }}</b> TO CRAGLOGGER {{ date }} LOGGED IN
-        		{% else %}
-			WELCOME - LOGGED OUT SESSION
-        	{% endif %}
-	<ul class="fancyNav">
-        	<li id="home"><a href="/craglogger/index.php" class="homeIcon">Home</a></li>
-        	{% if sid == false %}
-        	<li><a href="about-us">About us</a></li>
-        	<li><a href="upcomingvenues">Upcoming venues</a></li>
-        	<li><a href="register.php">Sign up</a></li>
-        	<li><a href="login.php">Log in</a></li>
-        	{% endif %}
-        	
-		{% if sid == true %}
-        	<li><a href="/craglogger/dashboard/craglist.php">Log my visits</a></li>
-        	<li><a href="/craglogger/dashboard/cragattendence.php">Crag visits 2014</a></li>
-        	<li><a href="/craglogger/dashboard/cragstats.php">Crag stats 2014</a></li>
-        	<li><a href="/craglogger/dashboard/memberlist.php">Members list</a></li>
-        	<li><a href="/craglogger/dashboard/editaccount.php">My account</a></li>
-        	<li><a href="/craglogger/logout.php">Log out</a></li>
-        	{% endif %}
-
-		{% if admin == true %}
-        	<li><a href="/craglogger/dashboard/admin.php">Admin</a></li>
-        	{% endif %}
-	</ul>
-	<hr>
-            {% endblock %}
-	</div>
-
-        <div id="content">{% block content %}Homepage content
-
-
-
-	{% endblock %}</div>
-
-
-
-
-
-
-        <div id="footer">
-            {% block footer %}
-		<hr>
-		CRAG LOGGER FOOTER. Last updated on: {{ updated }}.
-                &copy; Copyright 2014. 
-            {% endblock %}
-        </div>
-    </body>
+	<head>
+		{% block head %}
+			<title>{% block title %}{{pageTitle}}{% endblock %} - Tuesday Nighters CragLogger</title>
+			<meta charset="utf-8" />
+			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/app.css" media="screen" />
+			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/slicknav.css" media="screen" />
+			<!--[if lt IE 9]>
+			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/html5shiv.js"></script>
+			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/respond.min.js"></script>
+			<![endif]-->
+		{% endblock %}
+	</head>
+	<body>
+		<div class="container">
+			<header role="banner">
+				<hgroup class="branding">
+					<h1>
+						<a href="/craglogger/">Tuesday Nighters CragLogger</a>
+					</h1>
+					<p>
+						{% if sid == true %}
+							Hello {{ firstname }}, you are signed in as <b><a href="/craglogger/dashboard/editaccount.php">{{ username|escape }}</a></b>
+						{% else %}
+							Log in to access your account
+						{% endif %}
+					</p>
+				</hgroup>
+				<nav role="navigation">
+					<ul>
+						<li id="home">
+							<a href="/craglogger/">Home</a>
+						</li>
+						{% if sid == false %}
+							<li>
+								<a href="#">About us</a>
+							</li>
+							<li>
+								<a href="#">Upcoming venues</a>
+							</li>
+							<li>
+								<a href="/craglogger/register.php">Sign up</a>
+							</li>
+							<li>
+								<a href="/craglogger/login.php">Log in</a>
+							</li>
+						{% endif %}
+						{% if sid == true %}
+							<li>
+								<a href="/craglogger/dashboard/craglist.php">Log my visits</a>
+							</li>
+							<li>
+								<a href="/craglogger/dashboard/cragattendence.php">Crag visits 2014</a>
+							</li>
+							<li>
+								<a href="/craglogger/dashboard/cragstats.php">Crag stats 2014</a>
+							</li>
+							<li>
+								<a href="/craglogger/dashboard/memberlist.php">Members list</a>
+							</li>
+							<li>
+								<a href="/craglogger/dashboard/editaccount.php">My account</a>
+							</li>
+							{% if admin == true %}
+							<li>
+								<a href="/craglogger/admin/admin.php">Admin</a>
+							</li>
+							{% endif %}
+							<li>
+								<a href="/craglogger/logout.php">Log out</a>
+							</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</header>
+			<div role="content">
+				{% block content %}
+				{% endblock %}
+			</div>
+			<footer>
+				{% block footer %}
+				<p>
+					CragLogger &copy; Copyright 2014 <br/>
+					Last updated on: {{ updated }}
+				</p>
+				{% endblock %}
+			</footer>
+		</div>
+		<!-- Start Javascript includes -->
+		<script type="text/javascript" src="/craglogger/assets/js/base/modernizr.custom.23562.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/base/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/jquery.slicknav.min.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/base/base.min.js"></script>
+		{% block body_js %}{% endblock %}
+		<!-- End Javascript includes -->
+	</body>
 </html>
