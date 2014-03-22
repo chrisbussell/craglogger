@@ -51,7 +51,7 @@
 		$mail = new PHPMailer();
 		$mail->IsHTML(true);
 
-		$mail->From     = "acidsmile@acidsmile.co.uk";
+		$mail->From     = "chrisbussell@gmail.com";
 		$mail->AddAddress("$email");
 
 		$mail->Subject  = "Tuesday Nighters Account Approved";

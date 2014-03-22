@@ -95,8 +95,8 @@
 		$mail = new PHPMailer();
 		$mail->IsHTML(true);
 
-		$mail->From     = "acidsmile@acidsmile.co.uk";
-		$mail->AddAddress("acidsmile@acidsmile.co.uk");
+		$mail->From     = "chrisbussell@gmail.com";
+		$mail->AddAddress("chrisbussell@gmail.com");
 
 		$mail->Subject  = "CragLogger Account Approval Required";
 		$mail->Body     = "Hi Admin, <p> The following account has been registered on CragLogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='cgi.chrisbussell.plus.com/craglogger/dashboard/approveaccount.php'>here</a><p>Thanks<br>The CragLogger Team.";
@@ -113,7 +113,7 @@
 		$mail = new PHPMailer();
 		$mail->IsHTML(true);
 
-		$mail->From     = "acidsmile@acidsmile.co.uk";
+		$mail->From     = "chrisbussell@gmail.com";
 		$mail->AddAddress("$email");
 
 		$mail->Subject  = "Tuesday Nighters Account Signup";
