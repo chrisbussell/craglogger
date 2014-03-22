@@ -1,69 +1,91 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        {% block head %}
-		<meta charset="utf-8" />
-        
-        	<!-- Our CSS stylesheet file -->
-        	<link rel="stylesheet" href="/craglogger/assets/css/styles.css" />
-        
-        	<!-- Enabling HTML5 support for Internet Explorer -->
-        	<!--[if lt IE 9]>
-          	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        	<![endif]-->
-        {% endblock %}
-    </head>
-    <body>
-        <div>
-            {% block header %}
+<head>
+	{% block head %}
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/app.css" media="screen" />
+	<!--[if lt IE 9]>
+	 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/html5shiv.js"></script>
+	 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/respond.min.js"></script>
+	<![endif]-->
+	{% endblock %}
+</head>
+<body>
+	<div>
+		{% block header %}
 		{% if sid == true %}
-			Signed in as <b>{{ username|escape }}</b> TO CRAGLOGGER {{ date }} LOGGED IN
+			Signed in as <b>{{ username|escape }}</b>
+		TO CRAGLOGGER {{ date }} LOGGED IN
         		{% else %}
 			WELCOME - LOGGED OUT SESSION
         	{% endif %}
-	<ul class="fancyNav">
-        	<li id="home"><a href="/craglogger/home.php" class="homeIcon">Home</a></li>
-        	{% if sid == false %}
-        	<li><a href="about-us">About us</a></li>
-        	<li><a href="upcomingvenues">Upcoming venues</a></li>
-        	<li><a href="register.php">Sign up</a></li>
-        	<li><a href="login.php">Log in</a></li>
-        	{% endif %}
+		<ul class="fancyNav">
+			<li id="home">
+				<a href="/craglogger/home.php" class="homeIcon">Home</a>
+			</li>
+			{% if sid == false %}
+			<li>
+				<a href="about-us">About us</a>
+			</li>
+			<li>
+				<a href="upcomingvenues">Upcoming venues</a>
+			</li>
+			<li>
+				<a href="register.php">Sign up</a>
+			</li>
+			<li>
+				<a href="login.php">Log in</a>
+			</li>
+			{% endif %}
         	
 		{% if sid == true %}
-        	<li><a href="/craglogger/dashboard/craglist.php">Log my visits</a></li>
-        	<li><a href="/craglogger/dashboard/cragattendence.php">Crag visits 2014</a></li>
-        	<li><a href="/craglogger/dashboard/cragstats.php">Crag stats 2014</a></li>
-        	<li><a href="/craglogger/dashboard/memberlist.php">Members list</a></li>
-        	<li><a href="/craglogger/dashboard/editaccount.php">My account</a></li>
-        	<li><a href="/craglogger/logout.php">Log out</a></li>
-        	{% endif %}
+			<li>
+				<a href="/craglogger/dashboard/craglist.php">Log my visits</a>
+			</li>
+			<li>
+				<a href="/craglogger/dashboard/cragattendence.php">Crag visits 2014</a>
+			</li>
+			<li>
+				<a href="/craglogger/dashboard/cragstats.php">Crag stats 2014</a>
+			</li>
+			<li>
+				<a href="/craglogger/dashboard/memberlist.php">Members list</a>
+			</li>
+			<li>
+				<a href="/craglogger/dashboard/editaccount.php">My account</a>
+			</li>
+			<li>
+				<a href="/craglogger/logout.php">Log out</a>
+			</li>
+			{% endif %}
 
 		{% if admin == true %}
-        	<li><a href="/craglogger/dashboard/admin.php">Admin</a></li>
-        	{% endif %}
-	</ul>
-	<hr>
-            {% endblock %}
+			<li>
+				<a href="/craglogger/dashboard/admin.php">Admin</a>
+			</li>
+			{% endif %}
+		</ul>
+		<hr>{% endblock %}</div>
+
+	<div id="content">
+		{% block content %}Homepage content
+
+
+
+	{% endblock %}
 	</div>
 
-        <div id="content">{% block content %}Homepage content
-
-
-
-	{% endblock %}</div>
-
-
-
-
-
-
-        <div id="footer">
-            {% block footer %}
+	<div id="footer">
+		{% block footer %}
 		<hr>
 		CRAG LOGGER FOOTER. Last updated on: {{ updated }}.
                 &copy; Copyright 2014. 
             {% endblock %}
-        </div>
-    </body>
+	</div>
+	<!-- Start Javascript includes -->
+	<script type="text/javascript" src="/craglogger/html/js/base/modernizr.custom.23562.js"></script>
+	<script type="text/javascript" src="/craglogger/html/js/base/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="/craglogger/html/js/base/base.min.js"></script>
+	<!-- End Javascript includes -->
+</body>
 </html>

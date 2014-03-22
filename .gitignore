@@ -1,1 +1,4 @@
 includes/common.php
+.DS_Store
+node_modules
+.sass-cache
