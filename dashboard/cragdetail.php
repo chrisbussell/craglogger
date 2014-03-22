@@ -35,6 +35,10 @@
 		$data[] = $row;
 	}
 
+	$query_params = array(
+                ':cragvisit_id' => $_GET['cragvisit_id']
+	);
+
 	$results = getattendendbycragid($db, $query_params);
 
 	while ($row = $results->fetchObject()) 

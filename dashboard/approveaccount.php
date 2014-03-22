@@ -56,7 +56,7 @@
                 $mail->AddAddress("$email");
 
                 $mail->Subject  = "Tuesday Nighters Account Approved";
-                $mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters CragLogger account has been approved and you can start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> Click <a href='cgi.chrisbussell.plus.com/login.php'>here</a> to start log in and get started<p>Thanks<br>The CragLogger Team.";
+                $mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters CragLogger account has been approved and you can start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> Click <a href='ccgi.chrisbussell.plus.com/craglogger/login.php'>here</a> to start log in and get started<p>Thanks<br>The CragLogger Team.";
                 $mail->WordWrap = 50;
 
                 if(!$mail->Send()) {
