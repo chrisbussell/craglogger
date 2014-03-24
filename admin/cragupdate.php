@@ -31,7 +31,7 @@
 	if(isset($_POST['submit'])){
 		// Initial query parameter values
 		$query_params = array(
-			':crag_id' => $_POST['crag_id'],
+			':cragdetail_id' => $_POST['cragdetail_id'],
 			':venue' => $_POST['venue'],
 			':area' => $_POST['area'],
 			':rock' => $_POST['rock'],

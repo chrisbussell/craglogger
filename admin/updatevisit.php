@@ -49,12 +49,19 @@
 		$data[] = $row;
 	}
 
+	$stmt = getcragreport($db, $query_params = null);
+
+        while ($row = $stmt->fetchObject()){
+                $cragreport[] = $row;
+        }
+
 	$date = date('Y-m-d H:i:s');
 
 		// set template variables
 		// render template
 		echo $template->render(array (
 			'data' => $data,
+			'cragreport' => $cragreport,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => '14 Feb 2014',
