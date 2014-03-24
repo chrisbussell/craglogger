@@ -1,6 +1,7 @@
 <?php
 	// First we execute our common code to connection to the database and start the session
 	require("includes/common.php");
+	require("includes/functions.php");
 
 	// include and register Twig auto-loader
 	include 'Twig/Autoloader.php';
@@ -15,10 +16,22 @@
 	// load template
 	$template = $twig->loadTemplate('index.tmpl');
 
+	$results = getnextcrag($db);
+
+	$rows = $results->fetchAll();
+
+	$stmt = getcragreport($db, $query_params = null);
+
+	while ($row = $stmt->fetchObject()){
+                $data[] = $row;
+        }
+
 	$template->display(array(
 		'updated' => '14 Feb 2014',
 		'sid' => isset($_SESSION['user']),
 		'pageTitle' => 'Home',
+		'rows' => $rows,
+		'data' => $data,
 		'username' =>$_SESSION['user']['username'],
 		'admin' => $_SESSION['user']['admin'],
 		'firstname' =>$_SESSION['user']['firstname']
