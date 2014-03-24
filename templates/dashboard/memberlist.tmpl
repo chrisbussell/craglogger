@@ -1,0 +1,26 @@
+{% extends "base.tmpl" %}
+
+{% block content %}
+<h1>Memberlist</h1>
+<table class="flexitable">
+	<tr>
+		<th>Username</th>
+		<th>e-mail</th>
+	</tr>
+	{% for m in members %}
+	<tr>
+		<td data-th="Username">{{ m.firstname }} {{m.surname}}</td>
+		{% if m.emailshow == 1 %}
+		<td data-th="e-mail">{{ m.email }}</td>
+		{% endif %}
+	</tr>
+	{% endfor %}
+	<tr>
+		<td> <b>Total Members</b>
+		</td>
+		<td>
+			{{ members|length}}
+		</td>
+	</tr>
+</table>
+{% endblock %}

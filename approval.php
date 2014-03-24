@@ -1,19 +1,25 @@
 <?php
 	// Execute common code to connection to the database and start the session
-    	require("includes/common.php");
+	require("includes/common.php");
 
- 	// include and register Twig auto-loader
-        include 'Twig/Autoloader.php';
-        Twig_Autoloader::register();
+	// include and register Twig auto-loader
+	include 'Twig/Autoloader.php';
+	Twig_Autoloader::register();
 
-        // define template directory location
-        $loader = new Twig_Loader_Filesystem('templates');
+	// define template directory location
+	$loader = new Twig_Loader_Filesystem('templates');
 
-        // initialize Twig environment
-        $twig = new Twig_Environment($loader);
+	// initialize Twig environment
+	$twig = new Twig_Environment($loader);
 
-        // load template
-        $template = $twig->loadTemplate('approval.tmpl');
+	// load template
+	$template = $twig->loadTemplate('approval.tmpl');
 
-	$template->display(array());
+	$template->display(array(
+		'updated' => '14 Feb 2014',
+		'pageTitle' => 'Approval',
+		'sid' => isset($_SESSION['user']),
+		'username' =>$_SESSION['user']['username']
+	));
+
 ?>

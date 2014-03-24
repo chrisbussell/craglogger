@@ -1,0 +1,372 @@
+@import "mixins";
+@import "globals";
+
+// Header font styles
+$header-font-family: $body-font-family !default;
+$header-font-weight: normal !default;
+$header-font-style: normal !default;
+$header-font-color: $text-color !default;
+$header-line-height: 1.4 !default;
+$header-bottom-margin: 0.5rem !default;
+$header-text-rendering: optimizeLegibility !default;
+
+// Header font sizes
+$h1-font-size: 28 !default;
+$h2-font-size: 25 !default;
+$h3-font-size: 22 !default;
+$h4-font-size: 19 !default;
+$h5-font-size: 17 !default;
+$h6-font-size: 16 !default;
+
+// Subheaders
+$subheader-line-height: 1.4 !default;
+$subheader-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+$subheader-font-weight: normal !default;
+$subheader-bottom-margin: 10px !default;
+
+// <small>
+$small-font-size: 13;
+$small-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+
+// Paragraphs
+$paragraph-font-family: inherit !default;
+$paragraph-font-weight: normal !default;
+$paragraph-font-size: 14 !default;
+$paragraph-line-height: 1.6 !default;
+$paragraph-margin-bottom: rem-calc(15) !default;
+$paragraph-aside-font-size: 13 !default;
+$paragraph-aside-line-height: 1.35 !default;
+$paragraph-aside-font-style: italic !default;
+$paragraph-text-rendering: optimizeLegibility !default;
+
+// <code>
+$code-color: scale-color($notification-color, $lightness: -27%) !default;
+$code-font-family: Consolas, "Liberation Mono", Courier, monospace !default;
+$code-font-weight: bold !default;
+
+// Links
+$link-text-decoration: none !default;
+$link-font-color: $main-color !default;
+$link-font-color-hover: scale-color($link-font-color, $lightness: -14%) !default;
+
+// <hr> element
+$hr-border-width: 1px !default;
+$hr-border-style: solid !default;
+$hr-border-color: #dddddd !default;
+$hr-margin: 20px 0 !default;
+
+// Lists
+$list-style-position: outside !default;
+$list-side-margin: 1.1rem !default;
+$list-ordered-side-margin: 1.4rem !default;
+$list-side-margin-no-bullet: 0 !default;
+$list-nested-margin: rem-calc(20) !default;
+$definition-list-header-weight: bold !default;
+$definition-list-header-margin-bottom: 0.3rem !default;
+$definition-list-margin-bottom: rem-calc(12) !default;
+
+// Blockquotes
+$blockquote-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+$blockquote-padding: rem-calc(9 20 0 19) !default;
+$blockquote-border: 1px solid #dddddd !default;
+$blockquote-cite-font-size: 13 !default;
+$blockquote-cite-font-color: scale-color($header-font-color, $lightness: 23%) !default;
+$blockquote-cite-link-color: $blockquote-cite-font-color !default;
+
+// Acronyms
+$acronym-underline: 1px dotted #dddddd !default;
+
+@mixin subheader {
+	line-height: $subheader-line-height;
+	color: $subheader-font-color;
+	font-weight: $subheader-font-weight;
+	margin-bottom: $subheader-bottom-margin;
+}
+
+@if import-once("typography") {
+	/* Reset type */
+	div,
+	dl,
+	dt,
+	dd,
+	ul,
+	ol,
+	li,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	pre,
+	form,
+	p,
+	blockquote,
+	th,
+	td {
+		margin: 0;
+		padding: 0;
+	}
+	/* Paragraph styles */
+	p {
+		font-family: $paragraph-font-family;
+		font-weight: $paragraph-font-weight;
+		@include font-size($paragraph-font-size);
+		line-height: $paragraph-line-height;
+		margin-bottom: $paragraph-margin-bottom;
+		text-rendering: $paragraph-text-rendering;
+		& aside {
+			@include font-size($paragraph-aside-font-size);
+			line-height: $paragraph-aside-line-height;
+			font-style: $paragraph-aside-font-style;
+		}
+	}
+	/* Links */
+	a {
+		color: $link-font-color;
+		text-decoration: $link-text-decoration;
+		line-height: inherit;
+		&:hover,
+		&:focus {
+			color: $link-font-color-hover;
+		}
+		img {
+			border: none;
+		}
+	}
+	/* Header styles */
+	h1, h2, h3, h4, h5, h6 {
+		font-family: $header-font-family;
+		font-weight: $header-font-weight;
+		font-style: $header-font-style;
+		color: $header-font-color;
+		text-rendering: $header-text-rendering;
+		margin-bottom: $header-bottom-margin;
+		line-height: $header-line-height;
+		small {
+			@include font-size($small-font-size);
+			color: $small-font-color;
+			line-height: 0;
+		}
+	}
+	h1 {
+		@include font-size($h1-font-size);
+	}
+	h2 {
+		@include font-size($h2-font-size);
+	}
+	h3 {
+		@include font-size($h3-font-size);
+	}
+	h4 {
+		@include font-size($h4-font-size);
+	}
+	h5 {
+		@include font-size($h5-font-size);
+	}
+	h6 {
+		@include font-size($h6-font-size);
+	}
+	.subheader {
+		@include subheader;
+	}
+	hr {
+		border: $hr-border-style $hr-border-color;
+		border-width: $hr-border-width 0 0;
+		clear: both;
+		@include rem-size('margin', $hr-margin);
+		height: 0;
+	}
+	em,
+	i {
+		font-style: italic;
+		line-height: inherit;
+	}
+	strong,
+	b {
+		font-weight: bold;
+		line-height: inherit;
+	}
+	small {
+		@include font-size($small-font-size);
+		line-height: inherit;
+	}
+	code {
+		font-family: $code-font-family;
+		font-weight: $code-font-weight;
+		color: $code-color;
+	}
+	/* Lists */
+	ul,
+	ol,
+	dl {
+		@include font-size($paragraph-font-size);
+		@include rem-size('margin-bottom', $paragraph-margin-bottom);
+		line-height: $paragraph-line-height;
+		list-style-position: $list-style-position;
+		font-family: $paragraph-font-family;
+	}
+	ul {
+		margin-#{$default-float}: $list-side-margin;
+		&.no-bullet {
+			margin-#{$default-float}: $list-side-margin-no-bullet;
+			li {
+				ul,
+				ol {
+					margin-#{$default-float}: $list-nested-margin;
+					margin-bottom: 0;
+					list-style: none;
+				}
+			}
+		}
+	}
+	/* Unordered Lists */
+	ul {
+		li {
+			ul,
+			ol {
+				margin-#{$default-float}: $list-nested-margin;
+				margin-bottom: 0;
+			}
+		}
+		&.square,
+		&.circle,
+		&.disc {
+			li ul {
+				list-style: inherit;
+			}
+		}
+		&.square {
+			list-style-type: square;
+			margin-#{$default-float}: $list-side-margin;
+		}
+		&.circle {
+			list-style-type: circle;
+			margin-#{$default-float}: $list-side-margin;
+		}
+		&.disc {
+			list-style-type: disc;
+			margin-#{$default-float}: $list-side-margin;
+		}
+		&.no-bullet {
+			list-style: none;
+		}
+	}
+	/* Ordered Lists */
+	ol {
+		margin-#{$default-float}: $list-ordered-side-margin;
+		li {
+			ul,
+			ol {
+				margin-#{$default-float}: $list-nested-margin;
+				margin-bottom: 0;
+			}
+		}
+	}
+	/* Definition Lists */
+	dl {
+		dt {
+			margin-bottom: $definition-list-header-margin-bottom;
+			font-weight: $definition-list-header-weight;
+		}
+		dd {
+			margin-bottom: $definition-list-margin-bottom;
+		}
+	}
+	/* Abbreviations */
+	abbr,
+	acronym {
+		text-transform: uppercase;
+		@include font-size($paragraph-font-size);
+		color: $body-font-color;
+		border-bottom: $acronym-underline;
+	}
+	abbr {
+		text-transform: none;
+	}
+	/* Blockquotes */
+	blockquote {
+		margin: 0 0 $paragraph-margin-bottom;
+		padding: $blockquote-padding;
+		border-#{$default-float}: $blockquote-border;
+		cite {
+			display: block;
+			@include font-size($blockquote-cite-font-size);
+			color: $blockquote-cite-font-color;
+			&:before {
+				content: "\2014 \0020";
+			}
+			a,
+			a:visited {
+				color: $blockquote-cite-link-color;
+			}
+		}
+	}
+	blockquote,
+	blockquote p {
+		line-height: $paragraph-line-height;
+		color: $blockquote-font-color;
+	}
+	@media #{$medium-up} {
+		h1 {
+			@include font-size($h1-font-size,3);
+		}
+		h2 {
+			@include font-size($h2-font-size,3);
+		}
+		h3 {
+			@include font-size($h3-font-size,3);
+		}
+		h4 {
+			@include font-size($h4-font-size,3);
+		}
+		h5 {
+			@include font-size($h5-font-size,3);
+		}
+		h6 {
+			@include font-size($h6-font-size,3);
+		}
+		p {
+			@include font-size($paragraph-font-size,1);
+			& aside {
+				@include font-size($paragraph-aside-font-size,1);
+			}
+		}
+		ul,
+		ol,
+		dl {
+			@include font-size($paragraph-font-size,1);
+		}
+	}
+	@media #{$large-up} {
+		h1 {
+			@include font-size($h1-font-size,6);
+		}
+		h2 {
+			@include font-size($h2-font-size,6);
+		}
+		h3 {
+			@include font-size($h3-font-size,6);
+		}
+		h4 {
+			@include font-size($h4-font-size,6);
+		}
+		h5 {
+			@include font-size($h5-font-size,6);
+		}
+		h6 {
+			@include font-size($h6-font-size,6);
+		}
+		p {
+			@include font-size($paragraph-font-size,2);
+			& aside {
+				@include font-size($paragraph-aside-font-size,2);
+			}
+		}
+		ul,
+		ol,
+		dl {
+			@include font-size($paragraph-font-size,2);
+		}
+	}
+}

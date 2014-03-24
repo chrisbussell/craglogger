@@ -1,0 +1,45 @@
+{% extends "base.tmpl" %}
+
+{% block content %}
+<h1>Update crag visit</h1>
+<table>
+	<tr class="heading">
+		<th>Date</th>
+		<th>Venue</th>
+		<th>Area</th>
+		<th>Conditions</th>
+		<th>Pub</th>
+		<th>Rained Off</th>
+	</tr>
+	{% for d in data %}
+	<form method="post" action="{{ php_self }}">
+		<input type="hidden" name="cragvisit_id" value="{{ d.cragvisit_id|escape }}"/>
+		<tr>
+			<td>
+				<input type="date" name="date" value="{{ d.date|escape}}"/>
+			</td>
+			<td>{{ d.venue|escape }}</td>
+			<td>{{ d.area|escape }}</td>
+			<td>
+				<input type="text" name="conditions" value="{{ d.conditions|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="pub" value="{{ d.pub|escape }}"/>
+			</td>
+			{% if d.rainedoff == 1 %}
+			<td>
+				<input type="checkbox" name="rainedoff" value="1" checked/>
+			</td>
+			{% else %}
+			<td>
+				<input type="checkbox" name="rainedoff" value="1"/>
+			</td>
+			{% endif %}
+			<td>
+				<input type="submit" name="submit" value="Update Crag"/>
+			</td>
+		</tr>
+	</form>
+	{% endfor %}
+</table>
+{% endblock %}

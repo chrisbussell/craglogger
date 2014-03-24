@@ -1,26 +1,23 @@
 {% extends "base.tmpl" %}
 
-{% block title %}{{pageTitle}}{% endblock %}
-{% block head %}
-    {{ parent() }}
-{% endblock %}
-
 {% block content %}
-
 <h1>Forgotten your password?</h1>
 {% if passed != 1 %}
-Please complete this form to get your password reset link.<p>
+<p>Please complete this form to get your password reset link.</p>
 
 <form action="{{ php_self }}" method="post">
-    Your email:<input type="email" name="email" />
-    <input type="submit" value="Email Reset Code" />
+	<div>
+		<label for="email">Your email</label>
+		<br/>
+		<input type="text" name="email" id="email" value="" />
+	</div>
+	<input type="submit" value="Email Reset Code" />
 </form>
 {% else %}
-
-Thank you, we have sent an email to {{email}} with your password reset link.<br>  Please follow the link to reset your password.<p>
-
+<p>
+	Thank you, we have sent an email to {{email}} with your password reset link.
+	<br>Please follow the link to reset your password.
+</p>
 {% endif %}
 
 {% endblock %}
-
-

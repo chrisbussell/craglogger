@@ -1,31 +1,47 @@
 {% extends "base.tmpl" %}
 
-{% block title %}{{pageTitle}}{% endblock %}
-{% block head %}
-    {{ parent() }}
-    <style type="text/css">
-        .important { color: #336699; }
-    </style>
-{% endblock %}
 {% block content %}
-<h1>Register Twig</h1>
+<h1>Register</h1>
 <form action="{{ php_self }}" method="post">
-    Your firstname:<br />
-    <input type="text" name="firstname" value="" />
-    <br /><br />
-    Your surname:<br />
-    <input type="text" name="surname" value="" />
-    <br /><br />
-    Your username (used to login to the site):<br />
-    <input type="text" name="username" value="" />
-    <br /><br />
-    Your email<br />
-    <input type="text" name="email" value="" /><br> 
-	<input type="checkbox" name="emailshow" value="1" checked><i>(check to allow other members to see your email address)</i>
-    <br /><br />
-    Choose password:<br />
-    <input type="password" name="password" value="" />
-    <br /><br />
-    <input type="submit" value="Register" />
+	<div>
+		<label for="firstname">Your firstname:</label>
+		<br/>
+		<input type="text" name="firstname" id="firstname" value="" />
+	</div>
+
+	<div>
+		<label for="surname">Your surname:</label>
+		<br/>
+		<input type="text" name="surname" id="surname" value="" />
+	</div>
+
+	<div>
+		<label for="username">Your username (used to login to the site):</label>
+		<br/>
+		<input type="text" name="username" id="username" value="" />
+	</div>
+
+	<div>
+		<label for="email">Your email</label>
+		<br/>
+		<input type="text" name="email" id="email" value="" />
+	</div>
+
+	<div>
+		<label for="emailshow">
+			<input type="checkbox" name="emailshow" id="emailshow" value="1" checked/>
+			<br/> <i>(check to allow other members to see your email address)</i>
+		</label>
+	</div>
+
+	<div>
+		<label for="password">Choose password:</label>
+		<br/>
+		<input type="password" name="password" id="password" value="" />
+	</div>
+
+	<div>
+		<input type="submit" value="Register" />
+	</div>
 </form>
 {% endblock %}

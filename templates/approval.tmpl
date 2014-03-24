@@ -1,12 +1,15 @@
 {% extends "base.tmpl" %}
 
-{% block title %}{{pageTitle}}{% endblock %}
-{% block head %}
-    {{ parent() }}
-{% endblock %}
 {% block content %}
-<h1>Waiting Approval</h1>
+	{% if sid == true %}
+		<div class="alert">
+			<p>
+				You are logged in as <b><a href="/craglogger/dashboard/editaccount.php">{{ username|escape }}</a></b>.
+		</div>
+	{% else %}
+		<h1>Waiting Approval</h1>
 
-Thank you for registering to Tuesday Night Climbers Craglogger<br>
-Your account is waiting for approval, you will recieve an email when your account has been approved.
+		Thank you for registering to Tuesday Night Climbers Craglogger<br>
+		Your account is waiting for approval, you will recieve an email when your account has been approved.
+	{% endif %}
 {% endblock %}
