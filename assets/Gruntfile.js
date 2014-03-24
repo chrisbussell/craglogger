@@ -88,7 +88,7 @@
 									uglify : {
 										js: {
 											files: {
-												'<%= paths.js %>/base/base.min.js' : [ '<%= paths.js %>/base/base.js' ]
+												'<%= paths.js %>/base.min.js' : [ '<%= paths.js %>/base/base.js' ]
 											}
 										}
 									},
