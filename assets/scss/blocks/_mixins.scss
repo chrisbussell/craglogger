@@ -422,3 +422,7 @@
 		clear: both;
 	}
 }
+
+@mixin background-size-fix {
+	-ms-behavior: url(/craglogger/assets/js/base/polyfills/backgroundsize.min.htc);
+}

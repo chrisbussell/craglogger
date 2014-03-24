@@ -83,6 +83,7 @@ $flexitable-breakpoint: 600px;
 		position: relative;
 		text-align: center;
 		@include transition(all,300);
+		height: 100%;
 	}
 	img,
 	object,

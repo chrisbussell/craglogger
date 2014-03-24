@@ -8,6 +8,16 @@
 @import
 	"base";
 
+body {
+	background-image: url('/craglogger/assets/images/png/background.png');
+	background-image: none, url('/craglogger/assets/images/svg/background.svg');
+	background-size: 100% auto;
+	background-position: center top;
+	background-repeat: no-repeat;
+	html.no-backgroundsize & {
+		@include background-size-fix();
+	}	
+}
 .container {
 	@include rem-size('padding',10px);
 	max-width: 95%;
