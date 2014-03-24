@@ -236,19 +236,19 @@
 	function getcragdata($db, $query_params)
 	{
 		$query = "SELECT 
-								cd.cragdetail_id, 
-								cv.cragvisit_id, 
-								cv.date, 
-								cd.venue, 
-								cd.area, 
-								cd.web, 
-								cd.rock, 
-								cv.conditions, 
-								cv.rainedoff, 
-								cv.pub 
-							FROM cragdetail as cd, 
-							cragvisit as cv 
-							WHERE cd.cragdetail_id = cv.cragdetail_id";
+				cd.cragdetail_id, 
+				cv.cragvisit_id, 
+				cv.date, 
+				cd.venue, 
+				cd.area, 
+				cd.web, 
+				cd.rock, 
+				cv.conditions, 
+				cv.rainedoff, 
+				cv.pub 
+			  FROM cragdetail as cd, 
+			       cragvisit as cv 
+			  WHERE cd.cragdetail_id = cv.cragdetail_id";
 
 		if(isset($query_params[':cragdetail_id'])){
 			$query .=" AND cd.cragdetail_id = :cragdetail_id";
@@ -278,7 +278,7 @@
 	function getcragdetail($db)
 	{
 		$query = "SELECT cd.cragdetail_id, 
-								cd.venue, 
+			    	cd.venue, 
 								cd.area, 
 								cd.rock, 
 								cd.country, 
@@ -331,15 +331,22 @@
 		return $results;
 	}
 
-	function updatecragdetail($db, $query_params)
+	function updatecragdetails($db, $query_params)
 	{
 		$update=("
-							UPDATE cragdetail SET
-							venue = :venue,
-							area = :area,
-							web = :web,
-							rock = :rock, 
-							WHERE cragdetail_id = :cragdetail_id
+			UPDATE cragdetail SET
+				venue = :venue,
+				area = :area,
+				web = :web,
+				rock = :rock, 
+				country = :country, 
+				county = :county, 
+				altitude = :altitude, 
+				faces = :faces, 
+				lat = :lat, 
+				lng = :lng, 
+				web = :web 
+			WHERE cragdetail_id = :cragdetail_id
 							");
 
 		try{
@@ -430,12 +437,48 @@
 		}
 	}
 
+	function insertcragreport($db, $query_params)
+	{
+		$query="INSERT INTO cragreports
+			(cragvisit_id, 
+			 cragreport)
+			VALUES (
+			:cragvisit_id,
+			:cragreport)";
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                        return true;
+                }
+                catch(PDOException $ex){
+                        return false;
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+	}
+
+	function getcragreport($db, $query_params)
+	{
+		$query="SELECT cv.date, cd.venue, cd.area, cr.cragvisit_id, cr.cragreport FROM cragreports as cr, cragdetail as cd, cragvisit as cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.cragvisit_id = cr.cragvisit_id";
+		if(isset($query_params[':cragvisit_id'])){
+                        $query .=" AND cv.cragvisit_id = :cragvisit_id";
+                }
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+		return $stmt;
+	}
+
+
 	function insertattendeddata($db, $user_id, $value)
 	{
 		$insert=
-						("INSERT INTO attended
-						(user_id, cragvisit_id)
-						VALUE ('$user_id', '$value')");
+			("INSERT INTO attended
+			(user_id, cragvisit_id)
+			VALUE ('$user_id', '$value')");
 
 		try{
 			$stmt = $db->prepare($insert);
@@ -470,5 +513,63 @@
 
 		return $results;
 	}
+
+	function getnextcrag($db)
+	{
+		$query ="SELECT cv.date, cd.venue, cd.area 
+			 FROM cragdetail as cd, cragvisit as cv 
+			 WHERE cd.cragdetail_id = cv.cragdetail_id 
+			 AND cv.date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+	
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	// Yearly stat functions
+	//////////////////////////////////////////////////////////////////////////////////////
+	function getuserattendence($db, $query_params)
+	{
+		$query ="SELECT a.user_id, 
+				u.firstname, 
+				u.surname, 
+				count(a.cragvisit_id) as count 
+			 FROM attended as a, 
+			      cragvisit cv, 
+			      users u 
+			 WHERE a.cragvisit_id = cv.cragvisit_id 
+			 AND u.user_id = a.user_id 
+			 AND YEAR(cv.date)= 2014 
+			 GROUP BY a.user_id";
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+
+	function gettopattendedcrag($db, $query_params)
+	{
+		$query ="SELECT cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= 2014 GROUP BY cv.date ORDER BY count DESC Limit 3";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+
+	function gettotalrainedoff($db, $query_params)
+        {
+                $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1";
+
+                $results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+        }
+
+
 
 ?>
