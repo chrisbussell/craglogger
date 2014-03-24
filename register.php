@@ -1,8 +1,24 @@
 <?php
+	//ini_set('display_errors',1);
+	//error_reporting(E_ALL);
+	ob_start();
 
 	require("includes/common.php");
 	require("includes/functions.php");
 	require("includes/PHPMailer/class.phpmailer.php");
+
+	// include and register Twig auto-loader
+        include 'Twig/Autoloader.php';
+        Twig_Autoloader::register();
+
+        // define template directory location
+        $loader = new Twig_Loader_Filesystem('templates');
+
+        // initialize Twig environment
+        $twig = new Twig_Environment($loader);
+
+        // load template
+        $template = $twig->loadTemplate('register.tmpl');
 		
 	if(!empty($_POST)){
 
@@ -124,25 +140,11 @@
 			echo 'Message was not sent.';
 			echo 'Mailer error: ' . $mail->ErrorInfo;
 		} else {
-			//echo 'Message has been sent.';
+			echo 'Message has been sent.';
 			header("Location: /craglogger/approval.php");
-
-			//die("Redirecting to approval.php");
+			die("Redirecting to approval.php");
 		}
 	}
-
-	// include and register Twig auto-loader
-	include 'Twig/Autoloader.php';
-	Twig_Autoloader::register();
-
-	// define template directory location
-	$loader = new Twig_Loader_Filesystem('templates');
-
-	// initialize Twig environment
-	$twig = new Twig_Environment($loader);
-
-	// load template
-	$template = $twig->loadTemplate('register.tmpl');
 
 	// set template variables
 	// render template
@@ -151,5 +153,3 @@
 		'pageTitle' => 'Register',
 		'php_self' =>$_SERVER['PHP_SELF']
 	));
-
-?>
