@@ -2,10 +2,40 @@
 
 {% block content %}
 <h1>Crag Stats 2014</h1>
-<ul>
-	<li>Total crags visited: <b>{{ data|length }}</b></li>
-	<li>Crag with most visits crag: <b>{{ data|length }}</b></li>
-	<li>Most visited pub: <b>{{ data|length }}</b></li>
-	<li>Top 5 Tuesday Nighters: <b>{{ data|length }}</b></li>
-</ul>
+<table class="flexitable">
+	<h3>Top Attenders</h3>
+        <tr>
+                <th>Name</th>
+                <th>Visits</th>
+        </tr>
+        {% for d in data %}
+        <tr>
+                <td data-th="Username">{{ d.firstname }} {{d.surname}}</td>
+                <td data-th="Username">{{ d.count }}</td>
+        </tr>
+        {% endfor %}
+</table>
+<table class="flexitable">
+        <h3>Top Attended Crag (top 3)</h3>
+        <tr>
+                <th>Date</th>
+                <th>Crag</th>
+                <th>Visits</th>
+        </tr>
+        {% for a in attendedcrag %}
+        <tr>
+                <td data-th="Username">{{ a.date|date ('d M Y') }}</td>
+                <td data-th="Username">{{ a.venue }} {{a.area}}</td>
+                <td data-th="Username">{{ a.count }}</td>
+        </tr>
+        {% endfor %}
+</table>
+<table class="flexitable">
+        <h3>Rain Stop Play</h3>
+        <tr>
+        {% for r in rainedoff %}
+                <td>{{r.count}}</td>
+        {% endfor %}
+        </tr>
+</table>
 {% endblock %}

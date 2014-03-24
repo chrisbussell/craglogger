@@ -38,6 +38,19 @@
 			<td>
 				<input type="submit" name="submit" value="Update Crag"/>
 			</td>
+			<td>
+			{% set have_report = 0 %}
+                                {% for c in cragreport %}
+                                        {% if d.cragvisit_id == c.cragvisit_id %}
+                                                {% set have_report = 1 %}
+                                        {% endif %}
+                                {% endfor %}
+                                {% if have_report == 1 %}
+				edit visit report
+                                {% else %}
+				<a href="cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">add visit report</a>
+                                {% endif %}			
+			</td>
 		</tr>
 	</form>
 	{% endfor %}

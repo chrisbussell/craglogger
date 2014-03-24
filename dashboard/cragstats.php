@@ -24,21 +24,26 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/cragstats.tmpl');
 
-	// get list of all crags this year
-	$stmt = getcragdata($db, $query_params = null);
+	// get count of user attendence
+	$stmt = getuserattendence($db, $query_params = null);
 
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
-	
-	// set query params for user attended data
-	$query_params = array(
-		':user_id' => $_SESSION['user']['user_id']
-	);
 
-	$results = getuserattended($db, $query_params);
+	// get top attended crag
+	$stmt = gettopattendedcrag($db, $query_params = null);
 
-	$rows = $results->fetchAll();
+	while ($row = $stmt->fetchObject()) {
+		$attendedcrag[] = $row;
+	}
+
+	// get total rained off
+        $stmt = gettotalrainedoff($db, $query_params = null);
+
+        while ($row = $stmt->fetchObject()) {
+                $rainedoff[] = $row;
+        }
 
 	$date = date('Y-m-d H:i:s');
 
@@ -46,11 +51,12 @@
 		// render template
 		echo $template->render(array (
 			'data' => $data,
+			'attendedcrag' => $attendedcrag,
+			'rainedoff' => $rainedoff,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => '14 Feb 2014',
 			'date' => $date,
-			'attended' => $rows,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
 			'pageTitle' => 'Crag Stats 2014',
