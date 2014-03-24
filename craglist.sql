@@ -69,4 +69,13 @@ CREATE TABLE attended (
 PRIMARY KEY (attended_id)
 );
 
+CREATE TABLE cragreports (
+  cragreport_id int(11) NOT NULL AUTO_INCREMENT,
+  cragvisit_id int(11) NOT NULL,
+  cragreport BLOB,
+  timestamp timestamp,
+PRIMARY KEY (cragreport_id),
+UNIQUE KEY `cragvisit_id` (`cragvisit_id`)
+);
 
+INSERT INTO cragreports (cragreport_id, cragvisit_id, cragreport) VALUES ('1','1','A load of words about climbing rocks');
