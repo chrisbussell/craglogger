@@ -1,6 +1,4 @@
 <?php
-	//ini_set('display_errors',1);
-	//error_reporting(E_ALL);
 	ob_start();
 
 	require("includes/common.php");
@@ -19,36 +17,52 @@
 
         // load template
         $template = $twig->loadTemplate('register.tmpl');
+
+	$error = '';
+	$errFirstname = '';
+	$errSurname = '';
+	$errUsername = '';
+	$errPassword = '';
+	$errEmail = '';
 		
 	if(!empty($_POST)){
 
 		// Ensure that the user has entered a non-empty firstname
 		if(empty($_POST['firstname'])){
-			die("Please enter your firstname.");
+//			die("Please enter a firstname.");
+			$error = 1;
+			$errFirstname= "Please enter a firstname";
 		}
 
 		// Ensure that the user has entered a non-empty surname
 		if(empty($_POST['surname'])){
-			die("Please enter your surname.");
+			///die("Please enter your surname.");
+			$error = 1;
+			$errSurname= "Please enter a surname";
 		}
 
 		// Ensure that the user has entered a non-empty username
 		if(empty($_POST['username'])){
-			die("Please enter a username.");
+			//die("Please enter a username.");
+			$error = 1;
+			$errUsername= "Please enter a username";
 		}
 
 		// Ensure that the user has entered a non-empty password
-		if(empty($_POST['password'])){
-			die("Please enter a password.");
-		}
+		if( strlen($_POST['password']) < 6 ) {
+			$error = 1;
+			$errPassword= "Password must be 6 characters or more";
+			}
 
-		// Ensure that the user has entered a non-empty password
+		// set email show to false
 		if(empty($_POST['emailshow'])){
 			$_POST['emailshow'] = 0;
 		}
 
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-			die("Invalid E-Mail Address");
+			$error = 1;
+			$errEmail= "Invalid E-Mail Address";
+			//die("Invalid E-Mail Address");
 		}
 
 		// Set query params for sql call
@@ -63,7 +77,9 @@
 	
 		// If we get a result then username already used
 		if($row){
-			die("This username is already in use");
+			$error = 1;
+			$errUsername= "This username is already is use";
+			//die("This username is already in use");
 		}
 
 		// Set query params for sql call
@@ -77,9 +93,12 @@
 		$row = $stmt->fetch();
 	
 		if($row){
-			die("This email address is already registered");
+			//die("This email address is already registered");
+			$error = 1;
+			$errEmail= "This email address is already registered";
 		}
 
+		//prepare the password for encrytion
 		$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647));
 	
 		$password = hash('sha256', $_POST['password'] . $salt);
@@ -88,19 +107,20 @@
 			$password = hash('sha256', $password . $salt);
 		}
 	
-		$query_params = array(
+		if(!$error){
+			$query_params = array(
 				':firstname' => $_POST['firstname'],
 				':surname' => $_POST['surname'],
 				':username' => $_POST['username'],
 				':password' => $password,
 				':salt' => $salt,
 				':email' => $_POST['email'],
-				':emailshow' => $_POST['emailshow']
-		);
+				':emailshow' => $_POST['emailshow']);
 
 		// All ok, so lets add the user to the database
 		insertuser($db, $query_params);
 
+		////////////////////////////////////////////////////////////
 		// Set variables for email send
 		$firstname = $_POST['firstname'];
 		$surname = $_POST['surname'];
@@ -144,6 +164,19 @@
 			header("Location: /craglogger/approval.php");
 			die("Redirecting to approval.php");
 		}
+	}
+	else
+	{
+		echo $template->render(array (
+			'updated' => '14 Feb 2014',
+			'errPassword' => $errPassword,
+			'errFirstname' => $errFirstname,
+			'errSurname' => $errSurname,
+			'errEmail' => $errEmail,
+			'errUsername' => $errUsername,
+			'pageTitle' => 'Register',
+			'php_self' =>$_SERVER['PHP_SELF']));
+	}
 	}
 
 	// set template variables
