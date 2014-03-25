@@ -83,6 +83,7 @@
 		// Set query params for sql call
 		$query_params = array(
 			':email' => $_GET['email'],
+			':expiry' => $_GET['expiry'],
 			':code' => $_GET['code']
 		);
 

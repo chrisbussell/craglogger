@@ -10,6 +10,9 @@
 		<label for="email">Your email</label>
 		<br/>
 		<input type="text" name="email" id="email" value="" />
+		{% if error != '' %}
+		<b>{{error}}</b>
+		{% endif %}
 	</div>
 	<input type="submit" value="Email Reset Code" />
 </form>

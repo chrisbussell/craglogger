@@ -19,6 +19,7 @@
 
 	$passed = '';
 	$email = '';
+	$error = '';
 	
 	if(!empty($_POST))
 	{
@@ -37,18 +38,24 @@
 			$code= md5(rand(100,999));
 
 			$email = $_POST['email'];
+			
+			$now = date('Y-m-d');
+
+			// set password expiry day to now +24 hours
+			$expiry = date('Y-m-d', strtotime('+24 hours'));
 
 			// Set query params for sql call
 			$query_params = array(
 				':email' => $email,
-				':code' => $code
+				':code' => $code,
+				':expiry' => $expiry
 			);
 
-			//Add code to db
+			//Add code and expiry to db
 			$passed = updatepasswordreset($db, $query_params);
 
 			//echo"YES WE KNOW THIS USER, SEND ACTIVATION CODE";
-			$resetlink = "http://ccgi.chrisbussell.plus.com/craglogger/resetconfirm.php?email=$email&code=$code";
+			$resetlink = "http://ccgi.chrisbussell.plus.com/craglogger/resetconfirm.php?email=$email&code=$code&expiry=$expiry";
 			
 			//Email admin account details to approve
 			$mail = new PHPMailer();
@@ -69,7 +76,7 @@
 			}
 		}
 		else{
-			echo"Sorry we don't have that email address registered";
+			$error = "Sorry we don't have that email address registered";
 		}
 	}
 
@@ -79,6 +86,7 @@
 	echo $template->render(array (
 		'updated' => '14 Feb 2014',
 		'passed' => $passed,
+		'error' => $error,
 		'email' => $email,
 		'pageTitle' => 'Reset Password',
 		'php_self' =>$_SERVER['PHP_SELF'],

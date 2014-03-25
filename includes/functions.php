@@ -9,7 +9,7 @@
 
 	function checkpasswordcode($db, $query_params)
 	{
-		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code";
+		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND :expiry <= expiry";
 
 		try{
 			$stmt = $db->prepare($query);
@@ -48,7 +48,7 @@
 	//update user password reset activation code
 	function updatepasswordreset($db, $query_params)
 	{
-		$query = "UPDATE users SET activation_code = :code WHERE email = :email";
+		$query = "UPDATE users SET activation_code = :code, expiry = :expiry WHERE email = :email";
 
 		try{
 			$stmt = $db->prepare($query);
