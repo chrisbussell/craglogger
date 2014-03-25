@@ -22,6 +22,7 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/cragdetail.tmpl');
 	
+	///////////////////////////////////
 	$query_params = array(
 		':cragvisit_id' => $_GET['cragvisit_id'],
 		':year' => '2014'
@@ -33,9 +34,17 @@
 		$data[] = $row;
 	}
 
+	//////////////////////////////
 	$query_params = array(
 		':cragvisit_id' => $_GET['cragvisit_id']
 	);
+	
+	//get crag report
+	$stmt = getcragreport($db, $query_params);
+
+	$row = $stmt->fetch();
+
+	$cragreport = $row['cragreport'];
 
 	$results = getattendendbycragid($db, $query_params);
 
@@ -50,6 +59,7 @@
 	echo $template->render(array (
 		'data' => $data,
 		'visiteddata' => $visiteddata,
+		'cragreport' => $cragreport,
 		'sid' => $_SESSION['user'],
 		'user_id' => $_SESSION['user']['user_id'],
 		'admin' => $_SESSION['user']['admin'],

@@ -6,7 +6,7 @@
 
 {% block content %}
       {% for d in data %}
-    <h1>Details for {{d.venue}}</h1>
+    <h1>Details for {{d.venue}} {{d.area}}</h1>
     <table>
       <tr class="heading">
         <td>Date</td>
@@ -35,6 +35,8 @@
 	</tr>
       	{% endfor %}
        </table>
+    <h1>Crag Report</h1>
+	{{cragreport}}
 
     <h1>Who was there?</h1>
        <table>
