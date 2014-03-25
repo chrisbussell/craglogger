@@ -1,41 +1,22 @@
 {% extends "base.tmpl" %}
 
 {% block content %}
-<table>
-<tr>
-<td>
-The Tuesday Nighters are an ad hoc, adventurous, active and argumentative midweek climbing crowd based around the peak..
-<p>
-Perhaps the longest running, most active, friendliest, liveliest ad hoc and mildly anarchic midweek climbing group in the country. 
-<p>
-Originating in the 'Altrincham All Stars' back in the Bonnington days, now loosely peak based, accidentally global, and as noisy as ever. 
-<p>
-'Turn up and tie on'.
-<td>
-</tr>
-</table>
-<p>
-<table border="2" style="width:300px">
-<tr>
-<th>Next Weeks Meet</th>
-</tr>
-<tr>
-  <td>
+<p>The Tuesday Nighters are an ad hoc, adventurous, active and argumentative midweek climbing crowd based around the peak..</p>
+<p>Perhaps the longest running, most active, friendliest, liveliest ad hoc and mildly anarchic midweek climbing group in the country.</p>
+<p>Originating in the 'Altrincham All Stars' back in the Bonnington days, now loosely peak based, accidentally global, and as noisy as ever.</p>
+<p>'Turn up and tie on'.</p>
+
+
+<h2>Next Weeks Meet</h2>
 {% for r in rows %}
 {{ r.date|date ('d M Y') }}</div> {{r.venue}} {{r.area}}
 {% endfor %}
-  </td>
-</tr>
-</table>
-<table border="2" style="width:600px">
-    <tr>
-<th>Latest Reports</th>
+
+<h3>Latest Reports</h3>
+
 {% for d in data %}
-</tr>
-      <td>{{d.date}} {{d.venue}} {{d.area}}</td>
-      <td>{{d.cragreport}}</td>
-    </tr>
+{{d.date}} {{d.venue}} {{d.area}}
+{{d.cragreport}}
 {% endfor %}
-  </table>
 
 {% endblock %}

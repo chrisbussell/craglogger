@@ -36,7 +36,7 @@
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;  
-	background-color: #3465aa;
+	background-color: #005686;
 }
 /* Button Text */
 .slicknav_menu  .slicknav_menutxt {	
@@ -49,7 +49,7 @@
   background-color: #fff;
 }
 .slicknav_menu {
-	background:#f5f5f5;
+	background:#1183b9;
 	padding:5px;
 }
 .slicknav_nav {
@@ -74,7 +74,7 @@
 	padding:5px 10px;
 	margin:2px 5px;
 	text-decoration:none;
-	color:#3465aa;
+	color:#ffffff;
 }
 .slicknav_nav .slicknav_item a {
 	padding:0;
@@ -91,8 +91,8 @@
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
-	background:#ccc;
-	color:#222;
+	background:#005686;
+	color:#fff;
 }
 .slicknav_nav .slicknav_txtnode {
      margin-left:15px;   

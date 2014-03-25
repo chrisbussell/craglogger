@@ -1,28 +1,26 @@
 {% extends "base.tmpl" %}
 
 {% block content %}
-	<fieldset>
 <h1>Add a crag report for {{venue}} {{area}} - {{date|date ('d M Y')}}</h1>
 <form action="{{php_self}}" method="post">
-<input type="hidden" name="cragvisit_id" value="{{ cragvisit_id|escape }}"/>
-	<fieldset>
-		<legend>Add report for this visit</legend>
-		<div>
-			<label for="report">Report:</label>
-			<br />
-			{% if success == 1 %}
+	<input type="hidden" name="cragvisit_id" value="{{ cragvisit_id|escape }}"/>
+	<div>
+		<label for="report">Report:</label>
+		<br />
+		{% if success == 1 %}
 			{{cragreport}}
 			edit this report
-			{% else %}
+		{% else %}
 			<textarea name="report" id="report" cols="80" rows="20" ></textarea>
-			{% endif %}
-		</div>
-	</fieldset>
+		{% endif %}
+	</div>
 	<input type="submit" name="submit" value="Add this report" />
 </form>
 {% if success == 1%}
-<i>
-	<b>Thank you, crag report has been added</b>
-</i>
+<p>
+	<i>
+		<b>Thank you, crag report has been added</b>
+	</i>
+</p>
 {% endif %}
 {% endblock %}

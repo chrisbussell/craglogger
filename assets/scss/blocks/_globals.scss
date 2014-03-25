@@ -5,7 +5,7 @@
 @import "../functions";
 $theme: "";
 
-$text-color: #333;
+$text-color: #00263d;
 $main-color: #1082b9;
 $secondary-color: blue;
 $tertiary-color: orange;
@@ -23,6 +23,7 @@ $body-font-color: $text-color;
 $baseline-px: 16px;
 
 $default-float: left !default;
+$switch-float: right;
 
 // Media Query Ranges
 // Taken from Foundation 5

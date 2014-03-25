@@ -1,79 +1,82 @@
 {% extends "base.tmpl" %}
 
-{% block head %}
-    {{ parent() }}
-{% endblock %}
 {% block content %}
-    <h2>Accounts for approval</h2>
-    <table>
-      <tr class="heading">
-        <td>User ID</td>
-        <td>Firstname</td>
-        <td>Surname</td>
-        <td>Username</td>
-        <td>Email</td>
-      </tr> 
-
-      {% for d in data %}
-	<form method="post" action="{{ php_self }}">
-        <input type="hidden" name="user_id" value="{{ d.user_id|escape }}"</td>
-        <input type="hidden" name="email" value="{{ d.email|escape }}"</td>
-        <input type="hidden" name="firstname" value="{{ d.firstname|escape }}"</td>
-        <input type="hidden" name="surname" value="{{ d.surname|escape }}"</td>
-        <input type="hidden" name="username" value="{{ d.username|escape }}"</td>
-       <tr>
-        <td><b>{{ d.user_id|escape }}</b></td>
-        <td>{{ d.firstname|escape}}</td>
-        <td>{{ d.surname|escape}}</td>
-        <td>{{ d.username|escape}}</td>
-        <td>{{ d.email|escape}}</td>
-	<td><input type="submit" name="submit" value="Approve"></td>
-	</form>
-      	{% endfor %}
-	 </tr>
-        </table>
-<hr>
-    <h2>All Accounts</h2>
+<h2>Accounts for approval</h2>
 <table>
-      <tr class="heading">
-        <td>User ID</td>
-        <td>Firstname</td>
-        <td>Surname</td>
-        <td>Username</td>
-        <td>Email</td>
-        <td>Admin</td>
-        <td>Approved</td>
-      </tr> 
+	<tr class="heading">
+		<td>User ID</td>
+		<td>Firstname</td>
+		<td>Surname</td>
+		<td>Username</td>
+		<td>Email</td>
+	</tr>
+	{% for d in data %}
+	<form method="post" action="{{ php_self }}">
+		<input type="hidden" name="user_id" value="{{ d.user_id|escape }}"</td>
+		<input type="hidden" name="email" value="{{ d.email|escape }}"</td>
+		<input type="hidden" name="firstname" value="{{ d.firstname|escape }}"</td>
+		<input type="hidden" name="surname" value="{{ d.surname|escape }}"</td>
+		<input type="hidden" name="username" value="{{ d.username|escape }}"</td>
+		<tr>
+			<td> <b>{{ d.user_id|escape }}</b></td>
+			<td>{{ d.firstname|escape}}</td>
+			<td>{{ d.surname|escape}}</td>
+			<td>{{ d.username|escape}}</td>
+			<td>{{ d.email|escape}}</td>
+			<td>
+				<input type="submit" name="submit" value="Approve"></td>
+		</form>
+		{% endfor %}
+	</tr>
+</table>
+<hr>
+<h2>All Accounts</h2>
+<table>
+	<tr class="heading">
+		<td>User ID</td>
+		<td>Firstname</td>
+		<td>Surname</td>
+		<td>Username</td>
+		<td>Email</td>
+		<td>Admin</td>
+		<td>Approved</td>
+	</tr>
 	{% for fd in fulldata %}
 	<form method="post" action="{{ php_self }}">
-        <input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"</td>
-       <tr>
-        <td><b>{{ fd.user_id|escape }}</b></td>
-        <td>{{ fd.firstname|escape}}</td>
-        <td>{{ fd.surname|escape}}</td>
-        <td>{{ fd.username|escape}}</td>
-        <td>{{ fd.email|escape}}</td>
-        <td><select name="admin">
-	{% if fd.admin == 1 %}
-	<option value="1" selected>Yes</option>
-	<option value="0">No</option>
-	{% else %}
-	<option value="1">Yes</option>
-	<option value="0" selected>No</option>
-	{% endif %}
-	</select></td>
-        <td><select name="approved">
-	{% if fd.approved == 1 %}
-	<option value="1" selected>Yes</option>
-	<option value="0">No</option>
-	{% else %}
-	<option value="1">Yes</option>
-	<option value="0" selected>No</option>
-	{% endif %}
-	</select></td>
-	<td><input type="submit" name="submitupdate" value="Update"></td>
-	</form>
-        {% endfor %}
-         </tr>
-        </table>
+		<input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"</td>
+		<tr>
+			<td> <b>{{ fd.user_id|escape }}</b>
+			</td>
+			<td>{{ fd.firstname|escape}}</td>
+			<td>{{ fd.surname|escape}}</td>
+			<td>{{ fd.username|escape}}</td>
+			<td>{{ fd.email|escape}}</td>
+			<td>
+				<select name="admin">
+					{% if fd.admin == 1 %}
+					<option value="1" selected>Yes</option>
+					<option value="0">No</option>
+					{% else %}
+					<option value="1">Yes</option>
+					<option value="0" selected>No</option>
+					{% endif %}
+				</select>
+			</td>
+			<td>
+				<select name="approved">
+					{% if fd.approved == 1 %}
+					<option value="1" selected>Yes</option>
+					<option value="0">No</option>
+					{% else %}
+					<option value="1">Yes</option>
+					<option value="0" selected>No</option>
+					{% endif %}
+				</select>
+			</td>
+			<td>
+				<input type="submit" name="submitupdate" value="Update"></td>
+		</form>
+		{% endfor %}
+	</tr>
+</table>
 {% endblock %}

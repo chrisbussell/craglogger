@@ -6,7 +6,7 @@
   <tr>
     <th scope="row">Visit</th>
 		{% for d in data %}    
-    <td data-th="Visit"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a><br/> {{ d.date|date("d M Y") }} <br/> {{ d.rock }}</td>
+    <td data-th="Visit"><a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a><br/> {{ d.date|date("d M Y") }} <br/> {{ d.rock }}</td>
     {% endfor %}
   </tr>
   {% for m in member %}

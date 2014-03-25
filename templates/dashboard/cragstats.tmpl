@@ -2,40 +2,41 @@
 
 {% block content %}
 <h1>Crag Stats 2014</h1>
+<h2>Top Attenders</h2>
 <table class="flexitable">
-	<h3>Top Attenders</h3>
-        <tr>
-                <th>Name</th>
-                <th>Visits</th>
-        </tr>
-        {% for d in data %}
-        <tr>
-                <td data-th="Username">{{ d.firstname }} {{d.surname}}</td>
-                <td data-th="Username">{{ d.count }}</td>
-        </tr>
-        {% endfor %}
+	<tr>
+		<th>Name</th>
+		<th>Visits</th>
+	</tr>
+	{% for d in data %}
+	<tr>
+		<td data-th="Name">{{ d.firstname }} {{d.surname}}</td>
+		<td data-th="Visits">{{ d.count }}</td>
+	</tr>
+	{% endfor %}
 </table>
+
+<h3>Top Attended Crag (top 3)</h3>
 <table class="flexitable">
-        <h3>Top Attended Crag (top 3)</h3>
-        <tr>
-                <th>Date</th>
-                <th>Crag</th>
-                <th>Visits</th>
-        </tr>
-        {% for a in attendedcrag %}
-        <tr>
-                <td data-th="Username">{{ a.date|date ('d M Y') }}</td>
-                <td data-th="Username">{{ a.venue }} {{a.area}}</td>
-                <td data-th="Username">{{ a.count }}</td>
-        </tr>
-        {% endfor %}
+	<tr>
+		<th>Date</th>
+		<th>Crag</th>
+		<th>Visits</th>
+	</tr>
+	{% for a in attendedcrag %}
+	<tr>
+		<td data-th="Date">{{ a.date|date ('d M Y') }}</td>
+		<td data-th="Crag">{{ a.venue }} {{a.area}}</td>
+		<td data-th="Visits">{{ a.count }}</td>
+	</tr>
+	{% endfor %}
 </table>
+<h3>Rain Stop Play</h3>
 <table class="flexitable">
-        <h3>Rain Stop Play</h3>
-        <tr>
-        {% for r in rainedoff %}
-                <td>{{r.count}}</td>
-        {% endfor %}
-        </tr>
+	{% for r in rainedoff %}
+	<tr>
+		<td>{{r.count}}</td>
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}

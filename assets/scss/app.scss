@@ -2,65 +2,59 @@
 // Use this file for your own style
 // Version: 0.0.0 [pre alpha]
 
-
 @charset "UTF-8";
 
 // load all base building blocks
-@import
-	"base";
+
+@import "base";
 
 body {
-	@if($theme == 'real') {
-		background-image: url('/craglogger/assets/images/common/main-bg.jpg');
+	@if $theme == "real" {
+		background-image: url("/craglogger/assets/images/common/main-bg.jpg");
 	}
 	@else {
-		background-image: url('/craglogger/assets/images/png/background.png');
-		background-image: none, url('/craglogger/assets/images/svg/background.svg');
+		background-image: url("/craglogger/assets/images/png/background.png");
+		background-image: none, url("/craglogger/assets/images/svg/background.svg");
 	}
-	background-size: auto 100% ;
+	background-size: auto 100%;
 	background-position: center top;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	html.no-backgroundsize & {
-		@include background-size-fix();
+		@include background-size-fix;
 	}
 	@media #{$xlarge-up} {
 		background-size: 100% auto;
 	}
 }
-.container {
-	@include rem-size('padding',10px);
-	max-width: 95%;
-	margin: 0 auto;
+
+.wrap {
 	background-color: #fff;
-	background-color: rgba(#fff,0.8);
-	border: 1px solid rgba(#cddee7,0.5);
-	@media #{$medium-up} {
-		@include rem-size('margin-top',30px);
-		@include rem-size('padding',20px);
-		max-width: none;
-		text-align: left;
-	}
+	background-color: rgba(white, 0.8);
+	@include row;
+	padding: 0 !important;
 	@media #{$large-up} {
-		max-width: 1140px;
+		@include rem-size("margin-top", 70px);
 	}
 }
 
 header hgroup {
-	@include clearfix();
-	@include rem-size('padding', 10px 20px);
 	background-color: #fdfdfd;
+	@include row;
 	h1 {
 		@include font-size(20);
 		margin: 0;
+		a {
+			color: #005686;
+		}
 		@media #{$medium-up} {
-			@include inline-block();
+			@include inline-block;
 			float: left;
 		}
 	}
 	p {
 		@media #{$medium-up} {
-			@include inline-block();
+			@include inline-block;
 			margin: 0;
 			float: right;
 		}
@@ -70,19 +64,20 @@ header hgroup {
 header nav {
 	display: none;
 	background-color: #1183b9;
-	@media #{$medium-up} {
+	@media #{$screen} and (min-width: 901px) {
 		display: block;
-		@include rem-size('padding', 10px 20px);
+		@include rem-size("padding", 10px);
 		ul {
 			margin: 0;
 			padding: 0;
 			li {
-				@include inline-block();
+				@include inline-block;
 				a {
 					display: block;
-					@include rem-size('padding', 3px 10px);
+					@include rem-size("padding", 3px 10px);
 					@include border-radius($radius);
-					background-color: #fff;
+					background-color: #005686;
+					color: #fff !important;
 				}
 			}
 		}
@@ -91,24 +86,25 @@ header nav {
 
 .slicknav_menu {
 	display: block;
-	@media #{$medium-up} {
+	@media #{$screen} and (min-width: 901px) {
 		display: none;
 	}
 }
 
 div[role="content"] {
-	@include rem-size('padding', 20px 0);
+	@include row;
+	@include rem-size("padding", 20px 0);
 	@media #{$medium-up} {
-		@include rem-size('padding', 50px 0);
+		@include rem-size("padding", 50px 0);
 	}
 	@media #{$large-up} {
-		@include rem-size('padding', 75px 0);
+		@include rem-size("padding", 75px 0);
 	}
 }
 
 footer {
-	background-color: #cddee7;
-	@include rem-size('padding', 10px 20px);
+	@include row;
+	background-color: #cedee7;
 	p {
 		margin: 0;
 		@include font-size(14);
