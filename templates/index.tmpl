@@ -33,7 +33,7 @@
 	<div class="news-section__lates-report">
 		<h2>Latest Reports</h2>
 		{% for d in data %}
-			<a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/>
+			<a href="dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/>
 			{{d.cragreport}}
 		{% endfor %}
 	</div>
