@@ -16,10 +16,18 @@
 	</div>
 
 	<div>
+	<div class="field{% if errPassword %} error{% endif %}">
 		<label for="password">Password:</label>
 		<br/>
 		<input type="password" name="password" id="password" value="" />
-		<br/>
+		<b class="error--message">{{errPassword}}</b>
+	</div>
+	<div class="field{% if errApproved %} error{% endif %}">
+		<b class="error--message">{{errApproved}}</b>
+	</div>
+	<div class="field{% if errFailed %} error{% endif %}">
+		<b class="error--message">{{errFailed}}</b>
+	</div>
 		<a href="reset.php">forgot password?</a>
 	</div>
 

@@ -3,8 +3,23 @@
 	require("includes/common.php");
 	require("includes/functions.php");
 
+	// include and register Twig auto-loader
+        include 'Twig/Autoloader.php';
+        Twig_Autoloader::register();
+
+        // define template directory location
+        $loader = new Twig_Loader_Filesystem('templates');
+
+        // initialize Twig environment
+        $twig = new Twig_Environment($loader);
+
+        // load template
+        $template = $twig->loadTemplate('login.tmpl');
+
 	$submitted_username = '';
-	$error = '';
+	$errPassword = '';
+	$errApproved = '';
+	$errFailed = '';
 
 	// Check if form has been submitted
 	if(!empty($_POST)){
@@ -23,7 +38,7 @@
 		if($row){
 			// Ensure that the user has entered a non-empty password
 			if(empty($_POST['password'])){
-				echo("Please enter a password.");
+				$errPassword = "Please enter a password.";
 			}
 			else{
 				// Get and check password submited by comparing it to hashed version stored in db.
@@ -39,11 +54,19 @@
 						// If they do, then we flip this to true
 						$login_ok = true;
 					}
+					else{
+						$errPassword = "Password incorrect";
+					}
 				}
 				else{
-					$error = 1; 
+					$errApproved = "Sorry your account has not been approved, please try again later"; 
 				}
 			}
+		}
+		else
+		{
+			$errFailed = "login failed, please check the details you have entered";
+
 		}
 		
 		// If user logged in succesfully, send customer to main craglist.php page else show login failed.
@@ -61,7 +84,8 @@
 		}
 		else{
 			// Tell the user they failed
-			print("Login Failed.");
+	//		print("Login Failed.");
+			//$errFailed = "login failed";
 	
 			// Show them their username again so all they have to do is enter a new
 			// password.  The use of htmlentities prevents XSS attacks.
@@ -69,25 +93,14 @@
 		}
 	}
 
-	// include and register Twig auto-loader
-	include 'Twig/Autoloader.php';
-	Twig_Autoloader::register();
-
-	// define template directory location
-	$loader = new Twig_Loader_Filesystem('templates');
-
-	// initialize Twig environment
-	$twig = new Twig_Environment($loader);
-
-	// load template
-	$template = $twig->loadTemplate('login.tmpl');
-
 	// set template variables
 	// render template
 	echo $template->render(array (
 		'updated' => $lastupdated,
 		'submitted_username' => $submitted_username,
-		'error' => $error,
+		'errPassword' => $errPassword,
+		'errApproved' => $errApproved,
+		'errFailed' => $errFailed,
 		'pageTitle' => 'Login',
 		'php_self' =>$_SERVER['PHP_SELF']
 	));
