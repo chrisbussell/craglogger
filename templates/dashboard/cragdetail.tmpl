@@ -14,7 +14,7 @@
         <td>Date</td>
         <td>Venue</td>
         <td>Area</td>
-        <td>URL</td>
+        <td>Website</td>
         <td>Rock</td>
         <td>Conditions</td>
         <td>Pub</td>
@@ -24,7 +24,7 @@
         <td>{{ d.date|date ('d M Y') }}</td>
         <td>{{ d.venue|escape }}</td>
         <td>{{ d.area|escape }}</td>
-        <td>{{ d.web|escape }}</td>
+        <td><a href="{{ d.web|escape }}">view</a></td>
         <td>{{ d.rock|escape }}</td>
         <td>{{ d.conditions|escape }}</td>
         <td>{{ d.pub|escape }}</td>
@@ -37,6 +37,18 @@
 	</tr>
       	{% endfor %}
        </table>
+    <h1>Visit report</h1>
+<table>
+<tr>
+<td>
+{% if cragreport !='' %}
+      {{cragreport}}<br/>
+{% else %}
+Sorry no report yet for this visit<br/>
+{% endif %}
+</td>
+</tr>
+</table>
 
     <h1>Who was there?</h1>
        <table>

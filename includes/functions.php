@@ -53,11 +53,12 @@
 		try{
 			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
+		return true;
 		}
 		catch(PDOException $ex){
 			die("Failed to run query: " . $ex->getMessage());
+		return false;
 		}
-		return true;
 	}
 
 
@@ -552,7 +553,7 @@
 
 	function gettopattendedcrag($db, $query_params)
 	{
-		$query ="SELECT cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= 2014 GROUP BY cv.date ORDER BY count DESC Limit 3";
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= 2014 GROUP BY cv.date ORDER BY count DESC Limit 3";
 
 		$results = $db->prepare($query);
                 $results->execute();

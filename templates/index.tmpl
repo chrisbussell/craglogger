@@ -18,7 +18,7 @@
 		<p>'Turn up and tie on'.</p>
 	</article>
 	<aside class="intro__image">
-		<img src="/craglogger/assets/content/fb.jpg" alt="fill in with image description" />
+		<img src="/craglogger/assets/content/tuesday.jpg" alt="fill in with image description" />
 	</aside>
 </section>
 <hr/>
@@ -33,7 +33,7 @@
 	<div class="news-section__lates-report">
 		<h2>Latest Reports</h2>
 		{% for d in data %}
-			{{d.date}} {{d.venue}} {{d.area}}
+			<a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/>
 			{{d.cragreport}}
 		{% endfor %}
 	</div>

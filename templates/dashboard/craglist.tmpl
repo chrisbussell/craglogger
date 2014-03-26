@@ -14,7 +14,7 @@
 			<th>Date</th>
 			<th>Venue</th>
 			<th>Area</th>
-			<th>URL</th>
+			<th>Website</th>
 			<th>Rock</th>
 			<th>Attendence</th>
 		</tr>
@@ -24,7 +24,7 @@
 			<td data-th="Date">{{ d.date|date ('d M Y') }}</td>
 			<td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }}</a></td>
 			<td data-th="Area">{{ d.area|escape }}</td>
-			<td data-th="URL">{{ d.web|escape }}</td>
+			<td data-th="URL"><a href="{{ d.web|escape }}">view</a></td>
 			<td data-th="Rock">{{ d.rock|escape }}</td>
 			<td data-th="Attendence">
 				{% set has_attended_this_crag = 0 %}
