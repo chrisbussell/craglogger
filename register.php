@@ -165,8 +165,7 @@
 			die("Redirecting to approval.php");
 		}
 	}
-	else
-	{
+	else{
 		echo $template->render(array (
 			'errPassword' => $errPassword,
 			'errFirstname' => $errFirstname,

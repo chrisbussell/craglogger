@@ -11,8 +11,7 @@
 {% set failed = 0 %}
 {% if passcodefail == 1 %}
 	{% set failed = 1 %}
-	Sorry something doesn't match up, please request a new activation code
-	<a href="/craglogger/reset.php">here</a>
+	Sorry we can't reset your password right now as something doesn't match up, please request a new activation code <a href="/craglogger/reset.php">here</a>
 {% endif %}
 
 {% if failed != 1 %}

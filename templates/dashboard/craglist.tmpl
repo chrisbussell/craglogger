@@ -22,7 +22,7 @@
 		<input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"/>
 		<tr>
 			<td data-th="Date">{{ d.date|date ('d M Y') }}</td>
-			<td data-th="Venue">{{ d.venue|escape }}</td>
+			<td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }}</a></td>
 			<td data-th="Area">{{ d.area|escape }}</td>
 			<td data-th="URL">{{ d.web|escape }}</td>
 			<td data-th="Rock">{{ d.rock|escape }}</td>

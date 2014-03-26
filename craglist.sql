@@ -15,6 +15,7 @@ CREATE TABLE `users` (
   `admin` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   `approved` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   `activation_code` varchar(100) NOT NULL default'0',
+  `expiry` date NOT NULL,
   `emailshow` int(1) NOT NULL default'0',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
@@ -58,7 +59,7 @@ INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, raine
 INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('2','1','2014/02/01','Dry','The Knights Balls','0');
 INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('3','2','2014/02/07','Moist','The Knights Balls','0');
 INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('4','3','2014/02/14','Wet','The Knights Balls','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('5','4','2014/02/21','Dry','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('5','4','2014/02/21','Dry','The Queens Norkers','0');
 INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('6','5','2014/02/28','Dry','Millstone','0');
 
 CREATE TABLE attended (
@@ -79,3 +80,4 @@ UNIQUE KEY `cragvisit_id` (`cragvisit_id`)
 );
 
 INSERT INTO cragreports (cragreport_id, cragvisit_id, cragreport) VALUES ('1','1','A load of words about climbing rocks');
+
