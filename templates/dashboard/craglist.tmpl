@@ -1,8 +1,14 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'crag-list' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Crag List 2014</h1>
-<form method="post" action="{{ php_self }}" class="flexitable">
+<form method="post" action="{{ php_self }}" class="craglist flexitable">
 	<table>
 		<tr>
 			<th>Date</th>
@@ -33,7 +39,7 @@
 					<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
 				{% endif %}
 				{% if has_attended_this_crag == 1 %}
-				<a href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
+				<a class="undo" href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
 				{% endif %}
 			</td>
 		</tr>

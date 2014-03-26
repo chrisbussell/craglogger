@@ -5,87 +5,239 @@
 @charset "UTF-8";
 
 // load all base building blocks
-@import
-	"base";
 
-.container {
-	@include rem-size('padding',10px);
-	max-width: 95%;
-	margin: 0 auto;
-	@media #{$medium-up} {
-		@include rem-size('padding',0);
-		max-width: none;
-		text-align: left;
+@import "base";
+
+body {
+	@if $theme == "real" {
+		background-image: url("/craglogger/assets/images/common/main-bg.jpg");
 	}
+	@else {
+		background-image: url("/craglogger/assets/images/png/background.png");
+		background-image: none, url("/craglogger/assets/images/svg/background.svg");
+	}
+	background-size: auto 100%;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	html.no-backgroundsize & {
+		@include background-size-fix;
+	}
+	@media #{$xlarge-up} {
+		background-size: 100% auto;
+	}
+}
+
+.wrap {
+	background-color: #fff;
+	background-color: rgba(white, 0.9);
+	@include row();
+	@include box-shadow(0 2px 2px rgba(0, 0, 0, 0.50));
+	padding: 0!important;
+	position: relative;
 	@media #{$large-up} {
-		max-width: 1140px;
+		@include rem-size("margin-top", 70px);
+	}
+	@media #{$xlarge-up} {
+		&:before {
+			content: url('/craglogger/assets/images/svg/escalade.svg');
+			position: absolute;
+			left: -137px;
+		}
+		&:after {
+			content: url('/craglogger/assets/images/svg/escalade-right.svg');
+			position: absolute;
+			right: -162px;
+			top: 105px;
+		}
 	}
 }
 
 header hgroup {
-	@include clearfix();
-	@include rem-size('padding', 10px 20px);
-	background-color: #f5f5f5;
+	background-color: #fdfdfd;
+	@include row();
+	@include rem-size('padding-top', 15px);
+	@include rem-size('padding-bottom', 15px);
 	h1 {
 		@include font-size(20);
-		margin: 0;
-		@media #{$medium-up} {
+		@include rem-size('margin-bottom', 20px);
+		@include rem-size('margin-top', 10px);
+		a {
+			color: #005686;
 			@include inline-block();
+			@include rem-size('width',280px);
+			@include rem-size('height',65px);
+			background-image: url("/craglogger/assets/images/png/logo.png");
+			background-image: none, url("/craglogger/assets/images/svg/logo.svg");
+			background-size: 100% auto;
+			background-position: center top;
+			background-repeat: no-repeat;
+			text-indent: -99999px;
+		}
+		@media #{$medium-up} {
+			@include inline-block;
 			float: left;
+			@include rem-size('margin-bottom', 0);
 		}
 	}
 	p {
 		@media #{$medium-up} {
-			@include inline-block();
 			margin: 0;
+			@include rem-size('margin-top', 30px);
+			@include inline-block;
 			float: right;
 		}
+	}
+	@include rem-size("padding", 20px 20px);
+	@media #{$medium-up} {
+		@include rem-size("padding", 20px 25px);
+	}
+	@media #{$large-up} {
+		@include rem-size("padding", 20px 40px);
 	}
 }
 
 header nav {
 	display: none;
-	background-color: darken(#f5f5f5, 3%);
-	@media #{$medium-up} {
+	background-color: #1183b9;
+	@media #{$screen} and (min-width: 901px) {
 		display: block;
-		@include rem-size('padding', 10px 20px);
 		ul {
 			margin: 0;
 			padding: 0;
+			text-align: center;
 			li {
-				@include inline-block();
+				@include inline-block;
+				//@include font-size(15);
 				a {
 					display: block;
-					@include rem-size('padding', 3px 10px);
+					@include rem-size("padding", 2px 8px);
 					@include border-radius($radius);
-					background-color: darken(#f5f5f5,10%);
+					color: #fff !important;
+					background-color: rgba(#005686,0);
+					@include transition(background-color, 300ms);
+					&:hover {
+						background-color: rgba(#0a2f41,1);
+					}
 				}
 			}
 		}
 	}
+	@include rem-size("padding", 10px 20px);
+	@media #{$medium-up} {
+		@include rem-size("padding", 10px 25px);
+	}
+	@media #{$large-up} {
+		@include rem-size("padding", 10px 40px);
+	}
+}
+.home li.home a,
+.about-us li.about-us a,
+.upcoming-venues li.upcoming-venues a,
+.about-us li.about-us a,
+.login li.login a,
+.register li.register a,
+.crag-list li.crag-list a,
+.crag-visit li.crag-visit a,
+.crag-stats li.crag-stats a,
+.members li.members a,
+.user-account li.user-account a,
+.admin li.admin a 
+ {
+	background-color: #0a2f41;
 }
 
 .slicknav_menu {
 	display: block;
-	@media #{$medium-up} {
+	@media #{$screen} and (min-width: 901px) {
 		display: none;
 	}
 }
 
 div[role="content"] {
-	@include rem-size('padding', 20px 0);
+	@include row();
+	@include rem-size("padding", 20px 20px);
 	@media #{$medium-up} {
-		@include rem-size('padding', 50px 0);
+		@include rem-size("padding", 50px 25px);
 	}
 	@media #{$large-up} {
-		@include rem-size('padding', 75px 0);
+		@include rem-size("padding", 75px 40px);
 	}
 }
 
 footer {
-	background-color: #f5f5f5;
-	@include rem-size('padding', 10px 20px);
+	@include row;
+	background-color: #cedee7;
+	@include rem-size("padding", 20px 20px);
 	p {
 		margin: 0;
+		@include font-size(14);
 	}
+	@media #{$medium-up} {
+		@include rem-size("padding", 20px 25px);
+	}
+	@media #{$large-up} {
+		@include rem-size("padding", 20px 40px);
+	}
+}
+
+.intro {
+	@include row();
+	&__text {
+		@include column(8);
+		@media #{medium-up}{
+			p {
+				@include font-size(18);
+			}			
+		}
+	}
+	&__image {
+		@include column(4);
+	}
+}
+
+.news-section {
+	@include column(10);
+	> div {
+		@include fancytiles(2,2,1);
+	}
+}
+
+body.register, body.login, body.user-account, body.reset {
+	div[role="content"] h1 {
+		text-align: center;
+	}
+	div[role="content"] form {
+		@include column(6);
+		@include push(3);
+	}
+}
+
+.admin .tiles h2 {
+	@extend h4;
+}
+
+table.cragattendance {
+	th {
+		line-height: 1.1;
+	}
+	th, td {
+		&.visit, &.cragger {
+			font-weight: bold;
+		}
+	}
+	@media #{$medium-up} {
+		th, td {
+			text-align: center !important;
+			&.visit, &.cragger {
+				text-align: left !important;
+			}
+		}
+	}
+}
+a.undo {
+	@include inline-block();
+	color: red;
+	font-size: 90%;
+	margin-left: 10px;
 }

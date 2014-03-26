@@ -1,37 +1,45 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'crag-visit' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Who has been where in 2014</h1>
-<table class="flexitable">
-  <tr>
-    <th scope="row">Visit</th>
-		{% for d in data %}    
-    <td data-th="Visit"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a><br/> {{ d.date|date("d M Y") }} <br/> {{ d.rock }}</td>
-    {% endfor %}
-  </tr>
-  {% for m in member %}
-  <tr>
-    <th scope="row">{{ m.firstname }} {{m.surname}}</th>
-
-    <td data-th="{{ m.firstname }} {{m.surname}}">
-			{% for d in data %}
-				{% set has_attended_this_crag = 0 %}
-
-		{% for a in attended %}
-			{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
-				{% set has_attended_this_crag = 1 %}
-			{% endif %}
-      		{% endfor %}
-
-		{% if has_attended_this_crag == 1 %}
-			Yes!!!!
-		{% else %}
-			NO
-		{% endif %}
+<table class="cragattendance flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Visit</th>
+		{% for d in data %}
+		<th>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
+			<br/>
+			{{ d.date|date("d M Y") }}
+			<br/>
+			{{ d.rock }}
+		</th>
+		{% endfor %}
+	</tr>
+	{% for m in member %}
+	<tr>
+		<td data-th="Cragger" class="cragger">{{ m.firstname }} {{m.surname}}</td>
+		{% for d in data %}
+			{% set has_attended_this_crag = 0 %}
+			{% for a in attended %}
+				{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+					{% set has_attended_this_crag = 1 %}
+				{% endif %}
 			{% endfor %}
-	
-    </td>
-  </tr>
-  {% endfor %}
+			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
+				{% if has_attended_this_crag == 1 %}
+					<span class="yes">YES</span>
+				{% else %}
+					<span class="no">NO</span>
+				{% endif %}
+			</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}

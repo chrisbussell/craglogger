@@ -1,2 +1,515 @@
 @import "mixins";
 @import "globals";
+
+// Grid Settings
+$row-max-width: 1140px !default;
+$gutter-in-px: 20px !default;
+$cols: 12 !default;
+$hybrid: 16 !default;
+
+// 16 Column Default Hybrid Grid
+
+// Responsiveness Settings
+$min-device-width: 320px;
+
+// iPhone Portrait
+$tablet-device-width: 768px;
+
+// iPad Portrait
+$document-width: $row-max-width;
+
+// Default Document
+$max-device-width: 2880px;
+
+// Max Document Size
+
+// Calculate grid values
+$gutter: percentage($gutter-in-px / $row-max-width);
+
+// 2.1276596
+
+// Return single column width
+@function oneCol() {
+	@return (100% - $gutter * ($cols - 1)) / $cols;
+}
+
+// Calculate Grid Column Widths
+@function columns($num) {
+	@return oneCol() * $num + $gutter * ($num - 1);
+	// (One column * 'x') + (gutter * ('x' - 1)) = Column Width
+}
+
+// Calculate the width required to acheive a desired global column number within a nested grid
+@function global-columns($desired_cols, $container_cols) {
+		@return 100% * columns($desired_cols) / columns($container_cols);
+}
+
+// Calculate Push Class Margins
+@function push_x($num, $first-child: false) {
+	@if $first-child {
+		@return oneCol() * $num + $gutter * ($num - 1) + $gutter;
+	}
+	@else {
+		@return oneCol() * $num + $gutter * ($num - 1) + $gutter * 2;
+		// Column width + (gutter * 2)
+	}
+}
+
+// Calculate Pull Class Margins
+// note absence of first-child; first-child column containers should not be pulled
+// $num is number of columns to be pulled
+// $width is number of columns of container that is being pulled
+@function pull_x($num, $width) {
+		@return -(oneCol() * $num + $gutter * ($num - 1) + oneCol() * $width + $gutter * ($width - 1) + $gutter);
+		// Pull width + column width + gutter
+}
+
+// Calculate Centered Class Margins
+@function centered($num) {
+		@return 50% - ($num * oneCol() + ($num - 1) * $gutter) / 2;
+}
+
+// Create class names from column count integers
+@function number-as-word($number) {
+	$w: "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty", "twenty-one", "twenty-two", "twenty-three", "twenty-four", "twenty-five", "twenty-six", "twenty-seven", "twenty-eight", "twenty-nine", "thirty", "thirty-one", "thirty-two", "thirty-three", "thirty-four", "thirty-five", "thirty-six";
+	@return nth($w, $number);
+}
+
+// Gumby Semantic Grid Mixin //
+
+// Mixin for rows
+
+@mixin row($nested: false) {
+	@if $nested == nested {
+		@include nestedRow;
+	}
+	@else {
+		width: 100%;
+		max-width: $row-max-width;
+		margin: 0 auto;
+		padding-left: 20px;
+		padding-right: 20px;
+		@extend %clearfix;
+	}
+	> *:first-child {
+		margin-left: 0;
+	}
+	@media #{$small-only} {
+		width: auto;
+		min-width: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+// Mixin for rows that are nested within columns
+
+@mixin nestedRow {
+	width: auto;
+	min-width: 0;
+	max-width: none;
+	padding-left: 0;
+	padding-right: 0;
+	@extend %clearfix;
+}
+
+@mixin column($columns: $columns, $alignment: false, $behavior: false) {
+	@extend %columnconfig;
+	@if $alignment == center {
+		float: none;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		width: columns($columns);
+		@media #{$small-only} {
+			float: left;
+			margin-left: 0;
+			width: 100%;
+		}
+	}
+	@else if $behavior == collapse {
+		@extend %collapse;
+		width: columns($columns);
+		@media #{$small-only} {
+			float: left;
+			width: 100%;
+		}
+	}
+	@else {
+		width: columns($columns);
+		@media #{$small-only} {
+			float: left;
+			margin-left: 0;
+			width: 100%;
+		}
+	}
+}
+
+@mixin push($columns) {
+	margin-left: push_x($columns);
+	&:first-child {
+		margin-left: push_x($columns, true);
+	}
+	@media #{$small-only} {
+		margin-left: 0;
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+@mixin pull($direction: false, $columns: 0, $width: 0) {
+	@if $direction == left {
+		@extend %pull-left;
+		@if $columns > 0 and $width > 0 {
+			margin-left: pull_x($columns, $width);
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+	}
+	@else if $direction == none {
+		@extend %pull-none;
+	}
+	@else {
+		@extend %pull-right;
+	}
+}
+
+// Placeholders for the Semantic Grid
+
+%container {
+	padding: 0;
+	@media #{$small-only} {
+		min-width: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+// Clearfix placeholder
+%clearfix {
+	@include clearfix;
+}
+
+// Row placeholders
+%row {
+	@include row;
+}
+
+%nestedrow {
+	@include row;
+}
+
+// Column Configuration placeholder
+%columnconfig {
+	margin-left: $gutter;
+	float: $default-float;
+	min-height: 1px;
+	position: relative;
+	//@include box-sizing(border-box);
+}
+
+%pull-right {
+	float: right;
+}
+
+%pull-left {
+	float: left;
+}
+
+%pull-none {
+	float: none;
+}
+
+// Collapse Gutters
+%collapse {
+	margin-left: 0;
+}
+
+%zero-margin-left {
+	margin-left: 0;
+}
+
+/*=================================================
+
+	+++ LE GRID +++
+	A Responsive Grid -- Gumby defaults to a standard 960 grid,
+	but you can change it to whatever you'd like.
+
+ ==================================================*/
+
+// We're removing the container class in favor
+// of adding padding to rows at the $device-width
+// breakpoint.
+
+/*.container {
+	padding: 0 $gutter-in-px;
+}*/
+
+.row {
+	max-width: $row-max-width;
+	width: 100%;
+	margin: 0 auto;
+	.row {
+		min-width: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+/* To fix the grid into a different size, set max-width to your desired width */
+
+.column, .columns {
+	margin-left: $gutter;
+	float: $default-float;
+	min-height: 1px;
+	//	@include box-sizing(border-box);
+}
+
+.column:first-child, .columns:first-child, .alpha {
+	margin-left: 0;
+}
+
+.column.omega, .columns.omega {
+	float: $switch-float;
+}
+
+// Generate the Grid
+
+/* Column Classes */
+
+// Generate Column Classes
+.row {
+	@for $i from 1 through $cols {
+		@if $i == 1 {
+			.one.column {
+				width: columns($i);
+			}
+		}
+		.#{number-as-word($i)}.columns {
+			width: columns($i);
+		}
+	}
+}
+
+/* Push and Pull Classes */
+
+// Generate Push and Pull Classes
+.row {
+	@for $i from 1 through $cols - 1 {
+		.push_#{number-as-word($i)} {
+			margin-left: push_x($i);
+			&:first-child {
+				margin-left: push_x($i, true);
+			}
+		}
+		.pull_#{number-as-word($i)} {
+			// pull classes need to know the width of the container being pulled
+			@for $j from 1 through $cols - 1 {
+				@if $i + $j == $cols {
+					&.#{number-as-word($j)}.columns {
+						@extend %pull-100-percent;
+					}
+				}
+				@else if $j == 1 {
+					&.one.column {
+						margin-left: pull_x($i, $j);
+						&:first-child {
+							@extend %zero-margin-left;
+						}
+					}
+				}
+				@else {
+					&.#{number-as-word($j)}.columns {
+						margin-left: pull_x($i, $j);
+						&:first-child {
+							@extend %zero-margin-left;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Centered Classes */
+
+// Generate Centered Classes
+.row {
+	@for $i from 1 through $cols - 1 {
+		.#{number-as-word($i)}.centered {
+			margin-left: centered($i);
+		}
+	}
+}
+
+
+// helper placeholder to condense the repeated
+// need for resetting first-child margins to zero
+%zero-margin-left {
+	margin-left: 0;
+}
+
+%pull-100-percent {
+	margin-left: -100%;
+}
+
+/* Hybrid Centered Classes */
+
+.pull_right {
+	@include pull(right);
+}
+
+.pull_left {
+	@include pull(left);
+}
+
+#map_canvas img, .map_canvas img {
+	max-width: none !important;
+}
+
+/* Tile Grid */
+
+.tiles {
+	display: block;
+	overflow: hidden;
+	> li, > .tile {
+		display: block;
+		height: auto;
+		float: left;
+		padding-bottom: 0;
+	}
+	&.two_up {
+		margin-left: -4%;
+		> li, > .tile {
+			margin-left: 4%;
+			width: 46%;
+		}
+	}
+	&.three_up, &.four_up {
+		margin-left: -2%;
+	}
+	&.three_up > li, &.three_up > .tile {
+		margin-left: 2%;
+		width: 31.3%;
+	}
+	&.four_up > li, &.four_up > .tile {
+		margin-left: 2%;
+		width: 23%;
+	}
+	&.five_up {
+		margin-left: -1.5%;
+		> li, > .tile {
+			margin-left: 1.5%;
+			width: 18.5%;
+		}
+	}
+}
+
+.row {
+	@include clearfix();
+}
+
+// vertically align stuff
+
+.valign {
+	&:before {
+		content: ' ';
+		display: inline-block;
+		height: 400px;
+		vertical-align: middle;
+		margin-right: -0.25em;
+	}
+	> div, > article, > section, > figure {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+/* Mobile */
+
+@media #{$small-only} {
+	body {
+		-webkit-text-size-adjust: none;
+		-ms-text-size-adjust: none;
+		width: 100%;
+		min-width: 0;
+	}
+	.container {
+		min-width: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.row {
+		width: 100%;
+		min-width: 0;
+		margin-left: 0;
+		margin-right: 0;
+		.row {
+			.column, .columns {
+				padding: 0;
+			}
+		}
+		.centered {
+			margin-left: 0 !important;
+		}
+	}
+	.column, .columns {
+		width: auto !important;
+		float: none;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.column:last-child, .columns:last-child {
+		margin-right: 0;
+		float: none;
+	}
+	[class*="column"] {
+		+ [class*="column"]:last-child {
+			float: none;
+		}
+		&:before {
+			display: table;
+		}
+		&:after {
+			display: table;
+			clear: both;
+		}
+	}
+	[class^="push_"],
+	[class*="push_"],
+	[class^="pull_"],
+	[class*="pull_"] {
+		margin-left: 0 !important;
+	}
+}
+
+@function divide-cols($colnum) {
+  @return 100%/$colnum;
+}
+
+
+@mixin fancytiles($desktop-columns, $tablet-columns: $desktop-columns, $mobile-columns: 1, $small-break: 0px, $medium-break: $tablet-device-width, $large-break: $row-max-width) {
+
+  // These styles apply to all shift-columns
+  display: inline-block;
+  float: left;
+  padding-left: $gutter / 2;
+  padding-right: $gutter / 2;
+
+  // IE8 fallback
+  width: divide-cols($mobile-columns);
+
+  @media #{$small-up} {
+    width: divide-cols($mobile-columns);
+  }
+
+  @media #{$medium-up} {
+    width: divide-cols($tablet-columns);
+  }
+
+  @media #{$large-up} {
+    width: divide-cols($desktop-columns);
+  }
+
+}

@@ -1,5 +1,11 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'login' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Login</h1>
 <form action="{{ php_self }}" method="post">

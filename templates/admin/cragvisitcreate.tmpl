@@ -1,5 +1,11 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'admin crag-visit-create' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Add A Visit</h1>
 {% if nocragselected == 1 %}
@@ -28,7 +34,7 @@
 			{% endfor %}
 		</table>
 		<p>
-			Crag not listed, just add a <a href="cragcreate.php">new crag</a>
+			Crag not listed, just add a <a href="/craglogger/admin/cragcreate.php">new crag</a>
 		</p>
 	</fieldset>
 	<fieldset>
@@ -59,8 +65,10 @@
 	<input type="submit" name="submit" value="Add the Crag" />
 </form>
 {% if success == 1%}
-<i>
-	<b>Thank you this visit has been added</b>
-</i>
+	<p>
+		<i>
+			<b>Thank you this visit has been added</b>
+		</i>
+	</p>
 {% endif %}
 {% endblock %}

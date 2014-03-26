@@ -36,7 +36,9 @@
 								app:				'.',
 								sass:				'./scss',
 								css:				'./css',
-								js:					'./js'
+								js:					'./js',
+								images:			'./images',
+								svg:				'./images/svg'								
 							},
 
 						// test individual js files before combining them for output
@@ -86,7 +88,7 @@
 									uglify : {
 										js: {
 											files: {
-												'<%= paths.js %>/base/base.min.js' : [ '<%= paths.js %>/base/base.js' ]
+												'<%= paths.js %>/base.min.js' : [ '<%= paths.js %>/base/base.js' ]
 											}
 										}
 									},
@@ -109,6 +111,16 @@
 												style: 'compressed'
 											}
 										}
+									},
+
+									svg2png: {
+										all: {
+											// specify files in array format with multiple src-dest mapping
+											files: [
+												// rasterize all SVG files in "img" and its subdirectories to "img/png"
+												{ src: ['<%= paths.svg %>/**/*.svg'], dest: '<%= paths.images %>/png/' }
+											]
+										}
 									}
 
 								});
@@ -116,7 +128,8 @@
 				// Default Task
 				grunt.registerTask('default', [
 						'sass',
-						'uglify'
+						'uglify',
+						'svg2png'
 					]);
 
 				

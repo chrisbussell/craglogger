@@ -1,5 +1,11 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'admin crag-update' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h2>Crag Details Update</h2>
 <table>

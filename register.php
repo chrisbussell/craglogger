@@ -167,7 +167,6 @@
 	}
 	else{
 		echo $template->render(array (
-			'updated' => '14 Feb 2014',
 			'errPassword' => $errPassword,
 			'errFirstname' => $errFirstname,
 			'errSurname' => $errSurname,

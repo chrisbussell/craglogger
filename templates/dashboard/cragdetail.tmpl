@@ -1,12 +1,14 @@
 {% extends "base.tmpl" %}
 
-{% block head %}
-{{ parent() }}
+{% set page_class = 'crag-visit crag-detail' %}
+
+{% block class %}
+ class="{{page_class}}" 
 {% endblock %}
 
 {% block content %}
-      {% for d in data %}
-    <h1>Details for {{d.venue}} {{d.area}}</h1>
+   {% for d in data %}
+    <h1>Details for {{d.venue}}</h1>
     <table>
       <tr class="heading">
         <td>Date</td>
@@ -35,8 +37,6 @@
 	</tr>
       	{% endfor %}
        </table>
-    <h1>Crag Report</h1>
-	{{cragreport}}
 
     <h1>Who was there?</h1>
        <table>
@@ -50,7 +50,7 @@
 		{% endif %}
 	{% endfor %}	
 	{% if i_did != 1 %}
-		Did you visit this crag? Click <a href="craglist.php">here</a> to log your visit. 
+		Did you visit this crag? Click <a href="/craglogger/dashboard/craglist.php">here</a> to log your visit. 
 	{% endif %}
         </table>
 {% endblock %}

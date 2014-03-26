@@ -34,7 +34,8 @@
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => '14 Feb 2014',
 			'username' =>$_SESSION['user']['username'],
-			'firstname' =>$_SESSION['user']['firstname']
+			'firstname' =>$_SESSION['user']['firstname'],
+			'pageTitle' => 'Admin'
 		));
 	}
 	else {

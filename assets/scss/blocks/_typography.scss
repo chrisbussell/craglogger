@@ -5,7 +5,7 @@
 $header-font-family: $body-font-family !default;
 $header-font-weight: normal !default;
 $header-font-style: normal !default;
-$header-font-color: $text-color !default;
+$header-font-color: #072f42 !default;
 $header-line-height: 1.4 !default;
 $header-bottom-margin: 0.5rem !default;
 $header-text-rendering: optimizeLegibility !default;
@@ -126,6 +126,7 @@ $acronym-underline: 1px dotted #dddddd !default;
 		color: $link-font-color;
 		text-decoration: $link-text-decoration;
 		line-height: inherit;
+		@include transition(color, 500);
 		&:hover,
 		&:focus {
 			color: $link-font-color-hover;
@@ -340,22 +341,22 @@ $acronym-underline: 1px dotted #dddddd !default;
 	}
 	@media #{$large-up} {
 		h1 {
-			@include font-size($h1-font-size,6);
+			@include font-size($h1-font-size,5);
 		}
 		h2 {
-			@include font-size($h2-font-size,6);
+			@include font-size($h2-font-size,5);
 		}
 		h3 {
-			@include font-size($h3-font-size,6);
+			@include font-size($h3-font-size,5);
 		}
 		h4 {
-			@include font-size($h4-font-size,6);
+			@include font-size($h4-font-size,5);
 		}
 		h5 {
-			@include font-size($h5-font-size,6);
+			@include font-size($h5-font-size,5);
 		}
 		h6 {
-			@include font-size($h6-font-size,6);
+			@include font-size($h6-font-size,5);
 		}
 		p {
 			@include font-size($paragraph-font-size,2);

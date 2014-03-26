@@ -1,5 +1,11 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'confirm' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Reset forgotten password</h1>
 {% set failed = 0 %}

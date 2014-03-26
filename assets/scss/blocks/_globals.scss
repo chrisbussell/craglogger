@@ -3,9 +3,10 @@
 // Version: 0.0.0 [pre alpha]
 
 @import "../functions";
+$theme: "";
 
-$text-color: #333;
-$main-color: #3465aa;
+$text-color: #00263d;
+$main-color: #1082b9;
 $secondary-color: blue;
 $tertiary-color: orange;
 
@@ -22,7 +23,8 @@ $body-font-color: $text-color;
 $baseline-px: 16px;
 
 $default-float: left !default;
-
+$switch-float: right;
+$opposite-direction: $switch-float;
 // Media Query Ranges
 // Taken from Foundation 5
 $small-range: 0em, 40em !default; // 640px
@@ -52,6 +54,7 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})" !defaul
 $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})" !default;
 
 $radius: 8px;
+$global-radius: $radius;
 // add grid globals
 // add typography globals
 // add table globals
@@ -83,6 +86,10 @@ $flexitable-breakpoint: 600px;
 		position: relative;
 		text-align: center;
 		@include transition(all,300);
+		height: 100%;
+		@media #{$medium-up} {
+			text-align: left;
+		}
 	}
 	img,
 	object,
