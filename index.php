@@ -27,7 +27,7 @@
         }
 
 	$template->display(array(
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'sid' => isset($_SESSION['user']),
 		'pageTitle' => 'Home',
 		'rows' => $rows,

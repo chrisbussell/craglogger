@@ -63,7 +63,7 @@
 		'sid' => $_SESSION['user'],
 		'user_id' => $_SESSION['user']['user_id'],
 		'admin' => $_SESSION['user']['admin'],
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'date' => $date,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'pageTitle' => 'Crag Detail',

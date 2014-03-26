@@ -38,11 +38,12 @@ CREATE TABLE cragdetail (
 PRIMARY KEY (cragdetail_id)
 );
 
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('1','High Tor','All','Limestone','England','Derbyshire', '100', 'W','http://www.ukc.com','53.369494','-1.6648134');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('2','Stanage','Popular','Grit','England','Derbyshire', '300', 'W','http://www.ukc.com','53.369494','-1.6648134');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('3','Froggatt','All','Grit','England','Derbyshire', '100', 'S','http://www.ukc.com','53.369494','-1.6648134');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('4','Stanage','High Neb','Grit','England','Derbyshire', '500', 'E','http://www.ukc.com','53.369494','-1.6648134');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('5','Roaches','All','Grit','England','Staffordshire', '100', 'W','http://www.ukc.com','53.369494','-1.6648134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('1','High Tor','','Limestone','England','Derbyshire', '150', 'W','http://www.ukclimbing.com/logbook/crag.php?id=119','53.126446','-1.5576134');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('2','Stanage','Popular','Gritstone','England','Derbyshire', '450', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=104','53.345128','-1.6319593');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('3','Froggatt Edge','','Gritstone','England','Derbyshire', '300', 'W','http://http://www.ukclimbing.com/logbook/crag.php?id=22','53.284896','-1.6294768');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('4','Stanage','High Neb','Gritstone','England','Derbyshire', '500', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=100','53.363181','-1.6573495');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('5','Roaches','Skyline','Gritstone','England','Staffordshire', '470', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=798','53.165919','-1.9969681');
+INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('6','Castle Naze','','Gritstone','England','Derbyshire', '400', 'W','http://www.ukclimbing.com/logbook/crag.php?id=137','53.301626','-1.9234341');
 
 CREATE TABLE cragvisit (
   cragvisit_id int(11) NOT NULL AUTO_INCREMENT,

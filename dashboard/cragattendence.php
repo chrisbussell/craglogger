@@ -51,7 +51,7 @@
 		echo $template->render(array (
 			'data' => $data,
 			'sid' => $_SESSION['user'],
-			'updated' => '14 Feb 2014',
+			'updated' => $lastupdated,
 			'date' => $date,
 			'attended' => $rows,
 			'php_self' =>$_SERVER['PHP_SELF'],

@@ -68,7 +68,7 @@
 			$mail->AddAddress($_POST['email']);
 
 			$mail->Subject  = "Tuesday Nighters password changed";
-			$mail->Body     = "Hi, <p> You have changed your password for Tuesday Nighers CragLogger.<p> To login please click $linky<p>Thanks<br>The CragLogger Team.";
+			$mail->Body     = "Hi, <p> You have changed your password for Tuesday Nighers Craglogger.<p> To login please click $linky<p>Thanks<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {
@@ -106,7 +106,7 @@
 		'email' => $_GET['email'],
 		'passed' => $passed,
 		'passcodefail' => $passcodefail,
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'pageTitle' => 'Confirm Reset Password',
 		'php_self' =>$_SERVER['PHP_SELF'],
 	));

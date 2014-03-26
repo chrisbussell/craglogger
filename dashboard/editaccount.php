@@ -139,7 +139,7 @@
 	echo $template->render(array (
 		'sid' => $_SESSION['user'],
 		'admin' => $_SESSION['user']['admin'],
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$rows['0']['firstname'],

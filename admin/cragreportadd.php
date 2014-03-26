@@ -76,7 +76,7 @@
 		'date' => $result['date'],
 		'cragreport' => $cragreport['cragreport'],
 		'admin' => $_SESSION['user']['admin'],
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'success' =>$success,
 		'username' =>$_SESSION['user']['username'],

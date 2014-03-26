@@ -4,6 +4,7 @@
 	require("includes/functions.php");
 
 	$submitted_username = '';
+	$error = '';
 
 	// Check if form has been submitted
 	if(!empty($_POST)){
@@ -40,7 +41,7 @@
 					}
 				}
 				else{
-					print("Account not approved");
+					$error = 1; 
 				}
 			}
 		}
@@ -84,8 +85,9 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'submitted_username' => $submitted_username,
+		'error' => $error,
 		'pageTitle' => 'Login',
 		'php_self' =>$_SERVER['PHP_SELF']
 	));

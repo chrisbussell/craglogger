@@ -64,8 +64,8 @@
 			$mail->From     = "chrisbussell@gmail.com";
 			$mail->AddAddress("$email");
 
-			$mail->Subject  = "Tuesday Nighters Password Reset";
-			$mail->Body     = "Hi, <p>Your password reset link is $resetlink <p>Thanks<br>The CragLogger Team.";
+			$mail->Subject  = "Tuesday Nighters password reset";
+			$mail->Body     = "Hi, <p>Your password reset link is $resetlink <p>Thanks<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {
@@ -84,7 +84,7 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
-		'updated' => '14 Feb 2014',
+		'updated' => $lastupdated,
 		'passed' => $passed,
 		'error' => $error,
 		'email' => $email,
