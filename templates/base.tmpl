@@ -6,13 +6,14 @@
 			<meta charset="utf-8" />
 			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/app.css" media="screen" />
 			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/slicknav.css" media="screen" />
+			<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 			<!--[if lt IE 9]>
 			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/html5shiv.js"></script>
 			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/respond.min.js"></script>
 			<![endif]-->
 		{% endblock %}
 	</head>
-	<body>
+	<body{% block class %}{% endblock %}>
 		<div class="wrap">
 			<header role="banner">
 				<hgroup class="branding">
@@ -29,45 +30,45 @@
 				</hgroup>
 				<nav role="navigation">
 					<ul>
-						<li id="home">
+						<li class="home">
 							<a href="/craglogger/">Home</a>
 						</li>
 						{% if sid == false %}
-							<li>
+							<li class="about-us">
 								<a href="#">About us</a>
 							</li>
-							<li>
+							<li class="upcoming-venues">
 								<a href="#">Upcoming venues</a>
 							</li>
-							<li>
+							<li class="register">
 								<a href="/craglogger/register.php">Sign up</a>
 							</li>
-							<li>
+							<li class="login">
 								<a href="/craglogger/login.php">Log in</a>
 							</li>
 						{% endif %}
 						{% if sid == true %}
-							<li>
+							<li class="crag-list">
 								<a href="/craglogger/dashboard/craglist.php">Log my visits</a>
 							</li>
-							<li>
+							<li class="crag-visit">
 								<a href="/craglogger/dashboard/cragattendence.php">Crag visits 2014</a>
 							</li>
-							<li>
+							<li class="crag-stats">
 								<a href="/craglogger/dashboard/cragstats.php">Crag stats 2014</a>
 							</li>
-							<li>
+							<li class="members">
 								<a href="/craglogger/dashboard/memberlist.php">Members list</a>
 							</li>
-							<li>
+							<li class="user-account">
 								<a href="/craglogger/dashboard/editaccount.php">My account</a>
 							</li>
 							{% if admin == true %}
-							<li>
+							<li class="admin">
 								<a href="/craglogger/admin/admin.php">Admin</a>
 							</li>
 							{% endif %}
-							<li>
+							<li class="logout">
 								<a href="/craglogger/logout.php">Log out</a>
 							</li>
 						{% endif %}

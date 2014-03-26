@@ -341,22 +341,22 @@ $acronym-underline: 1px dotted #dddddd !default;
 	}
 	@media #{$large-up} {
 		h1 {
-			@include font-size($h1-font-size,6);
+			@include font-size($h1-font-size,5);
 		}
 		h2 {
-			@include font-size($h2-font-size,6);
+			@include font-size($h2-font-size,5);
 		}
 		h3 {
-			@include font-size($h3-font-size,6);
+			@include font-size($h3-font-size,5);
 		}
 		h4 {
-			@include font-size($h4-font-size,6);
+			@include font-size($h4-font-size,5);
 		}
 		h5 {
-			@include font-size($h5-font-size,6);
+			@include font-size($h5-font-size,5);
 		}
 		h6 {
-			@include font-size($h6-font-size,6);
+			@include font-size($h6-font-size,5);
 		}
 		p {
 			@include font-size($paragraph-font-size,2);

@@ -145,6 +145,7 @@
 		'firstname' =>$rows['0']['firstname'],
 		'surname' =>$rows['0']['surname'],
 		'emailshow' =>$rows['0']['emailshow'],
+		'pageTitle' => 'Edit your account',
 		'email' =>$_SESSION['user']['email']
 	));
 		

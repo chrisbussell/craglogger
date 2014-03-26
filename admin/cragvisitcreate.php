@@ -90,7 +90,8 @@
 		'nodate' =>$nodate,
 		'success' =>$success,
 		'username' =>$_SESSION['user']['username'],
-		'firstname' =>$_SESSION['user']['firstname']
+		'firstname' =>$_SESSION['user']['firstname'],
+		'pageTitle' => 'Create crag visit'
 	));
 	
 ?>

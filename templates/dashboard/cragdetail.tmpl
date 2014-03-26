@@ -1,11 +1,13 @@
 {% extends "base.tmpl" %}
 
-{% block head %}
-{{ parent() }}
+{% set page_class = 'crag-visit crag-detail' %}
+
+{% block class %}
+ class="{{page_class}}" 
 {% endblock %}
 
 {% block content %}
-      {% for d in data %}
+   {% for d in data %}
     <h1>Details for {{d.venue}}</h1>
     <table>
       <tr class="heading">

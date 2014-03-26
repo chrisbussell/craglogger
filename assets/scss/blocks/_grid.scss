@@ -29,47 +29,24 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 // 2.1276596
 
 // Return single column width
-@function oneCol($hybrid-grid: false) {
-	@if $hybrid-grid == true {
-		@return (100% - $gutter * ($hybrid - 1)) / $hybrid;
-	}
-	@else {
-		@return (100% - $gutter * ($cols - 1)) / $cols;
-	}
+@function oneCol() {
+	@return (100% - $gutter * ($cols - 1)) / $cols;
 }
 
 // Calculate Grid Column Widths
-@function columns($num, $hybrid-grid: false) {
-	@if $hybrid-grid == true {
-		@return oneCol(true) * $num + $gutter * ($num - 1);
-	}
-	@else {
-		@return oneCol() * $num + $gutter * ($num - 1);
-		// (One column * 'x') + (gutter * ('x' - 1)) = Column Width
-	}
+@function columns($num) {
+	@return oneCol() * $num + $gutter * ($num - 1);
+	// (One column * 'x') + (gutter * ('x' - 1)) = Column Width
 }
 
 // Calculate the width required to acheive a desired global column number within a nested grid
-@function global-columns($desired_cols, $container_cols, $hybrid-grid: false) {
-	@if $hybrid-grid == true {
-		@return 100% * columns($desired_cols, true) / columns($container_cols, true);
-	}
-	@else {
+@function global-columns($desired_cols, $container_cols) {
 		@return 100% * columns($desired_cols) / columns($container_cols);
-	}
 }
 
 // Calculate Push Class Margins
-@function push_x($num, $first-child: false, $is-hybrid: false) {
-	@if $first-child and $is-hybrid {
-		@return oneCol(true) * $num + $gutter * ($num - 1) + $gutter;
-		// Column width + gutter
-	}
-	@else if $first-child != true and $is_hybrid {
-		@return oneCol(true) * $num + $gutter * ($num - 1) + $gutter * 2;
-		// Column width + (gutter * 2)
-	}
-	@else if $first-child and $is_hybrid != true {
+@function push_x($num, $first-child: false) {
+	@if $first-child {
 		@return oneCol() * $num + $gutter * ($num - 1) + $gutter;
 	}
 	@else {
@@ -82,25 +59,14 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 // note absence of first-child; first-child column containers should not be pulled
 // $num is number of columns to be pulled
 // $width is number of columns of container that is being pulled
-@function pull_x($num, $width, $is-hybrid: false) {
-	@if $is-hybrid {
-		@return -(oneCol(true) * $num + $gutter * ($num - 1) + oneCol(true) * $width + $gutter * ($width - 1) + $gutter);
-		// Pull width + column width + gutter
-	}
-	@else {
+@function pull_x($num, $width) {
 		@return -(oneCol() * $num + $gutter * ($num - 1) + oneCol() * $width + $gutter * ($width - 1) + $gutter);
 		// Pull width + column width + gutter
-	}
 }
 
 // Calculate Centered Class Margins
-@function centered($num, $hybrid-grid: false) {
-	@if $hybrid-grid {
-		@return 50% - ($num * oneCol(true) + ($num - 1) * $gutter) / 2;
-	}
-	@else {
+@function centered($num) {
 		@return 50% - ($num * oneCol() + ($num - 1) * $gutter) / 2;
-	}
 }
 
 // Create class names from column count integers
@@ -119,8 +85,7 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	}
 	@else {
 		width: 100%;
-		max-width: $row-max-width + 40px;
-		min-width: $min-device-width;
+		max-width: $row-max-width;
 		margin: 0 auto;
 		padding-left: 20px;
 		padding-right: 20px;
@@ -148,13 +113,13 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	@extend %clearfix;
 }
 
-@mixin column($columns: $columns, $alignment: false, $behavior: false, $hybrid: false) {
+@mixin column($columns: $columns, $alignment: false, $behavior: false) {
 	@extend %columnconfig;
 	@if $alignment == center {
 		float: none;
 		margin-left: auto !important;
 		margin-right: auto !important;
-		width: columns($columns, $hybrid);
+		width: columns($columns);
 		@media #{$small-only} {
 			float: left;
 			margin-left: 0;
@@ -163,14 +128,14 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	}
 	@else if $behavior == collapse {
 		@extend %collapse;
-		width: columns($columns, $hybrid);
+		width: columns($columns);
 		@media #{$small-only} {
 			float: left;
 			width: 100%;
 		}
 	}
 	@else {
-		width: columns($columns, $hybrid);
+		width: columns($columns);
 		@media #{$small-only} {
 			float: left;
 			margin-left: 0;
@@ -179,52 +144,26 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	}
 }
 
-@mixin hybrid($columns: $columns, $alignment: false, $behavior: false) {
-	@include column($columns, $alignment, $behavior, true);
-}
-
-@mixin push($columns, $hybrid-grid: false) {
-	@if $hybrid-grid == hybrid {
-		margin-left: push_x($columns, false, true);
-		&:first-child {
-			margin-left: push_x($columns, true, true);
-		}
-		@media #{$small-only} {
-			margin-left: 0;
-			&:first-child {
-				margin-left: 0;
-			}
-		}
+@mixin push($columns) {
+	margin-left: push_x($columns);
+	&:first-child {
+		margin-left: push_x($columns, true);
 	}
-	@else {
-		margin-left: push_x($columns);
+	@media #{$small-only} {
+		margin-left: 0;
 		&:first-child {
-			margin-left: push_x($columns, true);
-		}
-		@media #{$small-only} {
 			margin-left: 0;
-			&:first-child {
-				margin-left: 0;
-			}
 		}
 	}
 }
 
-@mixin pull($direction: false, $columns: 0, $width: 0, $hybrid-grid: false) {
+@mixin pull($direction: false, $columns: 0, $width: 0) {
 	@if $direction == left {
 		@extend %pull-left;
 		@if $columns > 0 and $width > 0 {
-			@if $hybrid-grid == hybrid {
-				margin-left: pull_x($columns, $width, true);
-				&:first-child {
-					margin-left: 0;
-				}
-			}
-			@else {
-				margin-left: pull_x($columns, $width);
-				&:first-child {
-					margin-left: 0;
-				}
+			margin-left: pull_x($columns, $width);
+			&:first-child {
+				margin-left: 0;
 			}
 		}
 	}
@@ -308,12 +247,9 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 }*/
 
 .row {
+	max-width: $row-max-width;
 	width: 100%;
-	max-width: $row-max-width + 40px;
-	min-width: $min-device-width;
 	margin: 0 auto;
-	padding-left: 20px;
-	padding-right: 20px;
 	.row {
 		min-width: 0;
 		padding-left: 0;
@@ -407,61 +343,6 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	}
 }
 
-/* Hybrid Grid Columns */
-
-// Generate Hybrid Grid Column Classes
-.#{number-as-word($hybrid)}.colgrid .row {
-	@for $i from 1 through $hybrid {
-		@if $i == 1 {
-			.one.column {
-				width: columns($i, true);
-			}
-		}
-		.#{number-as-word($i)}.columns {
-			width: columns($i, true);
-		}
-	}
-}
-
-/* Hybrid Push and Pull Classes */
-
-// Generate Hybrid Push Classes
-.#{number-as-word($hybrid)}.colgrid .row {
-	@for $i from 1 through $hybrid - 1 {
-		.push_#{number-as-word($i)} {
-			margin-left: push_x($i, false, true);
-			&:first-child {
-				margin-left: push_x($i, true, true);
-			}
-		}
-		.pull_#{number-as-word($i)} {
-			// pull classes need to know the width of the container being pulled
-			@for $j from 1 through $hybrid - 1 {
-				@if $i + $j == $hybrid {
-					&.#{number-as-word($j)}.columns {
-						@extend %pull-100-percent;
-					}
-				}
-				@else if $j == 1 {
-					&.one.column {
-						margin-left: pull_x($i, $j, true);
-						&:first-child {
-							@extend %zero-margin-left;
-						}
-					}
-				}
-				@else {
-					&.#{number-as-word($j)}.columns {
-						margin-left: pull_x($i, $j, true);
-						&:first-child {
-							@extend %zero-margin-left;
-						}
-					}
-				}
-			}
-		}
-	}
-}
 
 // helper placeholder to condense the repeated
 // need for resetting first-child margins to zero
@@ -474,15 +355,6 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 }
 
 /* Hybrid Centered Classes */
-
-// Generate Centered Classes
-.#{number-as-word($hybrid)}.colgrid .row {
-	@for $i from 1 through $hybrid - 1 {
-		.#{number-as-word($i)}.centered {
-			margin-left: centered($i, true);
-		}
-	}
-}
 
 .pull_right {
 	@include pull(right);
@@ -532,12 +404,6 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 			width: 18.5%;
 		}
 	}
-}
-
-/* Nicolas Gallagher's micro clearfix */
-
-.clearfix {
-	@include clearfix();
 }
 
 .row {
@@ -616,4 +482,34 @@ $gutter: percentage($gutter-in-px / $row-max-width);
 	[class*="pull_"] {
 		margin-left: 0 !important;
 	}
+}
+
+@function divide-cols($colnum) {
+  @return 100%/$colnum;
+}
+
+
+@mixin fancytiles($desktop-columns, $tablet-columns: $desktop-columns, $mobile-columns: 1, $small-break: 0px, $medium-break: $tablet-device-width, $large-break: $row-max-width) {
+
+  // These styles apply to all shift-columns
+  display: inline-block;
+  float: left;
+  padding-left: $gutter / 2;
+  padding-right: $gutter / 2;
+
+  // IE8 fallback
+  width: divide-cols($mobile-columns);
+
+  @media #{$small-up} {
+    width: divide-cols($mobile-columns);
+  }
+
+  @media #{$medium-up} {
+    width: divide-cols($tablet-columns);
+  }
+
+  @media #{$large-up} {
+    width: divide-cols($desktop-columns);
+  }
+
 }

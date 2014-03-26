@@ -1,11 +1,17 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'reset' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Forgotten your password?</h1>
 {% if passed != 1 %}
-<p>Please complete this form to get your password reset link.</p>
 
 <form action="{{ php_self }}" method="post">
+<p>Please complete this form to get your password reset link.</p>
 	<div>
 		<label for="email">Your email</label>
 		<br/>

@@ -24,7 +24,7 @@ $baseline-px: 16px;
 
 $default-float: left !default;
 $switch-float: right;
-
+$opposite-direction: $switch-float;
 // Media Query Ranges
 // Taken from Foundation 5
 $small-range: 0em, 40em !default; // 640px
@@ -54,6 +54,7 @@ $xxlarge-up: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)})" !defaul
 $xxlarge-only: "#{$screen} and (min-width:#{lower-bound($xxlarge-range)}) and (max-width:#{upper-bound($xxlarge-range)})" !default;
 
 $radius: 8px;
+$global-radius: $radius;
 // add grid globals
 // add typography globals
 // add table globals
@@ -86,6 +87,9 @@ $flexitable-breakpoint: 600px;
 		text-align: center;
 		@include transition(all,300);
 		height: 100%;
+		@media #{$medium-up} {
+			text-align: left;
+		}
 	}
 	img,
 	object,

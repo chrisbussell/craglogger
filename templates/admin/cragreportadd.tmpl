@@ -1,5 +1,11 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'admin crag-report' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Add a crag report for {{venue}} {{area}} - {{date|date ('d M Y')}}</h1>
 <form action="{{php_self}}" method="post">

@@ -1,7 +1,15 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'admin' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Admin Tools</h1>
+<ul class="three_up tiles">
+	<li>
 <h2>Add new a crag/visit</h2>
 <ul>
 	<li>
@@ -11,6 +19,8 @@
 		<a href="/craglogger/admin/cragvisitcreate.php">Add a crag visit</a>
 	</li>
 </ul>
+	</li>
+	<li>
 <h2>Update an exisiting crag/visit</h3>
 <ul>
 	<li>
@@ -20,10 +30,14 @@
 		<a href="/craglogger/admin/updatevisit.php">Update a visit</a>
 	</li>
 </ul>
+	</li>
+	<li>
 <h2>Account Actions</h3>
 <ul>
 	<li>
 		<a href="/craglogger/admin/approveaccount.php">Approve member account</a>
+	</li>
+</ul>
 	</li>
 </ul>
 {% endblock %}

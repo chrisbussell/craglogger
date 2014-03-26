@@ -1,42 +1,40 @@
 {% extends "base.tmpl" %}
 
+{% set page_class = 'user-account' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
 {% block content %}
 <h1>Edit Account</h1>
 <form action="{{php_self}}" method="post">
-	<div>
+	<div class="field">
 		<label for="username">Username:</label>
-		<br/>
 		<input type="text" name="username" id="username" value="{{username}}" disabled />
 	</div>
-	<div>
+	<div class="field">
 		<label for="firstname">First name:</label>
-		<br/>
 		<input type="text" name="firstname" id="firstname" value="{{firstname}}" />
 	</div>
-	<div>
+	<div class="field">
 		<label for="surname">Surname:</label>
-		<br/>
 		<input type="text" name="surname" id="surname" value="{{surname}}" />
 	</div>
-	<div>
+	<div class="field">
 		<label for="emai">E-Mail Address::</label>
-		<br/>
 		<input type="text" name="email" id="email" value="{{email}}" />
-		{% if emailshow == 1%}
+		{% if emailshow == 1 %}
 		<input type="checkbox" name="emailshow" value="1" checked>
-		<br/>
 		<i>(check to allow other members to see your email address on the members list)</i> 
 		{% else %}
 		<input type="checkbox" name="emailshow" value="1">
-		<br/>
 		<i>(check to allow other members to see your email address on the members list)</i> 
 		{% endif %}
 	</div>
-	<div>
+	<div class="field">
 		<label for="password">Password:</label>
-		<br/>
 		<input type="password" name="password" id="password" value="" />
-		<br />
 		<i>(leave blank if you do not want to change your password)</i>
 	</div>
 	<input type="submit" value="Update Account" />
