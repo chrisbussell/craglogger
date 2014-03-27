@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Crag Stats 2014</h1>
+<h1>Crag Stats 2014</h1><i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
 <h2>Top Attenders</h2>
 <table class="flexitable">
 	<tr>
@@ -22,7 +22,7 @@
 	{% endfor %}
 </table>
 
-<h3>Top Attended Crag (top 3)</h3>
+<h3>Top 3 Attended Crags</h3>
 <table class="flexitable">
 	<tr>
 		<th>Date</th>
@@ -36,6 +36,19 @@
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>
 	{% endfor %}
+</table>
+<h3>Rock Types</h3>
+<table class="flexitable">
+	<tr>
+		<th>Rock</th>
+		<th>Visits</th>
+	</tr>
+        {% for rt in rocktype %}
+        <tr>
+                <td>{{rt.rock}}</td>
+                <td>{{rt.total}}</td>
+        </tr>
+        {% endfor %}
 </table>
 <h3>Rain Stop Play</h3>
 <table class="flexitable">

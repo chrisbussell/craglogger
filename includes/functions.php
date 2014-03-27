@@ -244,6 +244,8 @@
 				cd.area, 
 				cd.web, 
 				cd.rock, 
+				cd.faces, 
+				cd.altitude, 
 				cv.conditions, 
 				cv.rainedoff, 
 				cv.pub 
@@ -279,18 +281,18 @@
 	function getcragdetail($db)
 	{
 		$query = "SELECT cd.cragdetail_id, 
-			    	cd.venue, 
-								cd.area, 
-								cd.rock, 
-								cd.country, 
-								cd.county, 
-								cd.altitude, 
-								cd.faces, 
-								cd.web, 
-								cd.lat, 
-								cd.lng
-							FROM cragdetail as cd 
-							ORDER BY cd.venue";
+			    	 cd.venue, 
+				cd.area, 
+				cd.rock, 
+				cd.country, 
+				cd.county, 
+				cd.altitude, 
+				cd.faces, 
+				cd.web, 
+				cd.lat, 
+				cd.lng
+			FROM cragdetail as cd 
+			ORDER BY cd.venue";
 
 		try{
 			$stmt = $db->prepare($query);
@@ -456,6 +458,19 @@
                         die("Failed to run query: " . $ex->getMessage());
                 }
 	}
+	
+	function getlatestcragreport($db)
+	{
+		$query="SELECT cv.date, cd.venue, cd.area, cr.cragvisit_id, cr.cragreport FROM cragreports cr, cragvisit cv, cragdetail cd WHERE cv.cragvisit_id = cr.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id ORDER BY cv.date DESC LIMIT 1";
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute();
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+		return $stmt;
+	}
 
 	function getcragreport($db, $query_params)
 	{
@@ -517,7 +532,7 @@
 
 	function getnextcrag($db)
 	{
-		$query ="SELECT cv.date, cd.venue, cd.area 
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
 			 FROM cragdetail as cd, cragvisit as cv 
 			 WHERE cd.cragdetail_id = cv.cragdetail_id 
 			 AND cv.date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
@@ -527,7 +542,17 @@
 
                 return $results;
 	}
-	
+
+	function getsunsettime($db, $query_params)
+	{
+		$query="SELECT sunsettime 
+			FROM sunset 
+			WHERE date = :date";
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Yearly stat functions
@@ -544,7 +569,8 @@
 			 WHERE a.cragvisit_id = cv.cragvisit_id 
 			 AND u.user_id = a.user_id 
 			 AND YEAR(cv.date)= 2014 
-			 GROUP BY a.user_id";
+			 GROUP BY a.user_id
+			 LIMIT 10";
 		$results = $db->prepare($query);
                 $results->execute();
 
@@ -570,6 +596,16 @@
 
                 return $results;
         }
+
+	function getrocktotals($db, $query_params)
+	{
+		$query = "SELECT cd.rock, count(cd.rock) as total  FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragvisit_id AND YEAR(cv.date)= :year GROUP BY cd.rock";
+
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+	}
 
 
 

@@ -7,35 +7,33 @@
 {% endblock %}
 
 {% block content %}
-   {% for d in data %}
-    <h1>Details for {{d.venue}}</h1>
+    <h1>Details for {{venue}} {{area}}</h1><i>Rock {{rock}},  Aspect {{faces}},  Altitude {{altitude}}m a.s.l</i>
     <table>
       <tr class="heading">
         <td>Date</td>
         <td>Venue</td>
         <td>Area</td>
         <td>Website</td>
-        <td>Rock</td>
         <td>Conditions</td>
         <td>Pub</td>
+        <td>Sunset</td>
         <td>Rained Off</td>
       </tr> 
        <tr>
-        <td>{{ d.date|date ('d M Y') }}</td>
-        <td>{{ d.venue|escape }}</td>
-        <td>{{ d.area|escape }}</td>
-        <td><a href="{{ d.web|escape }}">view</a></td>
-        <td>{{ d.rock|escape }}</td>
-        <td>{{ d.conditions|escape }}</td>
-        <td>{{ d.pub|escape }}</td>
-	{% if d.rainedoff == 1 %}
+        <td>{{ visitdate|date ('d M Y') }}</td>
+        <td>{{ venue|escape }}</td>
+        <td>{{ area|escape }}</td>
+        <td><a href="{{ web|escape }}">view</a></td>
+        <td>{{ conditions|escape }}</td>
+        <td>{{ pub|escape }}</td>
+        <td>{{ sunset|escape }}</td>
+	{% if rainedoff == 1 %}
         <td>Yes</td>
 	{% else %}
         <td>No</td>
 	{% endif %}
 	</td>
 	</tr>
-      	{% endfor %}
        </table>
     <h1>Visit report</h1>
 <table>

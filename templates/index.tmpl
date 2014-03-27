@@ -25,16 +25,15 @@
 <div class="news-section">
 	<div class="news-section__next-meet">
 		<h2>Next Weeks Meet</h2>
-		{% for r in rows %}
-			{{ r.date|date ('d M Y') }}
-			 {{r.venue}} {{r.area}}
-		{% endfor %}
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}">{{ date|date ('jS F Y') }} {{venue}} {{area}}</a><br/>
+<i>Sunset: {{sunset}}</i>
 	</div>
 	<div class="news-section__lates-report">
 		<h2>Latest Reports</h2>
 		{% for d in data %}
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/>
-			{{d.cragreport}}
+			{{d.cragreport}}<br/><br/>
+
 		{% endfor %}
 	</div>
 </div>

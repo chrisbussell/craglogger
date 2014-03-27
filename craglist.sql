@@ -82,3 +82,46 @@ UNIQUE KEY `cragvisit_id` (`cragvisit_id`)
 
 INSERT INTO cragreports (cragreport_id, cragvisit_id, cragreport) VALUES ('1','1','A load of words about climbing rocks');
 
+CREATE TABLE sunset (
+  sunset_id int(11) NOT NULL AUTO_INCREMENT,
+  date date,
+  sunsettime varchar(10),
+  timestamp timestamp,
+PRIMARY KEY (sunset_id)
+);
+
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-01', '19:43');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-08', '19:55');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-15', '20:08');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-22', '20:20');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-29', '20:33');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-07', '20:47');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-13', '20:57');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-20', '21:09');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-28', '21:20');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-06-03', '21:27');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-06-10', '21:34');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-06-17', '21:38');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-06-24', '21:40');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-07-01', '21:38');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-07-08', '21:35');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-07-15', '21:28');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-07-22', '21:19');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-07-29', '21:08');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-06', '20:54');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-12', '20:42');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-19', '20:27');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-27', '20:09');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-09-02', '19:55');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-09-09', '19:38');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-09-16', '19:21');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-09-23', '19:04');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-09-30', '18:47');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-10-07', '18:30');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-10-14', '18:14');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-10-21', '17:59');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-05', '20:56');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-26', '20:11');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-27', '21:19');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-06', '20:45');
+

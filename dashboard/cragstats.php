@@ -45,6 +45,19 @@
                 $rainedoff[] = $row;
         }
 
+	$query_params = array(
+                        ':year' => '2014');
+
+	$stmt = getrocktotals($db, $query_params);
+
+	while ($row = $stmt->fetchObject()) {
+                $rocktypes[] = $row;
+        }
+
+	// How many weeks of summer are left this year
+        $dayDif    = date('z',strtotime(date('2014-10-26'))) - date('z',strtotime(date('Y-M-d')));
+        $numWeeks  = round($dayDif / 7);
+
 	$date = date('Y-m-d H:i:s');
 
 		// set template variables
@@ -53,6 +66,9 @@
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
 			'rainedoff' => $rainedoff,
+			'rocktype' => $rocktypes,
+			'weeksleft' => $numWeeks,
+			'daysleft' => $dayDif,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,

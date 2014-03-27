@@ -29,10 +29,18 @@
 	);
 
 	$stmt = getcragdata($db, $query_params);
-
+/*
 	while ($row = $stmt->fetchObject()){
 		$data[] = $row;
 	}
+*/
+	$cragdata = $stmt->fetch();
+	
+	$query_params = array(
+                        ':date' => $cragdata['date']);
+
+	$stmt = getsunsettime($db, $query_params);
+        $sunset = $stmt->fetch();
 
 	//////////////////////////////
 	$query_params = array(
@@ -41,7 +49,6 @@
 	
 	//get crag report
 	$stmt = getcragreport($db, $query_params);
-
 	$row = $stmt->fetch();
 
 	$cragreport = $row['cragreport'];
@@ -57,7 +64,17 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
-		'data' => $data,
+		'venue' => $cragdata['venue'],
+		'area' => $cragdata['area'],
+		'rock' => $cragdata['rock'],
+		'faces' => $cragdata['faces'],
+		'altitude' => $cragdata['altitude'],
+		'visitdate' => $cragdata['date'],
+		'conditions' => $cragdata['conditions'],
+		'pub' => $cragdata['pub'],
+		'web' => $cragdata['web'],
+		'sunset' => $sunset['sunsettime'],
+		'rainedoff' => $cragdata['rainedoff'],
 		'visiteddata' => $visiteddata,
 		'cragreport' => $cragreport,
 		'sid' => $_SESSION['user'],
