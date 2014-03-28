@@ -3,10 +3,9 @@
 	require("../includes/functions.php");
 
 	$user_id = $_SESSION['user']['user_id'];
-
 	if(!isset($_GET['year']))
 	{
-		$_GET['year'] = '2014';
+		$_GET['year'] = '';
 	}
 
 	if(empty($_SESSION['user']))
@@ -26,7 +25,13 @@
 	$twig = new Twig_Environment($loader);
 
 	// load template
-	$template = $twig->loadTemplate('dashboard/cragattendence.tmpl');
+	$template = $twig->loadTemplate('dashboard/visithistory.tmpl');
+
+	$stmt = getvisithistoryyear($db);
+
+	while ($row = $stmt->fetchObject()) {
+                $years[] = $row;
+        }
 
 	//Get list of crags available this year
 	$query_params = array(
@@ -55,6 +60,7 @@
 		// render template
 		echo $template->render(array (
 			'data' => $data,
+			'years' => $years,
 			'sid' => $_SESSION['user'],
 			'updated' => $lastupdated,
 			'date' => $date,

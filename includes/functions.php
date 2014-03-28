@@ -554,6 +554,27 @@
                 return $results;
 	}
 
+	function getvisithistoryyear($db)
+	{
+		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2014";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+	
+	function getmembersbyyear($db, $query_params)
+	{
+		$query="SELECT distinct u.user_id, u.firstname, u.surname from users u, attended a, cragvisit cv WHERE u.user_id = a.user_id and a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = 2014";
+
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+	}
+	
+
 	///////////////////////////////////////////////////////////////////////////////////////
 	// Yearly stat functions
 	//////////////////////////////////////////////////////////////////////////////////////
