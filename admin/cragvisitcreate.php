@@ -69,11 +69,12 @@
 				$query_params = array(
 					':cragdetail_id' => $_POST['cragdetail_id'],
 					':date' => $_POST['date'],
+					':event' => $_POST['event'],
 					':conditions' => $_POST['conditions'],
 					':pub' => $_POST['pub'],
 					':rainedoff' => $_POST['rainedoff']
 				);
-			// Insert crag data
+				// Insert crag data
 				$success = insertcragvisit($db, $query_params);
 			}
 		}

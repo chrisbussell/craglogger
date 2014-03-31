@@ -4,6 +4,7 @@
 
 	$user_id = $_SESSION['user']['user_id'];
 
+	//set year as now if no other year has been passed
 	if(!isset($_GET['year']))
 	{
 		$_GET['year'] = '2014';
@@ -44,8 +45,8 @@
 	$membersresults = getaccounts($db, $getapproved = 1);
 	$membersrows = $membersresults->fetchAll();
 
-	 // GET LIST OF ATTENDED CRAGS BY USERS
-	$results = getattended($db);
+	 // GET LIST OF ATTENDED CRAGS BY USERS BY YEAR
+	$results = getattended($db, $query_params);
 
 	$rows = $results->fetchAll();
 

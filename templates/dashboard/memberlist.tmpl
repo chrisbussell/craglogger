@@ -18,15 +18,14 @@
 		<td data-th="Username">{{ m.firstname }} {{m.surname}}</td>
 		{% if m.emailshow == 1 %}
 		<td data-th="e-mail">{{ m.email }}</td>
+		{% else %}
+		<td data-th="e-mail">n/a</td>
 		{% endif %}
 	</tr>
 	{% endfor %}
 	<tr>
-		<td> <b>Total Members</b>
-		</td>
-		<td>
-			{{ members|length}}
-		</td>
+		<td> <b>Total Members</b></td>
+		<td>{{ members|length}}</td>
 	</tr>
 </table>
 {% endblock %}

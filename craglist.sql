@@ -17,6 +17,8 @@ CREATE TABLE `users` (
   `activation_code` varchar(100) NOT NULL default'0',
   `expiry` date NOT NULL,
   `emailshow` int(1) NOT NULL default'0',
+  `regdate` date NOT NULL,
+  timestamp timestamp,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)

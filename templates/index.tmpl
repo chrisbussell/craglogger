@@ -24,7 +24,11 @@
 <hr/>
 <div class="news-section">
 	<div class="news-section__next-meet">
-		<h2>Next Weeks Meet</h2>
+		<h2>Next Meet</h2>
+		{% if event != '' %}
+			<b>{{event}}</b><br/>
+		{% endif %}
+		
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}">{{ date|date ('jS F Y') }} {{venue}} {{area}}</a><br/>
 <i>Sunset: {{sunset}}</i>
 	</div>

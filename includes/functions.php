@@ -67,19 +67,19 @@
 	{
 		// Get Accounts that need approving List Data
 		$query = "
-							SELECT
-							user_id,
-							username,
-							password,
-							salt,
-							firstname,
-							surname,
-							username,
-							email,
-							admin,
-							approved,
-							emailshow
-							FROM users";
+			SELECT
+				user_id,
+				username,
+				password,
+				salt,
+				firstname,
+				surname,
+				username,
+				email,
+				admin,
+				approved,
+				emailshow
+			FROM users";
 
 		if($getapproved == 0){
 			$query .="
@@ -91,7 +91,7 @@
 				WHERE approved = 1
 			";
 		}
-
+		
 		try{
 			$stmt = $db->prepare($query);
 			$stmt->execute();
@@ -106,23 +106,24 @@
 	function getaccountsall($db, $username, $query_params)
 	{
 		$query = "
-							SELECT
-							user_id,
-							username,
-							password,
-							salt,
-							firstname,
-							surname,
-							username,
-							email,
-							admin,
-							approved,
-							emailshow
-							FROM users";
+			SELECT
+				user_id,
+				username,
+				password,
+				salt,
+				firstname,
+				surname,
+				username,
+				email,
+				admin,
+				approved,
+				emailshow
+			FROM users";
 
 		if(isset($username)){
 			$query .="
 				WHERE username = '$username'
+				OR email = '$username'
 			";
 		}
 
@@ -211,7 +212,8 @@
 								password,
 								salt,
 								email,
-								emailshow
+								emailshow,
+								regdate
 						) VALUES (
 								:firstname,
 								:surname,
@@ -219,7 +221,8 @@
 								:password,
 								:salt,
 								:email,
-								:emailshow
+								:emailshow,
+								now()
 						)
 					";
 
@@ -240,6 +243,7 @@
 				cd.cragdetail_id, 
 				cv.cragvisit_id, 
 				cv.date, 
+				cv.event, 
 				cd.venue, 
 				cd.area, 
 				cd.web, 
@@ -305,18 +309,22 @@
 		return $stmt;
 	}
 
-	function getattended($db)
+	function getattended($db, $query_params)
 	{
+/*
 		$attendsql = "SELECT 
-										a.user_id, 
-										a.cragvisit_id 
-									FROM attended a, 
-											 users u 
-									WHERE u.user_id = a.user_id 
-									ORDER BY u.user_id"; //query the db
+				a.user_id, 
+				a.cragvisit_id 
+			      FROM attended a, 
+				 users u 
+			      WHERE u.user_id = a.user_id 
+			      ORDER BY u.user_id"; //query the db
+*/
+
+		$attendsql = "SELECT a.user_id, u.firstname, u.surname, a.cragvisit_id, cv.date FROM attended a, users u, cragvisit cv WHERE u.user_id = a.user_id AND a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = :year ORDER BY u.user_id";
 
 		$results = $db->prepare($attendsql);
-		$results->execute();
+		$results->execute($query_params);
 
 		return $results;
 	}
@@ -421,10 +429,11 @@
 	function insertcragvisit($db,$query_params)
 	{
 		$query = "INSERT INTO cragvisit 
-				(cragdetail_id, date, conditions, pub, rainedoff) 
+				(cragdetail_id, date, event, conditions, pub, rainedoff) 
 				VALUES (
 				:cragdetail_id,
 				:date,
+				:event,
 				:conditions,
 				:pub,
 				:rainedoff)";
@@ -508,8 +517,8 @@
 	function getuserattended($db, $query_params)
 	{
 		$attendsql = "SELECT cragvisit_id 
-									 FROM attended 
-									 WHERE user_id = :user_id "; //query the db
+			      FROM attended 
+			      WHERE user_id = :user_id "; //query the db
 
 		$results = $db->prepare($attendsql);
 		$results->execute($query_params);
@@ -520,9 +529,9 @@
 	function removeattdence($db, $query_params)
 	{
 		$sql = " DELETE FROM attended 
-						 WHERE user_id = :user_id 
-						 AND cragvisit_id = :cragvisit_id
-									 "; //query the db
+			 WHERE user_id = :user_id 
+			 AND cragvisit_id = :cragvisit_id
+		 "; //query the db
 
 		$results = $db->prepare($sql);
 		$results->execute($query_params);
@@ -532,7 +541,7 @@
 
 	function getnextcrag($db)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
+		$query ="SELECT cv.cragvisit_id, cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
 			 FROM cragdetail as cd, cragvisit as cv 
 			 WHERE cd.cragdetail_id = cv.cragdetail_id 
 			 AND cv.date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
@@ -610,7 +619,7 @@
 
 	function gettotalrainedoff($db, $query_params)
         {
-                $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1";
+                $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1 AND YEAR(cv.date)= 2014";
 
                 $results = $db->prepare($query);
                 $results->execute();

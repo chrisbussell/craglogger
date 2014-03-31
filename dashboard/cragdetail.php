@@ -66,6 +66,7 @@
 	echo $template->render(array (
 		'venue' => $cragdata['venue'],
 		'area' => $cragdata['area'],
+		'event' => $cragdata['event'],
 		'rock' => $cragdata['rock'],
 		'faces' => $cragdata['faces'],
 		'altitude' => $cragdata['altitude'],

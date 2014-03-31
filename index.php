@@ -37,6 +37,7 @@
 		'date' => $nextcrag['date'],
 		'venue' => $nextcrag['venue'],
 		'area' => $nextcrag['area'],
+		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
 		'data' => $data,
 		'username' =>$_SESSION['user']['username'],

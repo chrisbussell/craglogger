@@ -46,11 +46,11 @@
 	}
 
 	// GET MEMBERS LIST	
-	$membersresults = getaccounts($db, $getapproved = 1);
+	$membersresults = getattended($db, $query_params);
 	$membersrows = $membersresults->fetchAll();
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS
-	$results = getattended($db);
+	$results = getattended($db, $query_params);
 
 	$rows = $results->fetchAll();
 
