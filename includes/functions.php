@@ -467,6 +467,22 @@
                         die("Failed to run query: " . $ex->getMessage());
                 }
 	}
+
+	function updatecragreport($db, $query_params)
+	{
+		$query="UPDATE cragreports
+			SET cragreport = :cragreport
+			WHERE cragvisit_id = :cragvisit_id";
+			try{
+                        	$stmt = $db->prepare($query);
+                       		$stmt->execute($query_params);
+                        	return true;
+                	}
+                	catch(PDOException $ex){
+                	        return false;
+                	        die("Failed to run query: " . $ex->getMessage());
+                	}
+	}
 	
 	function getlatestcragreport($db)
 	{

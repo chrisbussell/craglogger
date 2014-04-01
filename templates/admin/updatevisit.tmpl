@@ -52,9 +52,9 @@
 				{% endif %}
 			{% endfor %}
 			{% if have_report == 1 %}
-				edit visit report
+				<a href="/craglogger/admin/cragreportedit.php?cragvisit_id={{d.cragvisit_id}}">edit report</a>
 			{% else %}
-				<a href="/craglogger/admin/cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">add visit report</a>
+				<a href="/craglogger/admin/cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">add report</a>
 			{% endif %}			
 			</td>
 		</tr>
