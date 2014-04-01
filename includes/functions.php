@@ -557,10 +557,7 @@
 
 	function getnextcrag($db)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
-			 FROM cragdetail as cd, cragvisit as cv 
-			 WHERE cd.cragdetail_id = cv.cragdetail_id 
-			 AND cv.date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
+		$query ="SELECT cv.cragvisit_id, cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces FROM cragdetail as cd, cragvisit as cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date BETWEEN CURDATE() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
 
 		$results = $db->prepare($query);
                 $results->execute();
