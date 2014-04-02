@@ -54,10 +54,9 @@
                 $rocktypes[] = $row;
         }
 
-	// How many weeks of summer are left this year
-        $dayDif    = date('z',strtotime(date('2014-10-26'))) - date('z',strtotime(date('Y-M-d')));
-        $numWeeks  = round($dayDif / 7);
-
+	//get number of weeks of summer left
+	$numWeeks = weeksleftofsummer();
+	
 	$date = date('Y-m-d H:i:s');
 
 		// set template variables
@@ -68,7 +67,6 @@
 			'rainedoff' => $rainedoff,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
-			'daysleft' => $dayDif,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,

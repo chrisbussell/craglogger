@@ -14,8 +14,9 @@
 		<label for="report">Report:</label>
 		<br />
 		{% if success == 1 %}
-			{{cragreport}}<br/>
-			<a href="/craglogger/admin/editcragreport.php?cragvisit_id={{cragvisit_id}}">edit this report</a>
+			{{cragreport}}<br/><br/>
+<hr>
+			<a href="cragreportedit.php?cragvisit_id={{cragvisit_id}}">edit this report</a>
 		{% else %}
 			<textarea name="report" id="report" cols="80" rows="20" >{{cragreport}}</textarea>
 		{% endif %}

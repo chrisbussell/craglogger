@@ -18,6 +18,7 @@ CREATE TABLE `users` (
   `expiry` date NOT NULL,
   `emailshow` int(1) NOT NULL default'0',
   `regdate` date NOT NULL,
+  `internaluser` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   timestamp timestamp,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),
@@ -51,6 +52,7 @@ CREATE TABLE cragvisit (
   cragvisit_id int(11) NOT NULL AUTO_INCREMENT,
   cragdetail_id int(11) NOT NULL,
   date date NOT NULL,
+  event varchar(255) NOT NULL,
   conditions varchar(255) NOT NULL,
   pub varchar(255) NOT NULL,
   rainedoff int(1) default 0,
@@ -58,12 +60,12 @@ CREATE TABLE cragvisit (
 PRIMARY KEY (cragvisit_id)
 );
 
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('1','1','2013/02/01','Dry','The Moon','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('2','1','2014/02/01','Dry','The Knights Balls','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('3','2','2014/02/07','Moist','The Knights Balls','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('4','3','2014/02/14','Wet','The Knights Balls','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('5','4','2014/02/21','Dry','The Queens Norkers','0');
-INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, conditions, pub, rainedoff) VALUES ('6','5','2014/02/28','Dry','Millstone','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('1','1','2013/02/01','','Dry','The Moon','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('2','1','2014/02/01','','Dry','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('3','2','2014/02/07','','Moist','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('4','3','2014/02/14','','Wet','The Knights Balls','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('5','4','2014/02/21','','Dry','The Queens Norkers','0');
+INSERT INTO cragvisit (cragvisit_id, cragdetail_id, date, event, conditions, pub, rainedoff) VALUES ('6','5','2014/02/28','','Dry','Millstone','0');
 
 CREATE TABLE attended (
   attended_id int(11) NOT NULL AUTO_INCREMENT,

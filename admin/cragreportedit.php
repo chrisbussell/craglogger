@@ -70,6 +70,14 @@
 
 			}
 		}
+
+	// get some information about the crag
+                $stmt = getcragdata($db, $query_params);
+                $result = $stmt -> fetch();
+
+                $stmt = getcragreport($db, $query_params);
+                $cragreport = $stmt -> fetch();
+
 	
 	// set template variables
 	// render template

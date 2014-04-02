@@ -34,6 +34,7 @@
 			':cragvisit_id' => $_POST['cragvisit_id'],
 			':conditions' => $_POST['conditions'],
 			':date' => $_POST['date'],
+			':event' => $_POST['event'],
 			':rainedoff' => $_POST['rainedoff'],
 			':pub' => $_POST['pub'],
 		);

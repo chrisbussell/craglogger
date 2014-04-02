@@ -103,7 +103,7 @@
 	}
 
 	// Get all member accounts
-	function getaccountsall($db, $username, $query_params)
+	function getaccountsall($db, $query_params)
 	{
 		$query = "
 			SELECT
@@ -120,14 +120,14 @@
 				emailshow
 			FROM users";
 
-		if(isset($username)){
+		if(isset($query_params[':username'])){
 			$query .="
-				WHERE username = '$username'
-				OR email = '$username'
+				WHERE username = :username
+				OR email = :username
 			";
 		}
 
-		if(isset($query_params)){
+		if(isset($query_params['user_id'])){
 			$query .="
 				WHERE user_id = :user_id
 			";
@@ -147,10 +147,10 @@
 	function updateaccounts($db, $query_params)
 	{
 		$update="
-						UPDATE users SET
-						admin = :admin,
-						approved = :approved
-						WHERE user_id = :user_id
+			UPDATE users SET
+				admin = :admin,
+				approved = :approved
+			WHERE user_id = :user_id
 						";
 
 		try{
@@ -374,6 +374,7 @@
 		$update=("
 							UPDATE cragvisit SET
 							date = :date,
+							event = :event,
 							conditions = :conditions,
 							pub = :pub, 
 							rainedoff = :rainedoff 
@@ -578,7 +579,7 @@
 
 	function getvisithistoryyear($db)
 	{
-		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2014";
+		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2014 ORDER BY date DESC";
 
 		$results = $db->prepare($query);
                 $results->execute();
@@ -648,6 +649,15 @@
                 $results->execute($query_params);
 
                 return $results;
+	}
+
+	function weeksleftofsummer()
+	{
+		// How many weeks of summer are left this year
+        	$dayDif    = date('z',strtotime(date('2014-10-26'))) - date('z',strtotime(date('Y-M-d')));
+        	$numWeeks  = round($dayDif / 7);
+		
+		return $numWeeks;
 	}
 
 

@@ -89,7 +89,7 @@
 	}
 
 	//Get full list of member accounts
-	$getall = getaccountsall($db, $username = null, $query_params = null);	
+	$getall = getaccountsall($db, $query_params = null);	
 
 	//Put returned data in $fulldata array
 	while ($row = $getall->fetchObject()){

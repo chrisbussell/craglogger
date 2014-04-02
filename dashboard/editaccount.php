@@ -30,7 +30,7 @@
 		':user_id' => $_SESSION['user']['user_id']
 	);
 
-	$stmt = getaccountsall($db, $username = null, $query_params);	
+	$stmt = getaccountsall($db, $query_params);	
 
 	$rows = $stmt->fetchAll();
 

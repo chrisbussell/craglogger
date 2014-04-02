@@ -11,6 +11,7 @@
 <table>
 	<tr class="heading">
 		<th>Date</th>
+		<th>Event</th>
 		<th>Venue</th>
 		<th>Area</th>
 		<th>Conditions</th>
@@ -23,6 +24,9 @@
 		<tr>
 			<td>
 				<input type="date" name="date" value="{{ d.date|escape}}"/>
+			</td>
+			<td>
+				<input type="text" name="event" value="{{ d.event|escape }}"/>
 			</td>
 			<td>{{ d.venue|escape }}</td>
 			<td>{{ d.area|escape }}</td>

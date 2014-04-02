@@ -23,10 +23,14 @@
 
 	// Check if form has been submitted
 	if(!empty($_POST)){
-		$username = $_POST['username'];
+
+		// Set query params for sql call
+                $query_params = array(
+			':username' => $_POST['username']
+			);
 
 		// get member account details
-		$stmt = getaccountsall($db, $username, $query_params = NULL);
+		$stmt = getaccountsall($db, $query_params);
 
 		// Set login to false, variable set to true on succesful login
 		$login_ok = false;
@@ -83,12 +87,8 @@
 			die("Redirecting to: craglist.php");
 		}
 		else{
-			// Tell the user they failed
-	//		print("Login Failed.");
-			//$errFailed = "login failed";
 	
-			// Show them their username again so all they have to do is enter a new
-			// password.  The use of htmlentities prevents XSS attacks.
+			// Show them their username again so all they have to do is enter a new password. 
 			$submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8');
 		}
 	}
