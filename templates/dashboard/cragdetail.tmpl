@@ -40,7 +40,7 @@
 <tr>
 <td>
 {% if cragreport !='' %}
-      {{cragreport}}<br/>
+      {{cragreport|raw}}
 {% else %}
 Sorry no report yet for this visit<br/>
 {% endif %}
@@ -53,7 +53,7 @@ Sorry no report yet for this visit<br/>
 	<tr>
 	{% set i_did = 0 %}
 	{% for v in visiteddata %}
-	<td>{{v.firstname}} {{v.surname}}</td>
+	<td>{{v.firstname|escape}} {{v.surname|escape}}</td>
 	 </tr>
 		{% if v.user_id == user_id %}
 			{% set i_did = 1 %}

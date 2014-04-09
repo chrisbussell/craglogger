@@ -36,9 +36,9 @@
 		<h2>Latest Reports</h2>
 		{% for d in data %}
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/>
-			{{d.cragreport}}<br/><br/>
-
 		{% endfor %}
+			{{cragreport|raw}}<br/><br/>
+
 	</div>
 </div>
 {% endblock %}

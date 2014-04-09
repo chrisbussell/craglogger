@@ -31,6 +31,7 @@
 
 	$template->display(array(
 		'updated' => $lastupdated,
+		'cragreport' => nl2br($data['0']['cragreport']),
 		'sid' => isset($_SESSION['user']),
 		'pageTitle' => 'Home',
 		'cragvisit_id' => $nextcrag['cragvisit_id'],

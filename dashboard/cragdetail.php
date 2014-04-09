@@ -77,7 +77,7 @@
 		'sunset' => $sunset['sunsettime'],
 		'rainedoff' => $cragdata['rainedoff'],
 		'visiteddata' => $visiteddata,
-		'cragreport' => $cragreport,
+		'cragreport' => nl2br($cragreport),
 		'sid' => $_SESSION['user'],
 		'user_id' => $_SESSION['user']['user_id'],
 		'admin' => $_SESSION['user']['admin'],
