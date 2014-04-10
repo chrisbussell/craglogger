@@ -612,38 +612,38 @@
 			      users u 
 			 WHERE a.cragvisit_id = cv.cragvisit_id 
 			 AND u.user_id = a.user_id 
-			 AND YEAR(cv.date)= 2014 
+			 AND YEAR(cv.date)= :year 
 			 GROUP BY a.user_id
 			 LIMIT 10";
 		$results = $db->prepare($query);
-                $results->execute();
+                $results->execute($query_params);
 
                 return $results;
 	}
 
 	function gettopattendedcrag($db, $query_params)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= 2014 GROUP BY cv.date ORDER BY count DESC Limit 3";
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cv.date ORDER BY count DESC Limit 3";
 
 		$results = $db->prepare($query);
-                $results->execute();
+                $results->execute($query_params);
 
                 return $results;
 	}
 
 	function gettotalrainedoff($db, $query_params)
         {
-                $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1 AND YEAR(cv.date)= 2014";
+                $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1 AND YEAR(cv.date)= :year";
 
                 $results = $db->prepare($query);
-                $results->execute();
+                $results->execute($query_params);
 
                 return $results;
         }
 
 	function getrocktotals($db, $query_params)
 	{
-		$query = "SELECT cd.rock, count(cd.rock) as total  FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragvisit_id AND YEAR(cv.date)= :year GROUP BY cd.rock";
+		$query = "SELECT cd.rock, count(cd.rock) as total  FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cd.rock";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);

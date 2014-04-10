@@ -4,6 +4,7 @@
 
 	$user_id = $_SESSION['user']['user_id'];
 	$cragvisited = '';
+	$numWeeks = '';
 
 	if(empty($_SESSION['user']))
 	{	
@@ -24,29 +25,31 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/cragstats.tmpl');
 
+	$query_params = array(
+                        ':year' => $_GET['year']);
+
 	// get count of user attendence
-	$stmt = getuserattendence($db, $query_params = null);
+	$stmt = getuserattendence($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
 
+
 	// get top attended crag
-	$stmt = gettopattendedcrag($db, $query_params = null);
+	$stmt = gettopattendedcrag($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) {
 		$attendedcrag[] = $row;
 	}
 
+
 	// get total rained off
-        $stmt = gettotalrainedoff($db, $query_params = null);
+        $stmt = gettotalrainedoff($db, $query_params);
 
         while ($row = $stmt->fetchObject()) {
                 $rainedoff[] = $row;
         }
-
-	$query_params = array(
-                        ':year' => '2014');
 
 	$stmt = getrocktotals($db, $query_params);
 
@@ -54,8 +57,17 @@
                 $rocktypes[] = $row;
         }
 
-	//get number of weeks of summer left
-	$numWeeks = weeksleftofsummer();
+	if ($_GET['year'] == '2014')
+	{
+		//get number of weeks of summer left
+		$numWeeks = weeksleftofsummer();
+	}
+
+	$stmt = getvisithistoryyear($db);
+
+        while ($row = $stmt->fetchObject()) {
+                $years[] = $row;
+        }
 	
 	$date = date('Y-m-d H:i:s');
 
@@ -64,6 +76,8 @@
 		echo $template->render(array (
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
+			'year' => $_GET['year'],
+			'years' => $years,
 			'rainedoff' => $rainedoff,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
