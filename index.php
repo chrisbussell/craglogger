@@ -15,6 +15,8 @@
 
 	// load template
 	$template = $twig->loadTemplate('index.tmpl');
+	
+	$cragreport = '';
 
 	$results = getnextcrag($db);
 	$nextcrag = $results->fetch();
@@ -29,9 +31,14 @@
 	$stmt = getlatestcragreport($db);
 	$data = $stmt->fetchAll();
 
+	if (!empty($data))
+	{
+		$cragreport = nl2br($data['0']['cragreport']);
+	}
+
 	$template->display(array(
 		'updated' => $lastupdated,
-		'cragreport' => nl2br($data['0']['cragreport']),
+		'cragreport' => $cragreport,
 		'sid' => isset($_SESSION['user']),
 		'pageTitle' => 'Home',
 		'cragvisit_id' => $nextcrag['cragvisit_id'],
@@ -41,9 +48,9 @@
 		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
 		'data' => $data,
-		'username' =>$_SESSION['user']['username'],
-		'admin' => $_SESSION['user']['admin'],
-		'firstname' =>$_SESSION['user']['firstname']
+		'username' => isset($_SESSION['user']['username']),
+		'admin' => isset($_SESSION['user']['admin']),
+		'firstname' => isset($_SESSION['user']['firstname'])
 	));
 
 ?>

@@ -15,6 +15,7 @@
 		<td>Surname</td>
 		<td>Username</td>
 		<td>Email</td>
+		<td>Action</td>
 	</tr>
 	{% for d in data %}
 	<form method="post" action="{{ php_self }}">
@@ -35,6 +36,25 @@
 		{% endfor %}
 	</tr>
 </table>
+<h2>Virtual Members</h2>
+<table>
+        <tr class="heading">
+                <td>User ID</td>
+                <td>Firstname</td>
+                <td>Surname</td>
+                <td>Email</td>
+        </tr>
+        {% for v in virtualmember %}
+        <form method="post" action="{{ php_self }}">
+                <tr>
+                        <td> <b>{{ v.user_id|escape }}</b></td>
+                        <td>{{ v.firstname|escape}}</td>
+                        <td>{{ v.surname|escape}}</td>
+                        <td>{{ v.email|escape}}</td>
+                </form>
+                {% endfor %}
+        </tr>
+</table>
 <hr>
 <h2>All Accounts</h2>
 <table>
@@ -46,6 +66,7 @@
 		<td>Email</td>
 		<td>Admin</td>
 		<td>Approved</td>
+		<td>Action</td>
 	</tr>
 	{% for fd in fulldata %}
 	<form method="post" action="{{ php_self }}">

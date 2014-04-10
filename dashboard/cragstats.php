@@ -5,6 +5,10 @@
 	$user_id = $_SESSION['user']['user_id'];
 	$cragvisited = '';
 	$numWeeks = '';
+	$data = '';
+	$attendedcrag = '';
+	$years = '';
+	$rocktypes = '';
 
 	if(empty($_SESSION['user']))
 	{	

@@ -63,7 +63,7 @@
 
 
 	// Get all member accounts if approved or not
-	function getaccounts($db, $getapproved)
+	function getaccounts($db, $getapproved, $getvirtual, $flag)
 	{
 		// Get Accounts that need approving List Data
 		$query = "
@@ -78,7 +78,8 @@
 				email,
 				admin,
 				approved,
-				emailshow
+				emailshow,
+				virtualuser
 			FROM users";
 
 		if($getapproved == 0){
@@ -91,6 +92,22 @@
 				WHERE approved = 1
 			";
 		}
+		if($getvirtual == 1){
+				if ($flag != 1){
+				$query .="
+					AND virtualuser = 1";
+				}
+				else{
+				$query .="
+					OR virtualuser = 1";
+				}
+			
+		}
+		elseif($getvirtual == 0){
+			$query .="
+				AND virtualuser = 0
+			";
+		}
 		
 		try{
 			$stmt = $db->prepare($query);
@@ -101,6 +118,8 @@
 		}
 		return $stmt;
 	}
+
+
 
 	// Get all member accounts
 	function getaccountsall($db, $query_params)
@@ -205,33 +224,35 @@
 	function insertuser($db, $query_params)
 	{
 		$query = "
-							INSERT INTO users (
-								firstname,
-								surname,
-								username,
-								password,
-								salt,
-								email,
-								emailshow,
-								regdate
-						) VALUES (
-								:firstname,
-								:surname,
-								:username,
-								:password,
-								:salt,
-								:email,
-								:emailshow,
-								now()
-						)
-					";
-
+			INSERT INTO users (
+				firstname,
+				surname,
+				username,
+				password,
+				salt,
+				email,
+				emailshow,
+				regdate,
+				virtualuser
+			) VALUES (
+				:firstname,
+				:surname,
+				:username,
+				:password,
+				:salt,
+				:email,
+				:emailshow,
+				now(),
+				:virtualuser
+			)";
 		try{
 			// Execute the query to create the user
 			$stmt = $db->prepare($query);
 			$result = $stmt->execute($query_params);
+			return true;
 		}
 		catch(PDOException $ex){
+			return false;
 			die("Failed to run query: " . $ex->getMessage());
 		}
 	}

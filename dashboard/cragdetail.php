@@ -24,16 +24,11 @@
 	
 	///////////////////////////////////
 	$query_params = array(
-		':cragvisit_id' => $_GET['cragvisit_id'],
-		':year' => '2014'
-	);
+		':cragvisit_id' => $_GET['cragvisit_id']);
+	//	':year' => '2014'
+//	);
 
 	$stmt = getcragdata($db, $query_params);
-/*
-	while ($row = $stmt->fetchObject()){
-		$data[] = $row;
-	}
-*/
 	$cragdata = $stmt->fetch();
 	
 	$query_params = array(

@@ -2,6 +2,8 @@
 	require("../includes/common.php");
 	require("../includes/functions.php");
 
+	$data = '';
+
 	$user_id = $_SESSION['user']['user_id'];
 
 	//set year as now if no other year has been passed

@@ -17,6 +17,10 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/editaccount.tmpl');
 
+	$firstname = '';
+	$surname = '';
+	$emailshow = '';
+
 	// Check if user logged in or not
 	if(empty($_SESSION['user'])){
 		// If they are not, redirect them to the login page.
@@ -33,6 +37,12 @@
 	$stmt = getaccountsall($db, $query_params);	
 
 	$rows = $stmt->fetchAll();
+
+	if (!empty($rows)) {
+		$firstname = $rows['0']['firstname'];
+                $surname = $rows['0']['surname'];
+                $emailshow = $rows['0']['emailshow'];
+	}	
 
 	// Has edit been submited
 	if(!empty($_POST)){
@@ -142,9 +152,9 @@
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'username' =>$_SESSION['user']['username'],
-		'firstname' =>$rows['0']['firstname'],
-		'surname' =>$rows['0']['surname'],
-		'emailshow' =>$rows['0']['emailshow'],
+		'firstname' =>$firstname,
+		'surname' =>$surname,
+		'emailshow' =>$emailshow,
 		'pageTitle' => 'Edit your account',
 		'email' =>$_SESSION['user']['email']
 	));

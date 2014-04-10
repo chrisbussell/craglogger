@@ -29,21 +29,18 @@
 
 		// Ensure that the user has entered a non-empty firstname
 		if(empty($_POST['firstname'])){
-//			die("Please enter a firstname.");
 			$error = 1;
 			$errFirstname= "Please enter a firstname";
 		}
 
 		// Ensure that the user has entered a non-empty surname
 		if(empty($_POST['surname'])){
-			///die("Please enter your surname.");
 			$error = 1;
 			$errSurname= "Please enter a surname";
 		}
 
 		// Ensure that the user has entered a non-empty username
 		if(empty($_POST['username'])){
-			//die("Please enter a username.");
 			$error = 1;
 			$errUsername= "Please enter a username";
 		}
@@ -62,7 +59,6 @@
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 			$error = 1;
 			$errEmail= "Invalid E-Mail Address";
-			//die("Invalid E-Mail Address");
 		}
 
 		// Set query params for sql call
@@ -79,7 +75,6 @@
 		if($row){
 			$error = 1;
 			$errUsername= "This username is already is use";
-			//die("This username is already in use");
 		}
 
 		// Set query params for sql call
@@ -115,7 +110,8 @@
 				':password' => $password,
 				':salt' => $salt,
 				':email' => $_POST['email'],
-				':emailshow' => $_POST['emailshow']);
+				':emailshow' => $_POST['emailshow'],
+				':virtualuser' => '0');
 
 		// All ok, so lets add the user to the database
 		insertuser($db, $query_params);

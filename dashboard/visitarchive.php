@@ -2,6 +2,9 @@
 	require("../includes/common.php");
 	require("../includes/functions.php");
 
+	$years = '';
+	$data = '';
+
 	$user_id = $_SESSION['user']['user_id'];
 	if(!isset($_GET['year']))
 	{

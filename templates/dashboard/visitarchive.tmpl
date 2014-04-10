@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Tuesday Nighters Archive</h1>
+<h1>Tuesday Nighters Archive {{viewyear}}</h1>
 Choose the year you want to view
 <table class="cragattendance flexitable">
 	<tr>
@@ -36,7 +36,7 @@ Choose the year you want to view
 			<br/>
 			{{ d.date|date("d M Y") }}
 			<br/>
-			{{ d.rock }}
+			<small>{{ d.event }}</small>
 		</th>
 		{% endfor %}
 	</tr>

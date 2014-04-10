@@ -50,11 +50,20 @@
 		$data[] = $row;
 	}
 
+	if (empty($data)){
+		$data = '';
+	}
+
 	$stmt = getcragreport($db, $query_params = null);
 
         while ($row = $stmt->fetchObject()){
                 $cragreport[] = $row;
         }
+
+	if (empty($cragreport)){
+		$cragreport = '';
+	}
+
 
 	$date = date('Y-m-d H:i:s');
 

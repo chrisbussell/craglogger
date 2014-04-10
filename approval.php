@@ -19,7 +19,7 @@
 		'updated' => $lastupdated,
 		'pageTitle' => 'Approval',
 		'sid' => isset($_SESSION['user']),
-		'username' =>$_SESSION['user']['username']
+		'username' => isset($_SESSION['user']['username'])
 	));
 
 ?>

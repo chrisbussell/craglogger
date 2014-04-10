@@ -4,6 +4,7 @@
 
 	$user_id = $_SESSION['user']['user_id'];
 	$cragvisited = '';
+	$data = '';
 
 	if(empty($_SESSION['user']))
 	{	

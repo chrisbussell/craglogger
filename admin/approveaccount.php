@@ -80,12 +80,20 @@
 		updateaccounts($db, $query_params);
 	}
 	
-	// Get list of member account which need to be approved
-	$stmt = getaccounts($db, $getapproved=0);	
+	// Get list of full member account which need to be approved
+	$stmt = getaccounts($db, $getapproved=0, $getvirtual=0, $flag=0);	
 
 	//Put returned data in $data array
 	while ($row = $stmt->fetchObject()){
 		$data[] = $row;
+	}
+
+	// Get Virtual Members
+	$stmt = getaccounts($db, $getapproved=0, $getvirtual=1, $flag=0);	
+
+	//Put returned data in $virtualmembers array
+	while ($row = $stmt->fetchObject()){
+		$virtualmembers[] = $row;
 	}
 
 	//Get full list of member accounts
@@ -102,6 +110,7 @@
 	// render template
 	echo $template->render(array (
 		'data' => $data,
+		'virtualmember' => $virtualmembers,
 		'fulldata' => $fulldata,
 		'sid' => $_SESSION['user'],
 		'admin' => $_SESSION['user']['admin'],
