@@ -101,83 +101,123 @@
 		for($round = 0; $round < 65536; $round++){
 			$password = hash('sha256', $password . $salt);
 		}
+		
 	
+		//check if we have any errors on the form
 		if(!$error){
+
 			$query_params = array(
 				':firstname' => $_POST['firstname'],
-				':surname' => $_POST['surname'],
-				':username' => $_POST['username'],
-				':password' => $password,
-				':salt' => $salt,
-				':email' => $_POST['email'],
-				':emailshow' => $_POST['emailshow'],
-				':virtualuser' => '0');
+                                ':surname' => $_POST['surname']);
 
-		// All ok, so lets add the user to the database
-		insertuser($db, $query_params);
+			// Check if firstname & surname match any exisiting virtual members
+			$stmt = checkvirtualmemberdetails($db, $query_params);
 
-		////////////////////////////////////////////////////////////
-		// Set variables for email send
-		$firstname = $_POST['firstname'];
-		$surname = $_POST['surname'];
-		$username = $_POST['username'];
-		$email = $_POST['email'];
+			$membercheck = $stmt->fetch();
 
-		//Email admin account details to approve
-		$mail = new PHPMailer();
-		$mail->IsHTML(true);
+			$query_params = array(
+                                ':firstname' => $_POST['firstname'],
+                                ':surname' => $_POST['surname'],
+                                ':username' => $_POST['username'],
+                                ':password' => $password,
+                                ':salt' => $salt,
+                                ':email' => $_POST['email'],
+                                ':emailshow' => $_POST['emailshow'],
+                                ':virtualuser' => '0');
 
-		$mail->From     = "chrisbussell@gmail.com";
-		$mail->AddAddress("chrisbussell@gmail.com");
+			// All ok, so lets add the user to the database
+			if (!empty($membercheck)){
 
-		$mail->Subject  = "Tuesday Nighters account approval required";
-		$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='ccgi.chrisbussell.plus.com/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
-		$mail->WordWrap = 50;
+				$query_params = array(
+                                ':firstname' => $_POST['firstname'],
+                                ':surname' => $_POST['surname'],
+                                ':username' => $_POST['username'],
+                                ':password' => $password,
+                                ':salt' => $salt,
+                                ':email' => $_POST['email'],
+                                ':emailshow' => $_POST['emailshow'],
+                                ':virtualuser' => '0',
+                                ':user_id' => $membercheck['user_id']);
 
-		if(!$mail->Send()) {
-			echo 'Message was not sent.';
-			echo 'Mailer error: ' . $mail->ErrorInfo;
-		} else {
-			echo 'Message has been sent.';
+				convertvirtualtofull($db, $query_params);
+			}
+			else{
+
+				$query_params = array(
+                                ':firstname' => $_POST['firstname'],
+                                ':surname' => $_POST['surname'],
+                                ':username' => $_POST['username'],
+                                ':password' => $password,
+                                ':salt' => $salt,
+                                ':email' => $_POST['email'],
+                                ':emailshow' => $_POST['emailshow'],
+                                ':virtualuser' => '0');
+
+				insertuser($db, $query_params);
+			}
+			////////////////////////////////////////////////////////////
+			// Set variables for email send
+			$firstname = $_POST['firstname'];
+			$surname = $_POST['surname'];
+			$username = $_POST['username'];
+			$email = $_POST['email'];
+
+			//Email admin account details to approve
+			$mail = new PHPMailer();
+			$mail->IsHTML(true);
+
+			$mail->From     = "chrisbussell@gmail.com";
+			$mail->AddAddress("chrisbussell@gmail.com");
+
+			$mail->Subject  = "Tuesday Nighters account approval required";
+			$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='ccgi.chrisbussell.plus.com/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
+			$mail->WordWrap = 50;
+
+			if(!$mail->Send()) {
+				echo 'Message was not sent.';
+				echo 'Mailer error: ' . $mail->ErrorInfo;
+			} else {
+				echo 'Message has been sent.';
+			}
+
+			//Email new signup welcome details
+			$mail = new PHPMailer();
+			$mail->IsHTML(true);
+
+			$mail->From     = "chrisbussell@gmail.com";
+			$mail->AddAddress("$email");
+
+			$mail->Subject  = "Tuesday Nighters account signup";
+			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2014.<p>Thank you<br>The Craglogger Team.";
+			$mail->WordWrap = 50;
+
+			if(!$mail->Send()) {
+				echo 'Message was not sent.';
+				echo 'Mailer error: ' . $mail->ErrorInfo;
+			} else {
+				echo 'Message has been sent.';
+				header("Location: /craglogger/approval.php");
+				die("Redirecting to approval.php");
+			}	
 		}
-
-		//Email new signup welcome details
-		$mail = new PHPMailer();
-		$mail->IsHTML(true);
-
-		$mail->From     = "chrisbussell@gmail.com";
-		$mail->AddAddress("$email");
-
-		$mail->Subject  = "Tuesday Nighters account signup";
-		$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2014.<p>Thank you<br>The Craglogger Team.";
-		$mail->WordWrap = 50;
-
-		if(!$mail->Send()) {
-			echo 'Message was not sent.';
-			echo 'Mailer error: ' . $mail->ErrorInfo;
-		} else {
-			echo 'Message has been sent.';
-			header("Location: /craglogger/approval.php");
-			die("Redirecting to approval.php");
+		else{
+			echo $template->render(array (
+				'pageTitle' => 'Register',
+				'updated' => $lastupdated,
+				'errPassword' => $errPassword,
+				'errFirstname' => $errFirstname,
+				'errSurname' => $errSurname,
+				'errEmail' => $errEmail,
+				'errUsername' => $errUsername,
+				'php_self' =>$_SERVER['PHP_SELF']));
+				die();
 		}
-	}
-	else{
-		echo $template->render(array (
-			'errPassword' => $errPassword,
-			'errFirstname' => $errFirstname,
-			'errSurname' => $errSurname,
-			'errEmail' => $errEmail,
-			'errUsername' => $errUsername,
-			'pageTitle' => 'Register',
-			'php_self' =>$_SERVER['PHP_SELF']));
-			die();
-	}
 	}
 
 	// set template variables
 	// render template
 	echo $template->render(array (
-		'updated' => $lastupdated,
 		'pageTitle' => 'Register',
+		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF']
 	));

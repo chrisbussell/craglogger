@@ -10,7 +10,6 @@
 	function checkpasswordcode($db, $query_params)
 	{
 		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND :expiry <= expiry";
-
 		try{
 			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
@@ -19,6 +18,47 @@
 			die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
+	}
+
+	function checkvirtualmemberdetails($db, $query_params)
+	{
+		$query = " SELECT user_id, firstname, surname, email, virtualuser 
+			   FROM users 
+			   WHERE firstname = :firstname 
+			   AND surname = :surname 
+			   AND virtualuser = 1";
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+                return $stmt;
+	}
+
+	function convertvirtualtofull($db, $query_params)
+	{
+		$query = "UPDATE users 
+			  SET   firstname = :firstname,
+				surname = :surname,
+				username = :username, 
+				password = :password, 
+				salt = :salt,
+				email = :email, 
+				emailshow = :emailshow,
+				virtualuser = :virtualuser 
+			  WHERE user_id = :user_id";
+		try{
+                        // Execute the query
+                        $stmt = $db->prepare($query);
+                        $result = $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+                return true;
+
 	}
 
 
