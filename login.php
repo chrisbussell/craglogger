@@ -96,13 +96,13 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
+		'pageTitle' => 'Login',
 		'updated' => $lastupdated,
+		'php_self' =>$_SERVER['PHP_SELF'],
 		'submitted_username' => $submitted_username,
 		'errPassword' => $errPassword,
 		'errApproved' => $errApproved,
-		'errFailed' => $errFailed,
-		'pageTitle' => 'Login',
-		'php_self' =>$_SERVER['PHP_SELF']
+		'errFailed' => $errFailed
 	));
 	
 ?>

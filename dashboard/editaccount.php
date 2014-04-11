@@ -36,12 +36,12 @@
 
 	$stmt = getaccountsall($db, $query_params);	
 
-	$rows = $stmt->fetchAll();
+	$rows = $stmt->fetch();
 
 	if (!empty($rows)) {
-		$firstname = $rows['0']['firstname'];
-                $surname = $rows['0']['surname'];
-                $emailshow = $rows['0']['emailshow'];
+		$firstname = $rows['firstname'];
+                $surname = $rows['surname'];
+                $emailshow = $rows['emailshow'];
 	}	
 
 	// Has edit been submited
@@ -147,15 +147,15 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
+		'pageTitle' => 'Edit your account',
 		'sid' => $_SESSION['user'],
-		'admin' => $_SESSION['user']['admin'],
 		'updated' => $lastupdated,
+		'admin' => $_SESSION['user']['admin'],
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$firstname,
 		'surname' =>$surname,
 		'emailshow' =>$emailshow,
-		'pageTitle' => 'Edit your account',
 		'email' =>$_SESSION['user']['email']
 	));
 		

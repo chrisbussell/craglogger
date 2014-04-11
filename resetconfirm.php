@@ -102,12 +102,12 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
+		'pageTitle' => 'Confirm Reset Password',
 		'code' => $_GET['code'],
 		'email' => $_GET['email'],
 		'passed' => $passed,
 		'passcodefail' => $passcodefail,
 		'updated' => $lastupdated,
-		'pageTitle' => 'Confirm Reset Password',
 		'php_self' =>$_SERVER['PHP_SELF'],
 	));
 		

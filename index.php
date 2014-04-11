@@ -37,10 +37,10 @@
 	}
 
 	$template->display(array(
+		'pageTitle' => 'Home',
+		'sid' => isset($_SESSION['user']),
 		'updated' => $lastupdated,
 		'cragreport' => $cragreport,
-		'sid' => isset($_SESSION['user']),
-		'pageTitle' => 'Home',
 		'cragvisit_id' => $nextcrag['cragvisit_id'],
 		'date' => $nextcrag['date'],
 		'venue' => $nextcrag['venue'],

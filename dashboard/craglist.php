@@ -33,7 +33,6 @@
 
 			foreach ($name as $names=>$value) {
 				// if user attended insert row
-				//insertattendeddata($db, $user_id, $value);
 				insertattendeddata($db, $user_id, $value);
 			}
 			$cragvisited = "Thanks, your attendance has been logged and appreciated";
@@ -79,15 +78,15 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'data' => $data,
+			'pageTitle' => 'Crag List 2014',
 			'sid' => $_SESSION['user'],
-			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
+			'php_self' =>$_SERVER['PHP_SELF'],
+			'data' => $data,
+			'admin' => $_SESSION['user']['admin'],
 			'date' => $date,
 			'attended' => $rows,
-			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
-			'pageTitle' => 'Crag List 2014',
 			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));

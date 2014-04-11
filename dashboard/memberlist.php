@@ -34,9 +34,11 @@
 	// set template variables
 	// render template
 	echo $template->render(array (
-		'members' => $rows,
 		'pageTitle' => 'Members',
+		'updated' => $lastupdated,
+		'members' => $rows,
 		'username' =>$_SESSION['user']['username'],
+		'firstname' =>$_SESSION['user']['firstname'],
 		'admin' => $_SESSION['user']['admin'],
 		'sid' => $_SESSION['user'])
 	);

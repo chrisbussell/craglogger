@@ -1,12 +1,13 @@
 <?php
-
+/*
 	function clean_string($string)
 	{
 		$bad = array("content-type","bcc:","to:","cc:","href");
 		return str_replace($bad,"",$string);
 	}
-
-
+*/
+	//////////////////////////////////////////////////////////
+	// resetconfirm.php
 	function checkpasswordcode($db, $query_params)
 	{
 		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND :expiry <= expiry";
@@ -20,6 +21,8 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// register.php
 	function checkvirtualmemberdetails($db, $query_params)
 	{
 		$query = " SELECT user_id, firstname, surname, email, virtualuser 
@@ -37,6 +40,8 @@
                 return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// register.php
 	function convertvirtualtofull($db, $query_params)
 	{
 		$query = "UPDATE users 
@@ -62,7 +67,9 @@
 	}
 
 
-	//update member pasword
+	//////////////////////////////////////////////////////////
+	// update member pasword
+	// resetconfirm.php
 	function updatememberpassword($db, $query_params)
 	{
 		$query = "
@@ -85,7 +92,9 @@
 	}
 
 
-	//update user password reset activation code
+	//////////////////////////////////////////////////////////
+	// update user password reset activation code
+	// reset.php
 	function updatepasswordreset($db, $query_params)
 	{
 		$query = "UPDATE users SET activation_code = :code, expiry = :expiry WHERE email = :email";
@@ -102,7 +111,11 @@
 	}
 
 
+	//////////////////////////////////////////////////////////
 	// Get all member accounts if approved or not
+	// admin/approveaccount.php 
+	// dashboard/cragattendence.php
+	// dashboard/memberlist.php 
 	function getaccounts($db, $getapproved, $getvirtual, $flag)
 	{
 		// Get Accounts that need approving List Data
@@ -159,6 +172,8 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	//dashboard/cragattendence.php
 	function getmembersattended($db)
 	{
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id";
@@ -178,7 +193,11 @@
 
 
 
+	//////////////////////////////////////////////////////////
 	// Get all member accounts
+	// admin/approveaccount.php
+	// dashboard/editaccount.php
+	// login.php
 	function getaccountsall($db, $query_params)
 	{
 		$query = "
@@ -203,7 +222,7 @@
 			";
 		}
 
-		if(isset($query_params['user_id'])){
+		if(isset($query_params[':user_id'])){
 			$query .="
 				WHERE user_id = :user_id
 			";
@@ -219,7 +238,9 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
 	// Update member account set admin / approved status
+	// admin/approveaccount.php
 	function updateaccounts($db, $query_params)
 	{
 		$update="
@@ -238,6 +259,8 @@
 		}
 	}
 
+	//////////////////////////////////////////////////////////
+	// register.php
 	function checkusername($db,$query_params)
 	{
 		$query = "
@@ -258,6 +281,11 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// reset.php
+	// register.php
+	// admin/createvirtualuser.php
+	// dashboard/editaccount.php
 	function checkemail($db, $query_params)
 	{
 		$query = "
@@ -278,6 +306,9 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// register.php
+	// admin/createvirtualuser.php
 	function insertuser($db, $query_params)
 	{
 		$query = "
@@ -314,7 +345,14 @@
 		}
 	}
 
-	////////////////////////////////////////
+	//////////////////////////////////////////////////////////
+	// admin/updatevisit.php
+	// admin/cragreportedit.php
+	// admin/cragreportadd.php
+	// dashboard/craglist.php
+	// dashboard/cragdetail.php
+	// dashboard/cragattendence.php
+	// dashboard/visitarchive.php
 	function getcragdata($db, $query_params)
 	{
 		$query = "SELECT 
@@ -360,6 +398,9 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/cragupdate.php
+	// admin/cragvisitcreate.php
 	function getcragdetail($db)
 	{
 		$query = "SELECT cd.cragdetail_id, 
@@ -387,18 +428,11 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// dashboard/cragattendence.php
+	// dashboard/visitarchive.php
 	function getattended($db, $query_params)
 	{
-/*
-		$attendsql = "SELECT 
-				a.user_id, 
-				a.cragvisit_id 
-			      FROM attended a, 
-				 users u 
-			      WHERE u.user_id = a.user_id 
-			      ORDER BY u.user_id"; //query the db
-*/
-
 		$attendsql = "SELECT a.user_id, u.firstname, u.surname, a.cragvisit_id, cv.date FROM attended a, users u, cragvisit cv WHERE u.user_id = a.user_id AND a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = :year ORDER BY u.user_id";
 
 		$results = $db->prepare($attendsql);
@@ -407,6 +441,8 @@
 		return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// dashboard/cragdetail.php
 	function getattendendbycragid($db, $query_params)
 	{
 		$query = "SELECT u.user_id, u.firstname, u.surname 
@@ -420,6 +456,8 @@
 		return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/cragupdate.php
 	function updatecragdetails($db, $query_params)
 	{
 		$update=("
@@ -447,6 +485,8 @@
 		}
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/updatevisit.php
 	function updatecragvisit($db, $query_params)
 	{
 		$update=("
@@ -468,6 +508,8 @@
 		}
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/cragcreate.php
 	function insertcragdata($db, $query_params)
 	{
 		$query = "
@@ -505,6 +547,9 @@
 		}
 	}
 
+
+	//////////////////////////////////////////////////////////
+	// admin/cragvisitcreate.php
 	function insertcragvisit($db,$query_params)
 	{
 		$query = "INSERT INTO cragvisit 
@@ -528,6 +573,8 @@
 		}
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/cragreportadd.php
 	function insertcragreport($db, $query_params)
 	{
 		$query="INSERT INTO cragreports
@@ -547,6 +594,8 @@
                 }
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/cragreportedit.php
 	function updatecragreport($db, $query_params)
 	{
 		$query="UPDATE cragreports
@@ -563,6 +612,8 @@
                 	}
 	}
 	
+	//////////////////////////////////////////////////////////
+	// index.php
 	function getlatestcragreport($db)
 	{
 		$query="SELECT cv.date, cd.venue, cd.area, cr.cragvisit_id, cr.cragreport FROM cragreports cr, cragvisit cv, cragdetail cd WHERE cv.cragvisit_id = cr.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id ORDER BY cv.date DESC LIMIT 1";
@@ -576,6 +627,11 @@
 		return $stmt;
 	}
 
+	//////////////////////////////////////////////////////////
+	// admin/updatevisit.php
+	// admin/cragreportedit.php
+	// admin/cragreportadd.php
+	// dashboard/cragdetail.php
 	function getcragreport($db, $query_params)
 	{
 		$query="SELECT cv.date, cd.venue, cd.area, cr.cragvisit_id, cr.cragreport FROM cragreports as cr, cragdetail as cd, cragvisit as cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.cragvisit_id = cr.cragvisit_id";
@@ -592,7 +648,8 @@
 		return $stmt;
 	}
 
-
+	//////////////////////////////////////////////////////////
+	// dashboard/craglist.php
 	function insertattendeddata($db, $user_id, $value)
 	{
 		$insert=
@@ -609,6 +666,9 @@
 		}
 	}
 
+
+	//////////////////////////////////////////////////////////
+	// dashboard/craglist.php
 	function getuserattended($db, $query_params)
 	{
 		$attendsql = "SELECT cragvisit_id 
@@ -621,6 +681,8 @@
 		return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// dashboard/craglist.php
 	function removeattdence($db, $query_params)
 	{
 		$sql = " DELETE FROM attended 
@@ -634,6 +696,8 @@
 		return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// index.php
 	function getnextcrag($db)
 	{
 		$query ="SELECT cv.cragvisit_id, cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces FROM cragdetail as cd, cragvisit as cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date BETWEEN CURDATE() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
@@ -644,6 +708,9 @@
                 return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// index.php
+	// dashboard/cragdetail.php
 	function getsunsettime($db, $query_params)
 	{
 		$query="SELECT sunsettime 
@@ -655,6 +722,9 @@
                 return $results;
 	}
 
+	//////////////////////////////////////////////////////////
+	// dashboard/cragstats.php
+	// dashboard/visitarchive.php
 	function getvisithistoryyear($db)
 	{
 		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2014 ORDER BY date DESC";
@@ -665,6 +735,7 @@
                 return $results;
 	}
 	
+	/*
 	function getmembersbyyear($db, $query_params)
 	{
 		$query="SELECT distinct u.user_id, u.firstname, u.surname from users u, attended a, cragvisit cv WHERE u.user_id = a.user_id and a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = 2014";
@@ -674,11 +745,11 @@
 
                 return $results;
 	}
-	
+	*/
 
-	///////////////////////////////////////////////////////////////////////////////////////
-	// Yearly stat functions
-	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////
+	// Yearly stat functions - dashboard/cragstats.php
+	//////////////////////////////////////////////////////////
 	function getuserattendence($db, $query_params)
 	{
 		$query ="SELECT a.user_id, 

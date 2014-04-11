@@ -16,8 +16,8 @@
 	$template = $twig->loadTemplate('approval.tmpl');
 
 	$template->display(array(
-		'updated' => $lastupdated,
 		'pageTitle' => 'Approval',
+		'updated' => $lastupdated,
 		'sid' => isset($_SESSION['user']),
 		'username' => isset($_SESSION['user']['username'])
 	));
