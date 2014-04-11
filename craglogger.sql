@@ -18,7 +18,7 @@ CREATE TABLE `users` (
   `expiry` date NOT NULL,
   `emailshow` int(1) NOT NULL default'0',
   `regdate` date NOT NULL,
-  `internaluser` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
+  `virtualuser` int(1) COLLATE utf8_unicode_ci NOT NULL default '0',
   timestamp timestamp,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`),

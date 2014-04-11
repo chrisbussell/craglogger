@@ -18,7 +18,7 @@
         }
 
 	// include and register Twig auto-loader
-        include 'Twig/Autoloader.php';
+        include '../Twig/Autoloader.php';
         Twig_Autoloader::register();
 
         // define template directory location

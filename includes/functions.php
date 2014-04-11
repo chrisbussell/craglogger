@@ -159,6 +159,23 @@
 		return $stmt;
 	}
 
+	function getmembersattended($db)
+	{
+		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id";
+
+		$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
+
+
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute();
+                }
+                catch(PDOException $ex){
+                        die("Failed to run query: " . $ex->getMessage());
+                }
+                return $stmt;
+	}
+
 
 
 	// Get all member accounts
