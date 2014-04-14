@@ -17,6 +17,9 @@
 		<th>Conditions</th>
 		<th>Pub</th>
 		<th>Rained Off</th>
+		<th>Update</th>
+		<th>Reports</th>
+		<th>Visits</th>
 	</tr>
 	{% for d in data %}
 	<form method="post" action="{{ php_self }}">
@@ -56,10 +59,13 @@
 				{% endif %}
 			{% endfor %}
 			{% if have_report == 1 %}
-				<a href="/craglogger/admin/cragreportedit.php?cragvisit_id={{d.cragvisit_id}}">edit report</a>
+				<a href="/craglogger/admin/cragreportedit.php?cragvisit_id={{d.cragvisit_id}}">Edit Report</a>
 			{% else %}
-				<a href="/craglogger/admin/cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">add report</a>
+				<a href="/craglogger/admin/cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">Add Report</a>
 			{% endif %}			
+			</td>
+			<td>
+				<a href="/craglogger/admin/logmemberattendence.php?cragvisit_id={{d.cragvisit_id}}">Add Members</a>
 			</td>
 		</tr>
 	</form>

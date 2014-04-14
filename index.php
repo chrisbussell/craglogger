@@ -38,9 +38,11 @@
 
 	$template->display(array(
 		'pageTitle' => 'Home',
-		'sid' => isset($_SESSION['user']),
 		'updated' => $lastupdated,
-		'cragreport' => $cragreport,
+		'sid' => $_SESSION['user'],
+		'username' => $_SESSION['user']['username'],
+		'admin' => $_SESSION['user']['admin'],
+		'firstname' => $_SESSION['user']['firstname'],
 		'cragvisit_id' => $nextcrag['cragvisit_id'],
 		'date' => $nextcrag['date'],
 		'venue' => $nextcrag['venue'],
@@ -48,9 +50,7 @@
 		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
 		'data' => $data,
-		'username' => isset($_SESSION['user']['username']),
-		'admin' => isset($_SESSION['user']['admin']),
-		'firstname' => isset($_SESSION['user']['firstname'])
+		'cragreport' => $cragreport
 	));
 
 ?>

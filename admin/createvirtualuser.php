@@ -11,9 +11,9 @@
                 die("Redirecting to login.php");
         }
 
-        // Check if user has admin perms
+	// Check if user has admin perms
         if($_SESSION['user']['admin'] == 0){
-                header("Location: craglist.php");
+                header("Location: /craglogger/dashboard/craglist.php");
                 die("Redirecting to login.php");
         }
 

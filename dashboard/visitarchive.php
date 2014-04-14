@@ -17,6 +17,13 @@
 		die("Redirecting to login/login.php");
 	}
 
+	// Check if user has admin perms - will remove this section on live release
+        if($_SESSION['user']['admin'] == 0){
+                header("Location: /craglogger/dashboard/craglist.php");
+                die("Redirecting to login.php");
+        }
+
+
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';
 	Twig_Autoloader::register();

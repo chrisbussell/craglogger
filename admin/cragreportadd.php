@@ -28,11 +28,11 @@
 		die("Redirecting to login.php");
 	}
 
-	// does the member have admin perms
-	if($_SESSION['user']['admin'] == 0){
-		header("Location: craglist.php");
-		die("Redirecting to craglist.php");
-	}
+	// Check if user has admin perms
+        if($_SESSION['user']['admin'] == 0){
+                header("Location: /craglogger/dashboard/craglist.php");
+                die("Redirecting to login.php");
+        }
 	else{
 		$query_params = array(
 			':cragvisit_id' => $_GET['cragvisit_id']

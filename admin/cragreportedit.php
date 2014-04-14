@@ -20,12 +20,7 @@
 	$nocragselected = '';
 	$success = '';
 	$nodate = '';
-/*
-	if(!isset($_GET['cragvisit_id']))
-	{
-		$_GET['cragvisit_id'] = '';
-	}
-*/
+
 	// At the top of the page we check to see whether the user is logged in or not
 	if(empty($_SESSION['user'])){
 		// If they are not, we redirect them to the login page.
@@ -33,11 +28,11 @@
 		die("Redirecting to login.php");
 	}
 
-	// does the member have admin perms if not kick them back out
-	if($_SESSION['user']['admin'] == 0){
-		header("Location: craglist.php");
-		die("Redirecting to craglist.php");
-	}
+	// Check if user has admin perms
+        if($_SESSION['user']['admin'] == 0){
+                header("Location: /craglogger/dashboard/craglist.php");
+                die("Redirecting to login.php");
+        }
 	else{
 		$query_params = array(
 			':cragvisit_id' => $_GET['cragvisit_id']

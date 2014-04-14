@@ -9,10 +9,11 @@
 		die("Redirecting to login.php");
 	}
 
-	if($_SESSION['user']['admin'] == 0){
-		header("Location: craglist.php");
-		die("Redirecting to craglist.php");
-	}
+	// Check if user has admin perms
+        if($_SESSION['user']['admin'] == 0){
+                header("Location: /craglogger/dashboard/craglist.php");
+                die("Redirecting to login.php");
+        }
 
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';

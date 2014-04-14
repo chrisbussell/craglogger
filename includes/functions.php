@@ -114,6 +114,7 @@
 	//////////////////////////////////////////////////////////
 	// Get all member accounts if approved or not
 	// admin/approveaccount.php 
+	// admin/logmemberattendence.php
 	// dashboard/cragattendence.php
 	// dashboard/memberlist.php 
 	function getaccounts($db, $getapproved, $getvirtual, $flag)
@@ -349,6 +350,7 @@
 	// admin/updatevisit.php
 	// admin/cragreportedit.php
 	// admin/cragreportadd.php
+	// admin/logmemberattendence.php
 	// dashboard/craglist.php
 	// dashboard/cragdetail.php
 	// dashboard/cragattendence.php
@@ -443,9 +445,10 @@
 
 	//////////////////////////////////////////////////////////
 	// dashboard/cragdetail.php
+	// admin/logmemberattendence.php
 	function getattendendbycragid($db, $query_params)
 	{
-		$query = "SELECT u.user_id, u.firstname, u.surname 
+		$query = "SELECT u.user_id, u.firstname, u.surname, a.cragvisit_id 
 			FROM users as u, attended as a 
 			WHERE u.user_id = a.user_id 
 			AND a.cragvisit_id = :cragvisit_id";
@@ -650,6 +653,7 @@
 
 	//////////////////////////////////////////////////////////
 	// dashboard/craglist.php
+	// admin/logmemberattendence.php
 	function insertattendeddata($db, $user_id, $value)
 	{
 		$insert=
@@ -683,6 +687,7 @@
 
 	//////////////////////////////////////////////////////////
 	// dashboard/craglist.php
+	// admin/logmemberattendence.php
 	function removeattdence($db, $query_params)
 	{
 		$sql = " DELETE FROM attended 
