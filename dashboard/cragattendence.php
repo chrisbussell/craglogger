@@ -44,10 +44,7 @@
 	}
 
 	// GET MEMBERS LIST	
-//	$membersresults = getaccounts($db, $getapproved = 1, $getvirtual=1, $flag=1);
-//	$membersrows = $membersresults->fetchAll();
-
-	$membersresults = getmembersattended($db);
+	$membersresults = getmembersattended($db, $query_params);
 	$membersrows = $membersresults->fetchAll();
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS BY YEAR

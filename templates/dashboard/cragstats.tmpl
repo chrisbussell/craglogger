@@ -26,16 +26,18 @@
                 </tr>
 </table>
 {% endif %}
-<h2>Top Attenders</h2>
+<h3>Top Attenders</h3>
 <table class="flexitable">
 	<tr>
 		<th>Name</th>
 		<th>Visits</th>
+		<th>% of total venues</th>
 	</tr>
 	{% for d in data %}
 	<tr>
 		<td data-th="Name">{{ d.firstname }} {{d.surname}}</td>
 		<td data-th="Visits">{{ d.count }}</td>
+		<td data-th="Visits">{{ d.percent }}%</td>
 	</tr>
 	{% endfor %}
 </table>
@@ -50,7 +52,7 @@
 	{% for a in attendedcrag %}
 	<tr>
 		<td data-th="Date">{{ a.date|date ('d M Y') }}</td>
-		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id}}">{{ a.venue }} {{a.area}}</a></td>
+		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}">{{ a.venue }} {{a.area}}</a></td>
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>
 	{% endfor %}
@@ -60,11 +62,28 @@
 	<tr>
 		<th>Rock</th>
 		<th>Visits</th>
+		<th>Split</th>
 	</tr>
         {% for rt in rocktype %}
         <tr>
-                <td>{{rt.rock}}</td>
-                <td>{{rt.total}}</td>
+                <td>{{rt.rock|escape}}</td>
+                <td>{{rt.split|escape}}</td>
+                <td>{{rt.percent|escape}}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<h3>Counties Visited</h3>
+<table class="flexitable">
+        <tr>
+                <th>County</th>
+                <th>Visits</th>
+                <th>Split</th>
+        </tr>
+        {% for co in counties %}
+        <tr>
+                <td>{{co.county|escape}}</td>
+                <td>{{co.split|escape}}</td>
+                <td>{{co.percent|escape}}%</td>
         </tr>
         {% endfor %}
 </table>

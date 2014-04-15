@@ -59,8 +59,10 @@ Sorry no report yet for this visit<br/>
 			{% set i_did = 1 %}
 		{% endif %}
 	{% endfor %}	
+{% if visitdate|date('Y') == "now"|date('Y') %}
 	{% if i_did != 1 %}
-		Did you visit this crag? Click <a href="/craglogger/dashboard/craglist.php">here</a> to log your visit. 
+		Did you visit this crag? Click <a href="/craglogger/dashboard/craglist.php">here</a> to log your visit.<br/><br/> 
 	{% endif %}
+{% endif %}
         </table>
 {% endblock %}

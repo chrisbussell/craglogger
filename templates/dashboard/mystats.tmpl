@@ -1,0 +1,32 @@
+{% extends "base.tmpl" %}
+{% if year == '2014' %}
+	{% set page_class = 'crag-stats' %}
+{% else %}
+	{% set page_class = 'visit-archive' %}
+{% endif %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>My All Time Stats</h1>
+{% if weeksleft != '' %}
+<i>{{weeksleft}} glorious weeks of summer left, get out there.<br/><br/></i>
+{% endif %}
+{% if year != '2014' %}
+{% endif %}
+<h3>My Visited Crags</h3>
+<table class="flexitable">
+	<tr>
+		<th>Venue</th>
+		<th>Visits</th>
+	</tr>
+	{% for d in data %}
+	<tr>
+		<td data-th="Name">{{ d.venue }} {{d.area}}</td>
+		<td data-th="Visits">{{ d.count }}</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

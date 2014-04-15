@@ -25,8 +25,6 @@
 	///////////////////////////////////
 	$query_params = array(
 		':cragvisit_id' => $_GET['cragvisit_id']);
-	//	':year' => '2014'
-//	);
 
 	$stmt = getcragdata($db, $query_params);
 	$cragdata = $stmt->fetch();

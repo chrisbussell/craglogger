@@ -155,13 +155,13 @@
 				$query .="
 					OR virtualuser = 1";
 				}
-			
 		}
 		elseif($getvirtual == 0){
 			$query .="
 				AND virtualuser = 0
 			";
 		}
+			$query .= " ORDER BY surname, firstname";
 		
 		try{
 			$stmt = $db->prepare($query);
@@ -175,16 +175,17 @@
 
 	//////////////////////////////////////////////////////////
 	//dashboard/cragattendence.php
-	function getmembersattended($db)
+	function getmembersattended($db, $query_params)
 	{
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id";
 
-		$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
+		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
+		$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
 
 		try{
                         $stmt = $db->prepare($query);
-                        $stmt->execute();
+                        $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
                         die("Failed to run query: " . $ex->getMessage());
@@ -757,6 +758,7 @@
 	//////////////////////////////////////////////////////////
 	function getuserattendence($db, $query_params)
 	{
+/*
 		$query ="SELECT a.user_id, 
 				u.firstname, 
 				u.surname, 
@@ -768,7 +770,24 @@
 			 AND u.user_id = a.user_id 
 			 AND YEAR(cv.date)= :year 
 			 GROUP BY a.user_id
+			 ORDER BY count DESC
 			 LIMIT 10";
+*/
+		$query = "SELECT a.user_id,
+                                u.firstname, 
+                                u.surname, 
+                                count(a.cragvisit_id) as count,
+                                round(count(*) / t.total * 100,0) AS percent
+                         FROM attended as a, 
+                              cragvisit cv, 
+                              users u, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year) AS t
+                         WHERE a.cragvisit_id = cv.cragvisit_id
+                         AND u.user_id = a.user_id
+                         AND YEAR(cv.date)= :year
+                         GROUP BY a.user_id
+                         ORDER BY count DESC
+                         LIMIT 10";
+
 		$results = $db->prepare($query);
                 $results->execute($query_params);
 
@@ -797,7 +816,7 @@
 
 	function getrocktotals($db, $query_params)
 	{
-		$query = "SELECT cd.rock, count(cd.rock) as total  FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cd.rock";
+		$query = "SELECT cd.rock, count(cd.rock) as split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cd.rock ORDER BY split DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -812,6 +831,30 @@
         	$numWeeks  = round($dayDif / 7);
 		
 		return $numWeeks;
+	}
+
+	function getcountytotals($db, $query_params)
+	{
+		$query = "SELECT cd.county,  count(*) AS split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date) = :year GROUP BY cd.county ORDER BY split DESC";
+
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+
+	}
+
+	//////////////////////////////////////////////////////////
+	// Personal Stat Functions - dashboard/mystats.php
+	//////////////////////////////////////////////////////////
+	function getcragvisitsbyuser($db, $query_params)
+	{
+		$query = "SELECT cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = 1 group by venue, area";
+
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
 	}
 
 

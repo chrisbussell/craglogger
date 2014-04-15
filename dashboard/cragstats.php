@@ -39,14 +39,12 @@
 		$data[] = $row;
 	}
 
-
 	// get top attended crag
 	$stmt = gettopattendedcrag($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) {
 		$attendedcrag[] = $row;
 	}
-
 
 	// get total rained off
         $stmt = gettotalrainedoff($db, $query_params);
@@ -72,6 +70,12 @@
         while ($row = $stmt->fetchObject()) {
                 $years[] = $row;
         }
+
+	$stmt = getcountytotals($db, $query_params);
+
+        while ($row = $stmt->fetchObject()) {
+                $counties[] = $row;
+        }
 	
 	$date = date('Y-m-d H:i:s');
 
@@ -83,6 +87,7 @@
 			'year' => $_GET['year'],
 			'years' => $years,
 			'rainedoff' => $rainedoff,
+			'counties' => $counties,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
 			'sid' => $_SESSION['user'],

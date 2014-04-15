@@ -56,12 +56,11 @@
 	}
 
 	// GET MEMBERS LIST	
-	$membersresults = getattended($db, $query_params);
-	$membersrows = $membersresults->fetchAll();
+	$membersresults = getmembersattended($db, $query_params);
+        $membersrows = $membersresults->fetchAll();
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS
 	$results = getattended($db, $query_params);
-
 	$rows = $results->fetchAll();
 
 	$date = date('Y-m-d H:i:s');
@@ -69,18 +68,18 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'data' => $data,
-			'years' => $years,
-			'viewyear' => $_GET['year'],
-			'sid' => $_SESSION['user'],
-			'updated' => $lastupdated,
-			'date' => $date,
-			'attended' => $rows,
+			'pageTitle' => 'Visit Archive',
 			'php_self' =>$_SERVER['PHP_SELF'],
+			'updated' => $lastupdated,
+			'sid' => $_SESSION['user'],
 			'username' =>$_SESSION['user']['username'],
 			'admin' =>$_SESSION['user']['admin'],
-			'pageTitle' => 'Crag Attendance 2014',
-			'member' =>$membersrows,
-			'firstname' =>$_SESSION['user']['firstname']
+			'firstname' =>$_SESSION['user']['firstname'],
+			'viewyear' => $_GET['year'],
+			'data' => $data,
+			'years' => $years,
+			'date' => $date,
+			'attended' => $rows,
+			'member' =>$membersrows
 		));
 ?>
