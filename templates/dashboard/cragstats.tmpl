@@ -14,6 +14,7 @@
 {% if weeksleft != '' %}
 <i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
 {% endif %}
+<br/>
 {% if year != '2014' %}
 <table class="cragattendance flexitable">
         <tr>
@@ -28,6 +29,26 @@
 <a href="visitarchive.php">Return to visit archive</a>
 <hr/>
 {% endif %}
+<br/>
+<h3>Visit Stats</h3>
+<table class="flexitable">
+        <tr>
+                <th>Attempted visits</th>
+                <th>Rainedoff</th>
+                <th>Successful visits</th>
+                <th>Successful visits %</th>
+                <th>Rained off %</th>
+        </tr>
+        {% for y in yearstats %}
+        <tr>
+                <td data-th="Name">{{ y.attempts }}</td>
+                <td data-th="Visits">{{ y.rainedoff }}</td>
+                <td data-th="Visits">{{ y.actual }}</td>
+                <td data-th="Visits">{{ y.percentvisited }}%</td>
+                <td data-th="Visits">{{ y.percentraindedoff }}%</td>
+        </tr>
+        {% endfor %}
+</table>
 <h3>Top Attenders</h3>
 <table class="flexitable">
 	<tr>
@@ -88,13 +109,5 @@
                 <td>{{co.percent|escape}}%</td>
         </tr>
         {% endfor %}
-</table>
-<h3>Rain Stop Play</h3>
-<table class="flexitable">
-	{% for r in rainedoff %}
-	<tr>
-		<td>{{r.count}}</td>
-	</tr>
-	{% endfor %}
 </table>
 {% endblock %}

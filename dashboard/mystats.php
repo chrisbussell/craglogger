@@ -48,6 +48,10 @@
                 $years[] = $row;
         }
 
+	$stmt = gettotalvisitsbyuser($db, $query_params);
+	$totalvisits = $stmt->fetchAll();
+
+
 		// set template variables
 		// render template
 		echo $template->render(array (
@@ -59,6 +63,7 @@
 			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'data' => $data,
+			'totalvisits' => $totalvisits,
 			'years' => $years,
 			'weeksleft' => $numWeeks,
 		));

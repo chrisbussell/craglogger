@@ -32,6 +32,9 @@
 	$query_params = array(
                         ':year' => $_GET['year']);
 
+	$stmt = getyearstats($db, $query_params);
+	$yearstats = $stmt->fetchAll();
+
 	// get count of user attendence
 	$stmt = getuserattendence($db, $query_params);
 
@@ -82,11 +85,13 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
+			'pageTitle' => 'Crag Stats 2014',
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
 			'year' => $_GET['year'],
 			'years' => $years,
 			'rainedoff' => $rainedoff,
+			'yearstats' => $yearstats,
 			'counties' => $counties,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
@@ -96,7 +101,6 @@
 			'date' => $date,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
-			'pageTitle' => 'Crag Stats 2014',
 			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));

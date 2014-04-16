@@ -16,6 +16,19 @@
 {% endif %}
 {% if year != '2014' %}
 {% endif %}
+<h3>My Yearly Visits</h3>
+<table class="flexitable">
+        <tr>
+                <th>Venue</th>
+                <th>Visits</th>
+        </tr>
+        {% for tv in totalvisits %}
+        <tr>
+                <td data-th="Name">{{ tv.year }}</td>
+                <td data-th="Visits">{{ tv.visits }}</td>
+        </tr>
+        {% endfor %}
+</table>
 <h3>My Visited Crags</h3>
 <table class="flexitable">
 	<tr>
