@@ -30,6 +30,11 @@
 
 	// Update Crag Detail Data
 	if(isset($_POST['submit'])){
+	
+		if ($_POST['rainedoff'] != 1){
+			$_POST['rainedoff'] = 0;
+		}
+
 		// Initial query parameter values
 		$query_params = array(
 			':cragvisit_id' => $_POST['cragvisit_id'],

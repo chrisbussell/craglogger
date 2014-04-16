@@ -82,6 +82,7 @@ INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-01', '19:43');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-08', '19:55');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-15', '20:08');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-22', '20:20');
+INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-23', '20:22');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-29', '20:33');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-07', '20:47');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-13', '20:57');

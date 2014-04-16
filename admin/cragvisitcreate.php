@@ -65,6 +65,11 @@
 			}
 
 			if(!empty($_POST)){ 
+
+				if ($_POST['rainedoff'] != 1){
+					$_POST['rainedoff'] = 0;
+				}
+
 				$query_params = array(
 					':cragdetail_id' => $_POST['cragdetail_id'],
 					':date' => $_POST['date'],

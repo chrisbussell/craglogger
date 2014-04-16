@@ -23,7 +23,6 @@
                 die("Redirecting to login.php");
         }
 
-
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';
 	Twig_Autoloader::register();
@@ -48,12 +47,31 @@
 		':year' => $_GET['year']
 	);
 
-	//Get list of crags
+	//Get list of months for this years visits
+	$stmt = getvisitmonths($db, $query_params);
+	$months = $stmt->fetchAll();
+
+	if(isset($_GET['month'])){
+		$query_params = array(
+			':year' => $_GET['year'],
+			':month' => $_GET['month']
+		);
+	}
+	else{
+		$query_params = array(
+			':year' => $_GET['year']
+		);
+	}
+
+	//Get list of crags for given year and month
 	$stmt = getcragdata($db, $query_params);
 
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
+		$query_params = array(
+			':year' => $_GET['year']
+		);
 
 	// GET MEMBERS LIST	
 	$membersresults = getmembersattended($db, $query_params);
@@ -63,7 +81,10 @@
 	$results = getattended($db, $query_params);
 	$rows = $results->fetchAll();
 
-	$date = date('Y-m-d H:i:s');
+
+	$selectedmonth = $_GET['month'];
+	$selectmonth = getmonth($selectedmonth);
+
 
 		// set template variables
 		// render template
@@ -76,9 +97,11 @@
 			'admin' =>$_SESSION['user']['admin'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'viewyear' => $_GET['year'],
+			'viewmonth' => $_GET['month'],
+			'monthname' => $selectmonth,
 			'data' => $data,
 			'years' => $years,
-			'date' => $date,
+			'months' => $months,
 			'attended' => $rows,
 			'member' =>$membersrows
 		));

@@ -23,15 +23,17 @@
                 <td><a href="cragstats.php?year={{y.year}}">{{y.year}}</a></td>
                 </th>
                 {% endfor %}
-                </tr>
+        </tr>
 </table>
+<a href="visitarchive.php">Return to visit archive</a>
+<hr/>
 {% endif %}
 <h3>Top Attenders</h3>
 <table class="flexitable">
 	<tr>
 		<th>Name</th>
 		<th>Visits</th>
-		<th>% of total venues</th>
+		<th>Attendence %</th>
 	</tr>
 	{% for d in data %}
 	<tr>
@@ -51,7 +53,7 @@
 	</tr>
 	{% for a in attendedcrag %}
 	<tr>
-		<td data-th="Date">{{ a.date|date ('d M Y') }}</td>
+		<td data-th="Date">{{ a.date|date ('d F Y') }}</td>
 		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}">{{ a.venue }} {{a.area}}</a></td>
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>

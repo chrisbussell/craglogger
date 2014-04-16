@@ -188,7 +188,7 @@
                         $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                        die("Failed to run query: " . $ex->getMessage());
+                        die("In Function: getmembersattended: Failed to run query: " . $ex->getMessage());
                 }
                 return $stmt;
 	}
@@ -387,6 +387,10 @@
 		if(isset($query_params[':year'])){
 			$query .=" AND YEAR(cv.date) = :year";
 		}
+		
+		if(isset($query_params[':month'])){
+			$query .=" AND MONTH(cv.date) = :month";
+		}
 
 		$query .=" ORDER BY cv.date ASC";
 
@@ -400,6 +404,51 @@
 
 		return $stmt;
 	}
+	
+	// dashboard/visitarchive.php
+	function getmonth($selectedmonth)
+        {
+        	switch ($selectedmonth) {
+        	case '1':
+                	$selectmonth = 'January';
+        	break;
+        	case '2':
+        	        $selectmonth = 'Feburay';
+        	break;
+        	case '3':
+        	        $selectmonth = 'March';
+        	break;
+        	case '4':
+        	        $selectmonth = 'April';
+        	break;
+        	case '5':
+        	        $selectmonth = 'May';
+        	break;
+        	case '6':
+        	        $selectmonth = 'June';
+        	break;
+        	case '7':
+        	        $selectmonth = 'July';
+        	break;
+        	case '8':
+        	        $selectmonth = 'August';
+        	break;
+        	case '9':
+               		$selectmonth = 'September';
+        	break;
+        	case '10':
+        	        $selectmonth = 'October';
+        	break;
+        	case '11':
+        	        $selectmonth = 'November';
+        	break;
+        	case '12':
+        	        $selectmonth = 'December';
+        	break;
+        	}
+                return $selectmonth;
+        }
+
 
 	//////////////////////////////////////////////////////////
 	// admin/cragupdate.php
@@ -753,6 +802,16 @@
 	}
 	*/
 
+	function getvisitmonths($db, $query_params)
+        {
+                //$query = "SELECT distinct MONTHNAME(date) as month FROM cragvisit WHERE YEAR(date) = :year";
+                $query = "SELECT distinct MONTHNAME(date) as monthname, MONTH(date) as monthnum FROM cragvisit WHERE YEAR(date) = :year ORDER BY date";
+                $results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+        }
+
 	//////////////////////////////////////////////////////////
 	// Yearly stat functions - dashboard/cragstats.php
 	//////////////////////////////////////////////////////////
@@ -780,7 +839,7 @@
                                 round(count(*) / t.total * 100,0) AS percent
                          FROM attended as a, 
                               cragvisit cv, 
-                              users u, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year) AS t
+                              users u, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t
                          WHERE a.cragvisit_id = cv.cragvisit_id
                          AND u.user_id = a.user_id
                          AND YEAR(cv.date)= :year

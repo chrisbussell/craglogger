@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Tuesday Nighters Archive {{viewyear}}</h1>
+<h1>Tuesday Nighters Archive {{viewyear|escape}} {{monthname|escape}}</h1>
 Choose the year you want to view
 <table class="cragattendance flexitable">
 	<tr>
@@ -19,6 +19,7 @@ Choose the year you want to view
 		{% endfor %}
 		</tr>
 </table>
+<hr/>
 {% if viewyear != '' %}
 <table class="cragattendance flexitable">
 	<tr>
@@ -28,15 +29,29 @@ Choose the year you want to view
 	</tr>
 </table>
 <table class="cragattendance flexitable">
+<tr>
+<th scope="row" class="visit" valign="middle">Choose a month to see who was there.</th>
+{% for mon in months %}
+<th>
+<td><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}">{{mon.monthname|escape}}</a></td>
+</th>
+{% endfor %}
+</tr>
+</table>
+{% if viewmonth != '' %}
+<table class="cragattendance flexitable">
 	<tr>
-		<th scope="row" class="visit" valign="middle">Visit {{viewyear}}</th>
+		<th scope="row" class="visit" valign="middle">Visit</th>
 		{% for d in data %}
 		<th>
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
 			<br/>
-			{{ d.date|date("d M Y") }}
+			{{ d.date|date("d F Y") }}
 			<br/>
 			<small>{{ d.event }}</small>
+			{% if d.rainedoff == 1 %}
+                        <small>Rain stop play</small>
+                        {% endif %}
 		</th>
 		{% endfor %}
 	</tr>
@@ -61,5 +76,6 @@ Choose the year you want to view
 	</tr>
 	{% endfor %}
 </table>
+{% endif %}
 {% endif %}
 {% endblock %}

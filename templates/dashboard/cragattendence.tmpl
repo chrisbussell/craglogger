@@ -7,7 +7,17 @@
 {% endblock %}
 
 {% block content %}
-<h1>Who has been where in 2014</h1>
+<h1>Who has been where in 2014 {{viewmonth|escape}}</h1>
+<table class="cragattendance flexitable">
+<tr>
+<th scope="row" class="visit" valign="middle">Choose a month to see who was there.</th>
+{% for mon in months %}
+<th>
+<td><a href="cragattendence.php?month={{mon.monthnum}}">{{mon.monthname|escape}}</a></td>
+</th>
+{% endfor %}
+</tr>
+</table>
 <table class="cragattendance flexitable">
 	<tr>
 		<th scope="row" class="visit" valign="middle">Visit</th>
@@ -15,9 +25,12 @@
 		<th>
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
 			<br/>
-			{{ d.date|date("d M Y") }}
+			{{ d.date|date("d F Y") }}
 			<br/>
 			<small>{{ d.event }}</small>
+			{% if d.rainedoff == 1 %}
+			<small>Rain stop play</small>
+			{% endif %}
 		</th>
 		{% endfor %}
 	</tr>
