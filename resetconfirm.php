@@ -75,7 +75,8 @@
 				echo 'Message was not sent.';
 				echo 'Mailer error: ' . $mail->ErrorInfo;
 			} else {
-				echo 'Message has been sent.';
+				//Success
+			//	echo 'Message has been sent.';
 			}
 		}
 	}

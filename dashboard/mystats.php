@@ -43,14 +43,18 @@
 	$numWeeks = weeksleftofsummer();
 
 	$stmt = getvisithistoryyear($db);
-
+	$totalyears = $stmt->fetchAll();
+/*
         while ($row = $stmt->fetchObject()) {
                 $years[] = $row;
         }
+*/
 
 	$stmt = gettotalvisitsbyuser($db, $query_params);
 	$totalvisits = $stmt->fetchAll();
 
+	$stmt = gettotalvisitsbymonthbyuser($db, $query_params);
+	$monthvisits = $stmt->fetchAll();
 
 		// set template variables
 		// render template
@@ -64,6 +68,7 @@
 			'firstname' =>$_SESSION['user']['firstname'],
 			'data' => $data,
 			'totalvisits' => $totalvisits,
+			'monthvisits' => $monthvisits,
 			'years' => $years,
 			'weeksleft' => $numWeeks,
 		));

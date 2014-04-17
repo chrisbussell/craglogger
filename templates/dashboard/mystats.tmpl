@@ -1,9 +1,6 @@
 {% extends "base.tmpl" %}
-{% if year == '2014' %}
-	{% set page_class = 'crag-stats' %}
-{% else %}
-	{% set page_class = 'visit-archive' %}
-{% endif %}
+
+	{% set page_class = 'my-stats' %}
 
 {% block class %}
  class="{{page_class}}" 
@@ -19,13 +16,30 @@
 <h3>My Yearly Visits</h3>
 <table class="flexitable">
         <tr>
-                <th>Venue</th>
-                <th>Visits</th>
+                <th>Year</th>
+                <th>My Visits</th>
+                <th>Total Venues</th>
+                <th>% Visited</th>
         </tr>
         {% for tv in totalvisits %}
         <tr>
-                <td data-th="Name">{{ tv.year }}</td>
-                <td data-th="Visits">{{ tv.visits }}</td>
+                <td data-th="Name">{{ tv.year|escape }}</td>
+                <td data-th="Visits">{{ tv.myvisits|escape }}</td>
+                <td data-th="Attempts">{{ tv.attempts|escape }}</td>
+                <td data-th="Visits">{{ tv.percent|escape }}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<h3>My Visits by Month</h3>
+<table class="flexitable">
+        <tr>
+                <th>Month</th>
+                <th>My Visits</th>
+        </tr>
+        {% for mv in monthvisits %}
+        <tr>
+                <td data-th="Name">{{ mv.monthname|escape }}</td>
+                <td data-th="Visits">{{ mv.myvisits|escape }}</td>
         </tr>
         {% endfor %}
 </table>
@@ -33,7 +47,7 @@
 <table class="flexitable">
 	<tr>
 		<th>Venue</th>
-		<th>Visits</th>
+		<th>My Visits</th>
 	</tr>
 	{% for d in data %}
 	<tr>

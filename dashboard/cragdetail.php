@@ -4,6 +4,8 @@
 
 	$user_id = $_SESSION['user']['user_id'];
 
+	$visiteddata = '';
+
 	if(empty($_SESSION['user'])){	
 		header("Location: ../login.php");
 		die("Redirecting to login.php");

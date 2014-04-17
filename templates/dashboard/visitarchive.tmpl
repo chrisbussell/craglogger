@@ -8,7 +8,30 @@
 
 {% block content %}
 <h1>Tuesday Nighters Archive {{viewyear|escape}} {{monthname|escape}}</h1>
-Choose the year you want to view
+{% if viewyear == ''%}
+<article class="intro__text"><b>All Time Visit Stats</b></article>
+<table class="flexitable">
+        <tr>
+                <th>Attempts</th>
+                <th>Rainedoff</th>
+                <th>Visited</th>
+                <th>% Visited</th>
+                <th>% Rainedoff</th>
+                <th></th>
+        </tr>
+        {% for s in allsummary %}
+        <tr>
+                <td data-th="Name">{{ s.attempts|escape }}</td>
+                <td data-th="Visits">{{ s.rainedoff|escape }}</td>
+                <td data-th="Attempts">{{ s.actual|escape }}</td>
+                <td data-th="Visits">{{ s.percentvisited|escape }}%</td>
+                <td data-th="Visits">{{ s.percentraindedoff|escape }}%</td>
+                <td data-th="Visits"><small>more</small></td>
+        </tr>
+        {% endfor %}
+</table>
+{% endif %}
+<article class="intro__text">Choose the year you want to view</article>
 <table class="cragattendance flexitable">
 	<tr>
 		<th scope="row" class="visit" valign="middle">Years Available</th>

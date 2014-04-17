@@ -408,6 +408,7 @@
 	// dashboard/visitarchive.php
 	function getmonth($selectedmonth)
         {
+		$selectmonth = '';
         	switch ($selectedmonth) {
         	case '1':
                 	$selectmonth = 'January';
@@ -918,7 +919,7 @@
 	//////////////////////////////////////////////////////////
 	function getcragvisitsbyuser($db, $query_params)
 	{
-		$query = "SELECT cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = 1 group by venue, area ORDER BY count DESC";
+		$query = "SELECT cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = :user_id group by venue, area ORDER BY count DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -928,10 +929,33 @@
 
 	function gettotalvisitsbyuser($db, $query_params)
 	{
-		$query = "SELECT YEAR(cv.date) as year, count(*) as visits FROM attended a, cragvisit cv WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id GROUP BY YEAR(cv.date)";
+		//$query = "SELECT YEAR(cv.date) as year, count(*) as visits FROM attended a, cragvisit cv WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id GROUP BY YEAR(cv.date)";
+
+		$query = "SELECT YEAR(cv.date) as year, count(*) as myvisits, t.total as attempts, round(count(*) / t.total * 100,0) as percent  FROM attended a, cragvisit cv, (SELECT YEAR(date) as year, count(*) as total from cragvisit WHERE rainedoff = 0 GROUP BY year) as t WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id and t.year = YEAR(cv.date) GROUP BY YEAR(cv.date) ORDER BY YEAR(cv.date) DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
+
+                return $results;
+	}
+
+	function gettotalvisitsbymonthbyuser($db, $query_params)
+	{
+		$query = "SELECT MONTHNAME(cv.date) as monthname, count(*) as myvisits FROM cragvisit cv INNER JOIN attended a ON cv.cragvisit_id = a.cragvisit_id WHERE a.user_id = :user_id GROUP BY MONTH(cv.date) ORDER BY cv.date";
+		$results = $db->prepare($query);
+                $results->execute($query_params);
+
+                return $results;
+	}
+
+
+	/////All Time Stats
+	function getalltimesummary($db)
+	{
+		$query = "SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1) as r, (SELECT COUNT(*) as total FROM cragvisit) as t";
+
+		$results = $db->prepare($query);
+                $results->execute();
 
                 return $results;
 	}

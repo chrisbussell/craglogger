@@ -54,8 +54,10 @@
 			//Add code and expiry to db
 			$passed = updatepasswordreset($db, $query_params);
 
+			$encodeemail = urlencode($email);
+
 			//echo"YES WE KNOW THIS USER, SEND ACTIVATION CODE";
-			$resetlink = "http://ccgi.chrisbussell.plus.com/craglogger/resetconfirm.php?email=$email&code=$code&expiry=$expiry";
+			$resetlink = "http://ccgi.chrisbussell.plus.com/craglogger/resetconfirm.php?email=$encodeemail&code=$code&expiry=$expiry";
 			
 			//Email admin account details to approve
 			$mail = new PHPMailer();

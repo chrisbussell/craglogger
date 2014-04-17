@@ -6,9 +6,12 @@
 	$data = '';
 
 	$user_id = $_SESSION['user']['user_id'];
-	if(!isset($_GET['year']))
-	{
+	if(!isset($_GET['year'])){
 		$_GET['year'] = '';
+	}
+
+	if(!isset($_GET['month'])){
+		$_GET['month'] = '';
 	}
 
 	if(empty($_SESSION['user']))
@@ -35,6 +38,11 @@
 
 	// load template
 	$template = $twig->loadTemplate('dashboard/visitarchive.tmpl');
+
+	$stmt = getalltimesummary($db);
+	$allsummary = $stmt->fetchAll();
+
+
 
 	$stmt = getvisithistoryyear($db);
 
@@ -100,6 +108,7 @@
 			'viewmonth' => $_GET['month'],
 			'monthname' => $selectmonth,
 			'data' => $data,
+			'allsummary' => $allsummary,
 			'years' => $years,
 			'months' => $months,
 			'attended' => $rows,
