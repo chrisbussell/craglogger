@@ -756,9 +756,14 @@
 	// index.php
 	function getnextcrag($db)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces FROM cragdetail as cd, cragvisit as cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date BETWEEN CURDATE() AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
+		$query ="SELECT cv.cragvisit_id, 
+						cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
+				FROM cragdetail as cd, cragvisit as cv 
+				WHERE cd.cragdetail_id = cv.cragdetail_id 
+				AND cv.date BETWEEN CURDATE() 
+				AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
 
-		$results = $db->prepare($query);
+				$results = $db->prepare($query);
                 $results->execute();
 
                 return $results;
@@ -818,21 +823,6 @@
 	//////////////////////////////////////////////////////////
 	function getuserattendence($db, $query_params)
 	{
-/*
-		$query ="SELECT a.user_id, 
-				u.firstname, 
-				u.surname, 
-				count(a.cragvisit_id) as count 
-			 FROM attended as a, 
-			      cragvisit cv, 
-			      users u 
-			 WHERE a.cragvisit_id = cv.cragvisit_id 
-			 AND u.user_id = a.user_id 
-			 AND YEAR(cv.date)= :year 
-			 GROUP BY a.user_id
-			 ORDER BY count DESC
-			 LIMIT 10";
-*/
 		$query = "SELECT a.user_id,
                                 u.firstname, 
                                 u.surname, 
@@ -876,7 +866,7 @@
 
 	function getrocktotals($db, $query_params)
 	{
-		$query = "SELECT cd.rock, count(cd.rock) as split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date)= :year AND cv.rainedoff = 0 GROUP BY cd.rock ORDER BY split DESC";
+		$query = "SELECT cd.rock, count(cd.rock) as split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE cv.date < NOW() AND YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date < NOW() AND YEAR(cv.date)= :year AND cv.rainedoff = 0 GROUP BY cd.rock ORDER BY split DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -895,7 +885,7 @@
 
 	function getcountytotals($db, $query_params)
 	{
-		$query = "SELECT cd.county,  count(*) AS split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND YEAR(cv.date) = :year AND cv.rainedoff = 0 GROUP BY cd.county ORDER BY split DESC";
+		$query = "SELECT cd.county,  count(*) AS split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE cv.date < NOW() AND YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date < NOW() AND YEAR(cv.date) = :year AND cv.rainedoff = 0 GROUP BY cd.county ORDER BY split DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -906,7 +896,7 @@
 
 	function getyearstats($db, $query_params)
 	{
-		$query = "SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0 AND YEAR(date) = :year) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1 AND YEAR(date) = :year) as r, (SELECT COUNT(*) as total FROM cragvisit WHERE YEAR(date) = :year) as t WHERE YEAR(date) = :year";
+		$query ="SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0 AND YEAR(date) = :year AND date < NOW()) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1 AND date < NOW() AND YEAR(date) = :year) as r, (SELECT COUNT(*) as total FROM cragvisit WHERE date < NOW() AND YEAR(date) = :year) as t WHERE YEAR(date) = :year AND date < NOW()";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -919,7 +909,7 @@
 	//////////////////////////////////////////////////////////
 	function getcragvisitsbyuser($db, $query_params)
 	{
-		$query = "SELECT cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = :user_id group by venue, area ORDER BY count DESC";
+		$query = "SELECT cd.cragdetail_id, cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = :user_id group by venue, area ORDER BY count DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -931,7 +921,7 @@
 	{
 		//$query = "SELECT YEAR(cv.date) as year, count(*) as visits FROM attended a, cragvisit cv WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id GROUP BY YEAR(cv.date)";
 
-		$query = "SELECT YEAR(cv.date) as year, count(*) as myvisits, t.total as attempts, round(count(*) / t.total * 100,0) as percent  FROM attended a, cragvisit cv, (SELECT YEAR(date) as year, count(*) as total from cragvisit WHERE rainedoff = 0 GROUP BY year) as t WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id and t.year = YEAR(cv.date) GROUP BY YEAR(cv.date) ORDER BY YEAR(cv.date) DESC";
+		$query = "SELECT YEAR(cv.date) as year, count(*) as myvisits, t.total as attempts, round(count(*) / t.total * 100,0) as percent  FROM attended a, cragvisit cv, (SELECT YEAR(date) as year, count(*) as total from cragvisit WHERE rainedoff = 0 AND date < now() GROUP BY year) as t WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id and t.year = YEAR(cv.date) GROUP BY YEAR(cv.date) ORDER BY YEAR(cv.date) DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -948,6 +938,31 @@
                 return $results;
 	}
 
+	function getcragdatevisits($db, $query_params)
+	{
+		$query = "SELECT cv.cragvisit_id, cv.date, cv.conditions, cd.venue 
+				  FROM cragvisit cv 
+				  INNER JOIN attended a ON cv.cragvisit_id = a.cragvisit_id 
+				  INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id 
+				  WHERE cv.cragdetail_id = :cragdetail_id 
+				  AND a.user_id = :user_id";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+        return $results;
+	}
+
+	function getcragsbyyearbyuser($db, $query_params)
+	{
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id INNER JOIN attended a ON cv.cragvisit_id = a.cragvisit_id WHERE a.user_id = :user_id AND YEAR(cv.date) = :year ORDER BY cv.date ASC";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+        return $results;
+
+	}
 
 	/////All Time Stats
 	function getalltimesummary($db)
@@ -960,6 +975,7 @@
                 return $results;
 	}
 
+	
 
 
 ?>

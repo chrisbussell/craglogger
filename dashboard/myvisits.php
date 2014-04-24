@@ -9,7 +9,6 @@
 	$attendedcrag = '';
 	$years = '';
 	$rocktypes = '';
-	$dates = '';
 
 	if(empty($_SESSION['user']))
 	{	
@@ -28,45 +27,15 @@
 	$twig = new Twig_Environment($loader);
 
 	// load template
-	$template = $twig->loadTemplate('dashboard/mystats.tmpl');
-
-	if(!isset($_GET['dates'])){
-		$_GET['dates'] = '';
-	}
-
-	if(!isset($GET['cragdetail_id'])){
-		$_GET['cragdetail_id'] = '';
-	}
-
-	// set params to be used for function calls
-	$query_params = array(':user_id' => $user_id);
-
-	// get count of user attendence
-	$stmt = getcragvisitsbyuser($db, $query_params);
-
-	while ($row = $stmt->fetchObject()) {
-		$data[] = $row;
-	}
-
-	//get number of weeks of summer left
-	$numWeeks = weeksleftofsummer();
-
-	$stmt = getvisithistoryyear($db);
-	$totalyears = $stmt->fetchAll();
-
-	$stmt = gettotalvisitsbyuser($db, $query_params);
-	$totalvisits = $stmt->fetchAll();
-
-	$stmt = gettotalvisitsbymonthbyuser($db, $query_params);
-	$monthvisits = $stmt->fetchAll();
+	$template = $twig->loadTemplate('dashboard/myvisits.tmpl');
 
 	// set params to be used for function calls
 	$query_params = array(
 						':user_id' => $user_id,
-						':cragdetail_id' => $_GET['cragdetail_id']);
+						':year' => $_GET['year']);
 
-	$stmt = getcragdatevisits($db, $query_params);
-	$visitdates = $stmt->fetchAll();
+	$stmt = getcragsbyyearbyuser($db, $query_params);
+	$visitbyyear = $stmt->fetchAll();
 
 	// set template variables
 	// render template
@@ -79,12 +48,11 @@
 			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'user_id' =>$_SESSION['user']['user_id'],
-			'dates' =>$_GET['dates'],
 			'data' => $data,
-			'totalvisits' => $totalvisits,
+			'visitbyyear' => $visitbyyear,
 			'monthvisits' => $monthvisits,
-			'visitdates' => $visitdates,
 			'years' => $years,
+			'blah' => $_GET['blah'],
 			'weeksleft' => $numWeeks,
 	));
 ?>

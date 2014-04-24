@@ -31,8 +31,7 @@
 	$stmt = getlatestcragreport($db);
 	$data = $stmt->fetchAll();
 
-	if (!empty($data))
-	{
+	if (!empty($data)){
 		$cragreport = nl2br($data['0']['cragreport']);
 	}
 
