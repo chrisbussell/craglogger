@@ -61,10 +61,9 @@
 						':user_id' => $user_id,
 						':cragdetail_id' => $_GET['cragdetail_id']);
 
-print_r($_GET);
 	$stmt = getcragdatevisits($db, $query_params);
 	$visitdates = $stmt->fetchAll();
-print_r($visitdates);
+
 	// set template variables
 	// render template
 	echo $template->render(array (

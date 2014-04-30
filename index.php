@@ -28,6 +28,9 @@
 	$stmt = getsunsettime($db, $query_params);
 	$sunset = $stmt->fetch();
 
+	$stmt = getmoonphase($db, $query_params);
+	$moonphase = $stmt->fetch();
+
 	$stmt = getlatestcragreport($db);
 	$data = $stmt->fetchAll();
 
@@ -48,6 +51,8 @@
 		'area' => $nextcrag['area'],
 		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
+		'moonphase' => $moonphase['phase'],
+		'mooncoverage' => $moonphase['coverage'],
 		'data' => $data,
 		'cragreport' => $cragreport
 	));

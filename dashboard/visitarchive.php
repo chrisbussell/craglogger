@@ -42,8 +42,6 @@
 	$stmt = getalltimesummary($db);
 	$allsummary = $stmt->fetchAll();
 
-
-
 	$stmt = getvisithistoryyear($db);
 
 	while ($row = $stmt->fetchObject()) {
@@ -54,6 +52,10 @@
 	$query_params = array(
 		':year' => $_GET['year']
 	);
+print_r($_GET);
+	$stmt = getendtermreport($db, $query_params);
+	$termreport = $stmt -> fetch();
+	print_r($termreport);
 
 	//Get list of months for this years visits
 	$stmt = getvisitmonths($db, $query_params);
@@ -106,8 +108,10 @@
 			'firstname' =>$_SESSION['user']['firstname'],
 			'viewyear' => $_GET['year'],
 			'viewmonth' => $_GET['month'],
+			'showreport' => $_GET['showreport'],
 			'monthname' => $selectmonth,
 			'data' => $data,
+			'termreport' => $termreport['report'],
 			'allsummary' => $allsummary,
 			'years' => $years,
 			'months' => $months,

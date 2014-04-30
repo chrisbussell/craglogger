@@ -50,7 +50,19 @@
 			View Crag Stats for <a href="cragstats.php?year={{viewyear}}">{{viewyear}}</a>
 		</th>
 	</tr>
+	<tr>
+		<th scope="row" class="visit" valign="middle">
+			End of Term Report <a href="visitarchive.php?year={{viewyear}}&showreport=1">view</a>
+		</th>
+	</tr>
 </table>
+{% if showreport == '1' %}
+<article class="intro__text">
+{{termreport|raw}}<br/>
+<a href="visitarchive.php?showreport=0&year={{viewyear}}">hide</a><br/><br/>
+</article>
+{% endif %}
+
 <table class="cragattendance flexitable">
 <tr>
 <th scope="row" class="visit" valign="middle">Choose a month to see who was there.</th>

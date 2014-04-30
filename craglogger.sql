@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS craglogger;
+ROP DATABASE IF EXISTS craglogger;
 
 CREATE DATABASE craglogger;
 
@@ -78,6 +78,57 @@ CREATE TABLE sunset (
 PRIMARY KEY (sunset_id)
 );
 
+CREATE TABLE moonphase(
+  moonphase_id int(11) NOT NULL AUTO_INCREMENT,
+  date date,
+  phase varchar(10),
+  coverage varchar(4),
+  timestamp timestamp,
+PRIMARY KEY (moonphase_id)
+);
+
+CREATE TABLE endoftermreport(
+  report_id int(11) NOT NULL AUTO_INCREMENT,
+  year int(4) NOT NULL,
+  report BLOB,
+  timestamp timestamp,
+PRIMARY KEY (report_id)
+);
+
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-04-01', 'waxing', '5.11');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-04-08', 'waxing', '63.62');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-04-15', 'full', '99.72');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-04-23', 'waning', '33.3');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-04-29', 'new', '0.36');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-07', 'waxing', '54.34');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-13', 'waxing', '98.79');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-20', 'waning', '58.43');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-28', 'new', '0.00');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-06-03', 'waxing', '26.06');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-06-10', 'waxing', '89.05');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-06-17', 'waning', '77.72');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-06-24', 'waning', '9.27');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-07-01', 'waxing', '13.45');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-07-08', 'waxing', '77.13');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-07-15', 'waning', '88.75');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-07-22', 'waning', '15.16');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-07-29', 'waxing', '7.32');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-08-06', 'waxing', '94.31');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-08-12', 'waning', '93.59');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-08-19', 'waning', '27.58');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-08-27', 'waxing', '4.5');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-09-02', 'waxing', '54.09');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-09-09', 'waning', '99.16');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-09-16', 'waning', '42.76');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-09-23', 'new', '0.18');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-09-30', 'waxing', '39.22');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-10-07', 'waxing', '99.44');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-10-14', 'waning', '59.47');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-10-21', 'waning', '4.37');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-08-26', 'waxing', '1.37');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-27', 'waning', '0.95');
+INSERT INTO moonphase (date, phase, coverage) VALUES ('2014-05-06', 'waxing', '47.02');
+
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-01', '19:43');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-08', '19:55');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-04-15', '20:08');
@@ -114,10 +165,3 @@ INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-26', '20:11');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-27', '21:19');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-06', '20:45');
 
-
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('1','High Tor','','Limestone','England','Derbyshire', '150', 'W','http://www.ukclimbing.com/logbook/crag.php?id=119','53.126446','-1.5576134');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('2','Stanage','Popular','Gritstone','England','Derbyshire', '450', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=104','53.345128','-1.6319593');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('3','Froggatt Edge','','Gritstone','England','Derbyshire', '300', 'W','http://http://www.ukclimbing.com/logbook/crag.php?id=22','53.284896','-1.6294768');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('4','Stanage','High Neb','Gritstone','England','Derbyshire', '500', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=100','53.363181','-1.6573495');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('5','Roaches','Skyline','Gritstone','England','Staffordshire', '470', 'SW','http://www.ukclimbing.com/logbook/crag.php?id=798','53.165919','-1.9969681');
-INSERT INTO cragdetail (cragdetail_id, venue, area, rock, country, county, altitude, faces, web, lat, lng) VALUES ('6','Castle Naze','','Gritstone','England','Derbyshire', '400', 'W','http://www.ukclimbing.com/logbook/crag.php?id=137','53.301626','-1.9234341');

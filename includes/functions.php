@@ -649,6 +649,62 @@
 	}
 
 	//////////////////////////////////////////////////////////
+	// .php
+	function insertendoftermreport($db, $query_params)
+	{
+		$query="INSERT INTO endoftermreport
+					(year,
+					report)
+				VALUES (
+					:year,
+					:report)";
+		try{
+				$stmt = $db->prepare($query);
+				$stmt->execute($query_params);
+				return true;
+			}
+			catch(PDOException $ex){
+				return false;
+				die("Failed to run query: " . $ex->getMessage());
+			}
+	}
+
+	function getendtermreport($db, $query_params)
+	{
+		$query = "SELECT year, report
+				FROM endoftermreport
+				WHERE year = :year";
+
+				try{
+				$stmt = $db->prepare($query);
+				$stmt->execute($query_params);
+				return $stmt;
+			}
+			catch(PDOException $ex){
+				return false;
+				die("Failed to run query: " . $ex->getMessage());
+			}
+
+	}
+
+	function updatetermreport($db, $query_params)
+	{
+		$query = "UPDATE endoftermreport
+					SET report = :report
+					WHERE year = :year";
+
+			try{
+				$stmt = $db->prepare($query);
+				$stmt->execute($query_params);
+				return true;
+			}
+			catch(PDOException $ex){
+				return false;
+				die("Failed to run query: " . $ex->getMessage());
+			}
+	}
+
+	//////////////////////////////////////////////////////////
 	// admin/cragreportedit.php
 	function updatecragreport($db, $query_params)
 	{
@@ -784,6 +840,20 @@
 	}
 
 	//////////////////////////////////////////////////////////
+	// index.php
+	function getmoonphase($db, $query_params)
+	{
+		$query="SELECT phase, coverage
+			FROM moonphase 
+			WHERE date = :date";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+
+	//////////////////////////////////////////////////////////
 	// dashboard/cragstats.php
 	// dashboard/visitarchive.php
 	function getvisithistoryyear($db)
@@ -830,10 +900,15 @@
                                 round(count(*) / t.total * 100,0) AS percent
                          FROM attended as a, 
                               cragvisit cv, 
-                              users u, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND cv.rainedoff = 0) AS t
+                              users u, (SELECT COUNT(*) AS total 
+                              FROM cragdetail cd 
+                              INNER JOIN cragvisit cv 
+                              ON cd.cragdetail_id = cv.cragdetail_id 
+                              WHERE YEAR(cv.date) = :year AND date < NOW()
+                              AND cv.rainedoff = 0) AS t
                          WHERE a.cragvisit_id = cv.cragvisit_id
                          AND u.user_id = a.user_id
-                         AND YEAR(cv.date)= :year
+                         AND YEAR(cv.date)= :year AND date < NOW()
                          GROUP BY a.user_id
                          ORDER BY count DESC
                          LIMIT 10";

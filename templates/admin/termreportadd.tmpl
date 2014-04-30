@@ -1,0 +1,46 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin crag-report' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Choose year to add end of term report</h1>
+<table class="cragattendance flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Years Available</th>
+		{% for y in years %}
+		<th>
+		<td><a href="termreportadd.php?viewyear={{y.year}}">{{y.year}}</a></td>
+		</th>
+		{% endfor %}
+		</tr>
+</table>
+<hr/>
+{% if viewyear != '' %}
+<h1>Add end of term report for {{viewyear|escape}}</h1>
+<form action="{{php_self}}" method="post">
+	<input type="hidden" name="viewyear" value="{{ viewyear|escape }}"/>
+	<div>
+		<label for="report">Report:</label>
+		<br />
+		{% if success == 1 %}
+			<textarea name="report" id="report" cols="80" rows="20">{{termreport}}</textarea><br/>
+			<input type="submit" name="update" value="Update Report" />
+		{% else %}
+			<textarea name="report" id="report" cols="80" rows="20" ></textarea>
+			<input type="submit" name="submit" value="Add this report" />
+		{% endif %}
+	</div>
+</form>
+{% endif %}
+{% if success == 1%}
+<p>
+	<i>
+		<b>Thank you, crag report has been added</b>
+	</i>
+</p>
+{% endif %}
+{% endblock %}
