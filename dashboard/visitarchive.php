@@ -52,7 +52,7 @@
 	$query_params = array(
 		':year' => $_GET['year']
 	);
-print_r($_GET);
+
 	$stmt = getendtermreport($db, $query_params);
 	$termreport = $stmt -> fetch();
 	print_r($termreport);
