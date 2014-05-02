@@ -10,24 +10,9 @@
 {% endblock %}
 
 {% block content %}
-<h1>Crag Stats {{year}}</h1>
+<h1>All Time Tuesday Nighters Crag Stats</h1>
 {% if weeksleft != '' %}
 <i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
-{% endif %}
-<br/>
-{% if year != '2014' %}
-<table class="cragattendance flexitable">
-        <tr>
-                <th scope="row" class="visit" valign="middle">Years Available</th>
-                {% for y in years %}
-                <th>
-                <td><a href="cragstats.php?year={{y.year}}">{{y.year}}</a></td>
-                </th>
-                {% endfor %}
-        </tr>
-</table>
-<a href="visitarchive.php?year={{year}}">Return to visit archive</a>
-<hr/>
 {% endif %}
 <br/>
 <h3>Visit Stats</h3>
@@ -39,13 +24,13 @@
                 <th>Successful visits %</th>
                 <th>Rained off %</th>
         </tr>
-        {% for ys in yearstats %}
+        {% for as in allsummary %}
         <tr>
-                <td data-th="Name">{{ ys.attempts }}</td>
-                <td data-th="Visits"><a href="#rain">{{ ys.rainedoff }}</a></td>
-                <td data-th="Visits">{{ ys.actual }}</td>
-                <td data-th="Visits">{{ ys.percentvisited }}%</td>
-                <td data-th="Visits">{{ ys.percentraindedoff }}%</td>
+                <td data-th="Name">{{ as.attempts }}</td>
+                <td data-th="Visits"><a href="#rain">{{ as.rainedoff }}</a></td>
+                <td data-th="Visits">{{ as.actual }}</td>
+                <td data-th="Visits">{{ as.percentvisited }}%</td>
+                <td data-th="Visits">{{ as.percentraindedoff }}%</td>
         </tr>
         {% endfor %}
 </table>

@@ -28,13 +28,11 @@
 	$twig = new Twig_Environment($loader);
 
 	// load template
-	$template = $twig->loadTemplate('dashboard/cragstats.tmpl');
+	$template = $twig->loadTemplate('dashboard/alltimestats.tmpl');
 
-	$query_params = array(
-                        ':year' => $_GET['year']);
-
-	$stmt = getyearstats($db, $query_params);
-	$yearstats = $stmt->fetchAll();
+	// Get summary of all time visits data - Visit Stats
+	$stmt = getalltimesummary($db);
+	$allsummary = $stmt->fetchAll();
 
 	// get count of user attendence
 	$stmt = getuserattendence($db, $query_params);
@@ -42,6 +40,10 @@
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
+	//Get list of crags available this year
+	$query_params = array(
+		':year' => $_GET['year']
+	);
 
 	// get top attended crag
 	$stmt = gettopattendedcrag($db, $query_params);
@@ -91,11 +93,10 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'pageTitle' => 'Crag Stats 2014',
+			'pageTitle' => 'All Time Crag Stats',
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
-			'year' => $_GET['year'],
-			'years' => $years,
+			'allsummary' => $allsummary,
 			'rainedoff' => $rainedoff,
 			'yearstats' => $yearstats,
 			'counties' => $counties,

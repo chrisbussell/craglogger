@@ -4,6 +4,13 @@
 
 	$years = '';
 	$data = '';
+	$showlink = '';
+	$showreport1 = '';
+	$tag = '';
+
+	if(!isset($_GET['showreport'])){
+		$_GET['showreport'] = '';
+	}
 
 	$user_id = $_SESSION['user']['user_id'];
 	if(!isset($_GET['year'])){
@@ -39,6 +46,7 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/visitarchive.tmpl');
 
+	// Get summary of all time visits data - Visit Stats
 	$stmt = getalltimesummary($db);
 	$allsummary = $stmt->fetchAll();
 
@@ -53,9 +61,24 @@
 		':year' => $_GET['year']
 	);
 
+	// Get this years Summary stats - 
+	$stmt = getyearstats($db, $query_params);
+	$yearstats = $stmt->fetchAll();
+
 	$stmt = getendtermreport($db, $query_params);
 	$termreport = $stmt -> fetch();
-	print_r($termreport);
+
+	if(!empty($termreport)){
+
+		$showlink = '1';
+		$showreport1 = '1';
+		$tag = 'View';
+	}
+
+	if($_GET['showreport'] == 1){
+		$tag = 'Hide';
+		$showreport1 = '0';
+	}
 
 	//Get list of months for this years visits
 	$stmt = getvisitmonths($db, $query_params);
@@ -109,10 +132,14 @@
 			'viewyear' => $_GET['year'],
 			'viewmonth' => $_GET['month'],
 			'showreport' => $_GET['showreport'],
+			'showreport1' => $showreport1,
 			'monthname' => $selectmonth,
 			'data' => $data,
+			'yearstats' => $yearstats,
+			'showlink' => $showlink,
 			'termreport' => $termreport['report'],
 			'allsummary' => $allsummary,
+			'tag' => $tag,
 			'years' => $years,
 			'months' => $months,
 			'attended' => $rows,

@@ -930,14 +930,24 @@
 	}
 
 	function gettotalrainedoff($db, $query_params)
-        {
+	{
                 $query ="SELECT count(cv.rainedoff) as count FROM cragvisit as cv WHERE cv.rainedoff = 1 AND YEAR(cv.date)= :year";
 
                 $results = $db->prepare($query);
                 $results->execute($query_params);
 
                 return $results;
-        }
+    }
+
+    function getrainedoffdetail($db, $query_params)
+    {
+    	$query = "SELECT cv.date, cd.venue, cd.area FROM cragvisit as cv INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id WHERE cv.rainedoff = 1 AND YEAR(cv.date)= :year";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+    }
 
 	function getrocktotals($db, $query_params)
 	{
@@ -971,7 +981,20 @@
 
 	function getyearstats($db, $query_params)
 	{
-		$query ="SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0 AND YEAR(date) = :year AND date < NOW()) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1 AND date < NOW() AND YEAR(date) = :year) as r, (SELECT COUNT(*) as total FROM cragvisit WHERE date < NOW() AND YEAR(date) = :year) as t WHERE YEAR(date) = :year AND date < NOW()";
+	//	$query ="SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0 AND YEAR(date) = :year AND date < NOW()) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1 AND date < NOW() AND YEAR(date) = :year) as r, (SELECT COUNT(*) as total FROM cragvisit WHERE date < NOW() AND YEAR(date) = :year) as t WHERE YEAR(date) = :year AND date < NOW()";
+
+		$query = "SELECT attempts, actual, rainedoff,
+					round(actual/attempts*100,0) as percentvisited,
+					round(rainedoff/attempts*100,0) as percentraindedoff
+				FROM
+				(
+				SELECT count(*) as attempts,
+					sum(if(rainedoff = 0, 1, 0)) as actual,
+					sum(if(rainedoff = 1, 1, 0)) as rainedoff
+				FROM cragvisit
+				WHERE YEAR(date) = :year
+				AND date < NOW()
+				) as cv";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -1042,7 +1065,19 @@
 	/////All Time Stats
 	function getalltimesummary($db)
 	{
-		$query = "SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1) as r, (SELECT COUNT(*) as total FROM cragvisit) as t";
+		//$query = "SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1) as r, (SELECT COUNT(*) as total FROM cragvisit) as t";
+
+		$query = "SELECT attempts, rainedoff, actual,
+round(actual / attempts * 100,0) AS percentvisited,
+round(rainedoff / attempts * 100,0) as percentraindedoff
+FROM
+(
+SELECT count(*) as attempts,
+sum(if(rainedoff = 0, 1, 0)) as actual,
+sum(if(rainedoff = 1, 1, 0)) as rainedoff
+from cragvisit
+WHERE date < now()
+) as cv";
 
 		$results = $db->prepare($query);
                 $results->execute();

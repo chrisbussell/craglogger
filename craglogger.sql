@@ -165,3 +165,4 @@ INSERT INTO sunset (date, sunsettime) VALUES ('2014-08-26', '20:11');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-27', '21:19');
 INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-06', '20:45');
 
+select year(date) as 'year', count(*) as attempts, sum(if(rainedoff = 0, 1, 0)) as actual, sum(if(rainedoff = 1, 1, 0)) as rainedoff from cragvisit group by YEAR(date);

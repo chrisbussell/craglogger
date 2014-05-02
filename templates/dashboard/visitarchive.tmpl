@@ -17,7 +17,6 @@
                 <th>Visited</th>
                 <th>% Visited</th>
                 <th>% Rainedoff</th>
-                <th></th>
         </tr>
         {% for s in allsummary %}
         <tr>
@@ -26,7 +25,6 @@
                 <td data-th="Attempts">{{ s.actual|escape }}</td>
                 <td data-th="Visits">{{ s.percentvisited|escape }}%</td>
                 <td data-th="Visits">{{ s.percentraindedoff|escape }}%</td>
-                <td data-th="Visits"><small>more</small></td>
         </tr>
         {% endfor %}
 </table>
@@ -44,19 +42,42 @@
 </table>
 <hr/>
 {% if viewyear != '' %}
+<h3>Visit Stats {{viewyear|escape}}</h3>
+<table class="flexitable">
+        <tr>
+                <th>Attempted visits</th>
+                <th>Rainedoff</th>
+                <th>Successful visits</th>
+                <th>Successful visits %</th>
+                <th>Rained off %</th>
+        </tr>
+        {% for y in yearstats %}
+        <tr>
+                <td data-th="Name">{{ y.attempts }}</td>
+                <td data-th="Visits"><a href="cragstats.php?year={{viewyear}}&#rain">{{ y.rainedoff }}</a></td>
+                <td data-th="Visits">{{ y.actual }}</td>
+                <td data-th="Visits">{{ y.percentvisited }}%</td>
+                <td data-th="Visits">{{ y.percentraindedoff }}%</td>
+        </tr>
+        {% endfor %}
+</table>
+{% endif %}
+{% if viewyear != '' %}
 <table class="cragattendance flexitable">
 	<tr>
 		<th scope="row" class="visit" valign="middle">
-			View Crag Stats for <a href="cragstats.php?year={{viewyear}}">{{viewyear}}</a>
+			View full stats for: <a href="cragstats.php?year={{viewyear}}"><b>{{viewyear}}</b></a>
 		</th>
 	</tr>
+	{% if showlink == 1 %}
 	<tr>
 		<th scope="row" class="visit" valign="middle">
-			End of Term Report <a href="visitarchive.php?year={{viewyear}}&showreport=1">view</a>
+			End of term report: <a href="visitarchive.php?year={{viewyear}}&showreport={{showreport1}}"><b>{{tag}}</b></a> 
 		</th>
 	</tr>
+	{% endif %}
 </table>
-{% if showreport == '1' %}
+{% if showreport == 1 %}
 <article class="intro__text">
 {{termreport|raw}}<br/>
 <a href="visitarchive.php?showreport=0&year={{viewyear}}">hide</a><br/><br/>
@@ -65,7 +86,7 @@
 
 <table class="cragattendance flexitable">
 <tr>
-<th scope="row" class="visit" valign="middle">Choose a month to see who was there.</th>
+<th scope="row" class="visit" valign="middle">Months available<br/>See where and who was there</th>
 {% for mon in months %}
 <th>
 <td><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}">{{mon.monthname|escape}}</a></td>
