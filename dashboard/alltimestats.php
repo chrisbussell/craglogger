@@ -35,7 +35,7 @@
 	$allsummary = $stmt->fetchAll();
 
 	// get count of user attendence
-	$stmt = getuserattendence($db, $query_params);
+	$stmt = getuserattendencealltime($db);
 
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
@@ -46,49 +46,31 @@
 	);
 
 	// get top attended crag
-	$stmt = gettopattendedcrag($db, $query_params);
+	$stmt = gettopattendedcragalltime($db);
 
 	while ($row = $stmt->fetchObject()) {
 		$attendedcrag[] = $row;
 	}
 
-	// get total rained off
-        $stmt = gettotalrainedoff($db, $query_params);
-
-        while ($row = $stmt->fetchObject()) {
-                $rainedoff[] = $row;
-        }
-
-	$stmt = getrocktotals($db, $query_params);
+	// Rock Tyes
+	$stmt = getrocktotalsalltime($db);
 
 	while ($row = $stmt->fetchObject()) {
                 $rocktypes[] = $row;
         }
 
-	if ($_GET['year'] == '2014')
-	{
-		//get number of weeks of summer left
-		$numWeeks = weeksleftofsummer();
-	}
-
-	$stmt = getvisithistoryyear($db);
-
-        while ($row = $stmt->fetchObject()) {
-                $years[] = $row;
-        }
-
-	$stmt = getcountytotals($db, $query_params);
+        // Countys visited
+	$stmt = getcountyalltime($db);
 
         while ($row = $stmt->fetchObject()) {
                 $counties[] = $row;
         }
 
-	$stmt = getrainedoffdetail($db, $query_params);
+        // Get rained off crags
+	$stmt = getrainedoffdetailalltime($db);
 		while ($row = $stmt->fetchObject()) {
                 $rainedoffdetail[] = $row;
         }
-
-	$date = date('Y-m-d H:i:s');
 
 		// set template variables
 		// render template

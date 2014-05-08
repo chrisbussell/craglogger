@@ -23,10 +23,10 @@
         </tr>
         {% for tv in totalvisits %}
         <tr>
-                <td data-th="Name">{{ tv.year|escape }}</td>
+                <td data-th="Year">{{ tv.year|escape }}</td>
                 <td data-th="Visits"><a href="myvisits.php?year={{tv.year}}">{{ tv.myvisits|escape }}</td>
-                <td data-th="Attempts">{{ tv.attempts|escape }}</td>
-                <td data-th="Visits">{{ tv.percent|escape }}%</td>
+                <td data-th="Total Venues">{{ tv.attempts|escape }}</td>
+                <td data-th="% Visited">{{ tv.percent|escape }}%</td>
         </tr>
         {% endfor %}
 </table>
@@ -38,7 +38,7 @@
         </tr>
         {% for mv in monthvisits %}
         <tr>
-                <td data-th="Name">{{ mv.monthname|escape }}</td>
+                <td data-th="Month">{{ mv.monthname|escape }}</td>
                 <td data-th="Visits">{{ mv.myvisits|escape }}</td>
         </tr>
         {% endfor %}
@@ -51,7 +51,7 @@
 	</tr>
 	{% for d in data %}
 	<tr>
-		<td data-th="Name">{{ d.venue }} {{d.area}}</td>
+		<td data-th="Venue">{{ d.venue }} {{d.area}}</td>
 		<td data-th="Visits"><a href="mystats.php?cragdetail_id={{d.cragdetail_id}}&dates=1">{{ d.count }}</a></td>
 	</tr>
         {% endfor %}

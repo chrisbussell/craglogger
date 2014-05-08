@@ -13,11 +13,12 @@
 	}
 
 	$user_id = $_SESSION['user']['user_id'];
-	if(!isset($_GET['year'])){
+
+	if(empty($_GET['year'])){
 		$_GET['year'] = '';
 	}
 
-	if(!isset($_GET['month'])){
+	if(empty($_GET['month'])){
 		$_GET['month'] = '';
 	}
 
@@ -28,10 +29,10 @@
 	}
 
 	// Check if user has admin perms - will remove this section on live release
-        if($_SESSION['user']['admin'] == 0){
-                header("Location: /craglogger/dashboard/craglist.php");
-                die("Redirecting to login.php");
-        }
+      //  if($_SESSION['user']['admin'] == 0){
+        //        header("Location: /craglogger/dashboard/craglist.php");
+          //      die("Redirecting to login.php");
+        //}
 
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';

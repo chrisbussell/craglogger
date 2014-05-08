@@ -1085,7 +1085,76 @@ WHERE date < now()
                 return $results;
 	}
 
-	
+	function getcountyalltime($db)
+	{
+		$query = "SELECT cd.county,  count(*) AS split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE cv.date < NOW() AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date < NOW() AND cv.rainedoff = 0 GROUP BY cd.county ORDER BY split DESC";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+
+	}	
+
+	function getrocktotalsalltime($db)
+	{
+		$query = "SELECT cd.rock, count(cd.rock) as split, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, (SELECT COUNT(*) AS total FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE cv.date < NOW() AND cv.rainedoff = 0) AS t WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.date < NOW() AND cv.rainedoff = 0 GROUP BY cd.rock ORDER BY split DESC";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+
+    function getrainedoffdetailalltime($db)
+    {
+    	//$query = "SELECT cv.date, cd.venue, cd.area FROM cragvisit as cv INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id WHERE cv.rainedoff = 1 ORDER BY cv.date";
+
+    	$query = "SELECT cd.venue, cd.area, count(*) as count FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE rainedoff = 1 GROUP BY cd.venue ORDER BY count DESC";
+
+		$results = $db->prepare($query);
+		$results->execute();
+
+		return $results;
+    }
+
+    function getuserattendencealltime($db)
+	{
+		$query = "SELECT a.user_id,
+                                u.firstname, 
+                                u.surname, 
+                                count(a.cragvisit_id) as count,
+                                round(count(*) / t.total * 100,0) AS percent
+                         FROM attended as a, 
+                              cragvisit cv, 
+                              users u, (SELECT COUNT(*) AS total 
+                              FROM cragdetail cd 
+                              INNER JOIN cragvisit cv 
+                              ON cd.cragdetail_id = cv.cragdetail_id 
+                              WHERE date < NOW()
+                              AND cv.rainedoff = 0) AS t
+                         WHERE a.cragvisit_id = cv.cragvisit_id
+                         AND u.user_id = a.user_id
+                         AND date < NOW()
+                         GROUP BY a.user_id
+                         ORDER BY count DESC
+                         LIMIT 10";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+
+	function gettopattendedcragalltime($db)
+	{
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id GROUP BY cv.date ORDER BY count DESC Limit 3";
+
+		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
 
 
 ?>

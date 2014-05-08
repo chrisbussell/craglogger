@@ -9,14 +9,12 @@
 {% block content %}
 <h1>Who has been where in 2014 {{viewmonth|escape}}</h1>
 <table class="cragattendance flexitable">
-<tr>
-<th scope="row" class="visit" valign="middle">Choose a month to see who was there.</th>
-{% for mon in months %}
-<th>
-<td><a href="cragattendence.php?month={{mon.monthnum}}">{{mon.monthname|escape}}</a></td>
-</th>
+	<tr>
+		<td scope="row" class="cragger" valign="middle">Choose a month to see who was there.</td>
+		{% for mon in months %}
+		<td><a href="cragattendence.php?month={{mon.monthnum}}">{{mon.monthname|escape}}</a></td>
 {% endfor %}
-</tr>
+	</tr>
 </table>
 <table class="cragattendance flexitable">
 	<tr>
@@ -46,7 +44,7 @@
 			{% endfor %}
 			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
 				{% if has_attended_this_crag == 1 %}
-					<span class="yes">YES</span>
+					<span data-th="Attended" class="yes">YES</span>
 				{% else %}
 					<span class="no">NO</span>
 				{% endif %}
