@@ -25,6 +25,14 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`)
 ); 
 
+CREATE TABLE lastlogin (
+  lastlogin_id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11),
+  date date,
+  timestamp timestamp,
+  PRIMARY KEY (lastlogin_id)
+);
+
 CREATE TABLE cragdetail (
   cragdetail_id int(11) NOT NULL AUTO_INCREMENT,
   venue varchar(255) NOT NULL,

@@ -88,6 +88,17 @@
 			// Store the user's data into the session at the index 'user'.
 			$_SESSION['user'] = $row;
 	
+			$user_id = test_input($_SESSION["user"]["user_id"]);
+
+			// Set query params for sql call
+                $query_params = array(
+			':user_id' => $user_id
+			);
+
+			//log login to db
+			insertlastlogin($db, $query_params);
+
+
 			// Redirect the user to the members-only page craglist.php.
 			header("Location: /craglogger/dashboard/craglist.php");
 			die("Redirecting to: craglist.php");

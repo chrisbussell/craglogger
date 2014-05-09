@@ -6,13 +6,24 @@
 		return str_replace($bad,"",$string);
 	}
 */
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
+	function test_input($data) {
+  		$data = trim($data);
+  		$data = stripslashes($data);
+  		$data = htmlspecialchars($data);
+  		return $data;
+	}
 	
+	function insertlastlogin($db, $query_params)
+	{
+		$query = "INSERT INTO userlastlogin (user_id, lastlogin) VALUES (:user_id, NOW())";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+
+	}
+
 	//////////////////////////////////////////////////////////
 	// resetconfirm.php
 	function checkpasswordcode($db, $query_params)
