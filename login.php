@@ -17,7 +17,6 @@
         $template = $twig->loadTemplate('login.tmpl');
 
 	$submitted_username = '';
-	$errPassword = '';
 	$errApproved = '';
 	$errFailed = '';
 
@@ -42,7 +41,7 @@
 		if($row){
 			// Ensure that the user has entered a non-empty password
 			if(empty($_POST['password'])){
-				$errPassword = "Please enter a password.";
+				$errFailed = '1';//"login failed, please check the details you have entered";
 			}
 			else{
 				// Get and check password submited by comparing it to hashed version stored in db.
@@ -59,7 +58,7 @@
 						$login_ok = true;
 					}
 					else{
-						$errPassword = "Password incorrect";
+						$errFailed = '1';//"login failed, please check the details you have entered";
 					}
 				}
 				else{
@@ -69,8 +68,13 @@
 		}
 		else
 		{
-			$errFailed = "login failed, please check the details you have entered";
+			$errFailed = '1';//"login failed, please check the details you have entered";
 
+		}
+
+		if($errFailed == '1'){
+
+			$errFailed = "login failed, please check the details you have entered";		
 		}
 		
 		// If user logged in succesfully, send customer to main craglist.php page else show login failed.

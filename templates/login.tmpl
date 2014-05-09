@@ -10,17 +10,16 @@
 <h1>Login</h1>
 <form action="{{ php_self }}" method="post">
 	<div>
-		<label for="username">Username or Email:</label>
+		<label for="username">Username:</label>
 		<br/>
 		<input type="text" name="username" id="username" value="{{submitted_username|escape}}" />
 	</div>
 
 	<div>
-	<div class="field{% if errPassword %} error{% endif %}">
+	<div>
 		<label for="password">Password:</label>
 		<br/>
 		<input type="password" name="password" id="password" value="" />
-		<b class="error--message">{{errPassword}}</b>
 	</div>
 	<div class="field{% if errApproved %} error{% endif %}">
 		<b class="error--message">{{errApproved}}</b>
