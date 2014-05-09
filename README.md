@@ -14,3 +14,4 @@
 * Added admin folder to seperate admin files from user files
 * Added *VERY* basic styles
 * Added mobile menu + basic styles
+* Stuff
