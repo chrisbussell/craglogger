@@ -16,7 +16,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
@@ -35,7 +35,7 @@
                         $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                        die("Failed to run query: " . $ex->getMessage());
+              //          die("Failed to run query: " . $ex->getMessage());
                 }
                 return $stmt;
 	}
@@ -60,7 +60,7 @@
                         $result = $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                        die("Failed to run query: " . $ex->getMessage());
+                       // die("Failed to run query: " . $ex->getMessage());
                 }
                 return true;
 
@@ -86,7 +86,7 @@
 			$result = $stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return true;
 	}
@@ -105,7 +105,7 @@
 		return true;
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		return false;
 		}
 	}
@@ -168,7 +168,7 @@
 			$stmt->execute();
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
@@ -188,7 +188,7 @@
                         $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                        die("In Function: getmembersattended: Failed to run query: " . $ex->getMessage());
+              //          die("In Function: getmembersattended: Failed to run query: " . $ex->getMessage());
                 }
                 return $stmt;
 	}
@@ -235,7 +235,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
@@ -257,7 +257,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
@@ -278,7 +278,7 @@
 			$result = $stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
@@ -303,7 +303,7 @@
 			$result = $stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
@@ -343,7 +343,7 @@
 		}
 		catch(PDOException $ex){
 			return false;
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
@@ -399,7 +399,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 
 		return $stmt;
@@ -475,7 +475,7 @@
 			$stmt->execute();
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 
 		return $stmt;
@@ -535,7 +535,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
@@ -558,7 +558,7 @@
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
@@ -597,7 +597,7 @@
 			$result = $stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			die("Failed to run query bugger: " . $ex->getMessage());
+			//die("Failed to run query bugger: " . $ex->getMessage());
 		}
 	}
 
@@ -623,7 +623,7 @@
 		}
 		catch(PDOException $ex){
 			return false;
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
@@ -644,7 +644,7 @@
                 }
                 catch(PDOException $ex){
                         return false;
-                        die("Failed to run query: " . $ex->getMessage());
+              //          die("Failed to run query: " . $ex->getMessage());
                 }
 	}
 
@@ -665,7 +665,7 @@
 			}
 			catch(PDOException $ex){
 				return false;
-				die("Failed to run query: " . $ex->getMessage());
+				//die("Failed to run query: " . $ex->getMessage());
 			}
 	}
 
@@ -682,7 +682,7 @@
 			}
 			catch(PDOException $ex){
 				return false;
-				die("Failed to run query: " . $ex->getMessage());
+				//die("Failed to run query: " . $ex->getMessage());
 			}
 
 	}
@@ -700,7 +700,7 @@
 			}
 			catch(PDOException $ex){
 				return false;
-				die("Failed to run query: " . $ex->getMessage());
+				//die("Failed to run query: " . $ex->getMessage());
 			}
 	}
 
@@ -718,7 +718,7 @@
                 	}
                 	catch(PDOException $ex){
                 	        return false;
-                	        die("Failed to run query: " . $ex->getMessage());
+                //	        die("Failed to run query: " . $ex->getMessage());
                 	}
 	}
 	
@@ -732,7 +732,7 @@
                         $stmt->execute();
                 }
                 catch(PDOException $ex){
-                        die("Failed to run query: " . $ex->getMessage());
+                  //      die("Failed to run query: " . $ex->getMessage());
                 }
 		return $stmt;
 	}
@@ -753,7 +753,7 @@
                         $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                        die("Failed to run query: " . $ex->getMessage());
+                    //    die("Failed to run query: " . $ex->getMessage());
                 }
 		return $stmt;
 	}
@@ -773,7 +773,7 @@
 			$stmt->execute();
 		}
 		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
+			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}
 
