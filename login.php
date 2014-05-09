@@ -23,9 +23,11 @@
 	// Check if form has been submitted
 	if(!empty($_POST)){
 
+		$username = test_input($_POST["username"]);
+
 		// Set query params for sql call
                 $query_params = array(
-			':username' => $_POST['username']
+			':username' => $username
 			);
 
 		// get member account details
@@ -104,7 +106,6 @@
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'submitted_username' => $submitted_username,
-		'errPassword' => $errPassword,
 		'errApproved' => $errApproved,
 		'errFailed' => $errFailed
 	));
