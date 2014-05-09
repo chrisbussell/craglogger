@@ -227,7 +227,6 @@ function test_input($data) {
 		if(isset($query_params[':username'])){
 			$query .="
 				WHERE username = :username
-				OR email = :username
 			";
 		}
 
