@@ -1,0 +1,25 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Member Last Login</h1>
+<table class="flexitable">
+        <tr>
+                <th>Name</th>
+                <th>Last Login</th>
+        </tr>
+        {% for ll in lastlogin %}
+        <tr>
+                <td data-th="Name">{{ ll.firstname|escape }} {{ ll.surname|escape }}</td>
+                <td data-th="Last Login">{{ ll.lastlogin|date ("F jS \\a\\t g:ia") }}</a></td>
+        </tr>
+        {% endfor %}
+</table>
+
+
+{% endblock %}

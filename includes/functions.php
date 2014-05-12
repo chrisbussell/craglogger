@@ -24,6 +24,25 @@
 
 	}
 
+	function getlastlogin($db, $query_params)
+	{
+		$query = "SELECT u.firstname, u.surname, max(ll.lastlogin) as lastlogin
+				FROM users u 
+				INNER JOIN userlastlogin ll ON u.user_id = ll.user_id ";
+
+		if(isset($query_params[':user_id'])){
+			$query .=" WHERE u.user_id = :user_id";
+		}
+
+		$query .="GROUP BY u.firstname, u.surname ORDER BY u.user_id, ll.lastlogin";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+
+	}
+
 	//////////////////////////////////////////////////////////
 	// resetconfirm.php
 	function checkpasswordcode($db, $query_params)

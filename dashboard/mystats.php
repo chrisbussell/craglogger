@@ -34,6 +34,10 @@
 		$_GET['dates'] = '';
 	}
 
+	if(!isset($_GET['cragdetail_id'])){
+		$_GET['cragdetail_id'] = '';
+	}
+
 	// set params to be used for function calls
 	$query_params = array(':user_id' => $user_id);
 
