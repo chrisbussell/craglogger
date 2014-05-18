@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block content %}
-<h1>Crag List 2014</h1>
-View <a href="/craglogger/dashboard/mystats.php">My stats</a>
+<h1>Crag List 2014</h1><small>Just select the venues you attended and click on "log my visit" at the bottom of the page.</small><br/>
+<!--View <a href="/craglogger/dashboard/mystats.php">My stats</a> -->
 <form method="post" action="{{ php_self }}" class="craglist flexitable">
 	<table>
 		<tr>
@@ -34,13 +34,17 @@ View <a href="/craglogger/dashboard/mystats.php">My stats</a>
 						{% set has_attended_this_crag = 1 %}
 					{% endif %}
 				{% endfor %}
-				{% if has_attended_this_crag == 1 %}
-					Yes
+				{% if d.rainedoff != 1 %}
+					{% if has_attended_this_crag == 1 %}
+						Yes
+					{% else %}
+						<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
+					{% endif %}
+					{% if has_attended_this_crag == 1 %}
+					<a class="undo" href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
+					{% endif %}
 				{% else %}
-					<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
-				{% endif %}
-				{% if has_attended_this_crag == 1 %}
-				<a class="undo" href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
+				Rain stop play
 				{% endif %}
 			</td>
 		</tr>
