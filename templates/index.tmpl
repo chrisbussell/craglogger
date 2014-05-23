@@ -1,0 +1,45 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'home' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+
+{% block content %}
+
+<section class="intro">
+	<article class="intro__text">
+		<p>The Tuesday Nighters are an ad hoc, adventurous, active and argumentative midweek climbing crowd based around the peak..</p>
+		<p>Perhaps the longest running, most active, friendliest, liveliest ad hoc and mildly anarchic midweek climbing group in the country.</p>
+		<p>Originating in the 'Altrincham All Stars' back in the Bonnington days, now loosely peak based, accidentally global, and as noisy as ever.</p>
+		<p>'Turn up and tie on'.</p>
+	</article>
+	<aside class="intro__image">
+		<img src="/craglogger/assets/content/tuesday.jpg" alt="fill in with image description" />
+	</aside>
+</section>
+<hr/>
+<div class="news-section">
+	<div class="news-section__next-meet">
+		<h2>Next Meet</h2>
+		{% if event != '' %}
+			<b>{{event}}</b><br/>
+		{% endif %}
+		
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}">{{ date|date ('jS F Y') }} {{venue}} {{area}}</a><br/><br/>
+<i>Sunset: {{sunset}}</i><br/>
+<i>Moon Phase: {{moonphase|capitalize}} with {{mooncoverage}}% cover</i><br/>
+	</div>
+	<div class="news-section__lates-report">
+		<h2>Latest Reports</h2>
+		{% for d in data %}
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}}</a><br/><br/>
+		{% endfor %}
+			{{cragreport|raw}}<br/><br/>
+
+	</div>
+</div>
+{% endblock %}

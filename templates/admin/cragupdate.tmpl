@@ -1,0 +1,65 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin crag-update' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h2>Crag Details Update</h2>
+<table>
+	<tr class="heading">
+		<th>Venue</th>
+		<th>Area</th>
+		<th>Rock</th>
+		<th>Country</th>
+		<th>County</th>
+		<th>Altithue</th>
+		<th>Direction</th>
+		<th>Web</th>
+		<th>Lat</th>
+		<th>Long</th>
+	</tr>
+	{% for d in data %}
+	<form method="post" action="{{ php_self }}">
+		<input type="hidden" name="cragdetail_id" value="{{ d.cragdetail_id|escape }}"/>
+		<tr>
+			<td>
+				<input type="text" name="venue" value="{{ d.venue|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="area" value="{{ d.area|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="rock" value="{{ d.rock|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="country" value="{{ d.country|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="county" value="{{ d.county|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="altitude" value="{{ d.altitude|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="faces" value="{{ d.faces|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="web" value="{{ d.web|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="lat" value="{{ d.lat|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="lng" value="{{ d.lng|escape }}"/>
+			</td>
+			<td>
+				<input type="submit" name="submit" value="Update Crag"/>
+			</td>
+		</tr>
+	</form>
+	{% endfor %}
+</table>
+{% endblock %}

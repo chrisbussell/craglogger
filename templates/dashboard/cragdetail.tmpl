@@ -1,0 +1,68 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'crag-visit crag-detail' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+    <h1>Details for {{venue}} {{area}} <small>{{event}}</small></h1><br/><i>Rock {{rock}},  Aspect {{faces}},  Altitude {{altitude}}m a.s.l</i>
+    <table>
+      <tr class="heading">
+        <td>Date</td>
+        <td>Venue</td>
+        <td>Area</td>
+        <td>Website</td>
+        <td>Conditions</td>
+        <td>Pub</td>
+        <td>Sunset</td>
+        <td>Rained Off</td>
+      </tr> 
+       <tr>
+        <td>{{ visitdate|date ('d M Y') }}</td>
+        <td>{{ venue|escape }}</td>
+        <td>{{ area|escape }}</td>
+        <td><a href="{{ web|escape }}">view</a></td>
+        <td>{{ conditions|escape }}</td>
+        <td>{{ pub|escape }}</td>
+        <td>{{ sunset|escape }}</td>
+	{% if rainedoff == 1 %}
+        <td>Yes</td>
+	{% else %}
+        <td>No</td>
+	{% endif %}
+	</td>
+	</tr>
+       </table>
+    <h1>Visit report</h1>
+<table>
+<tr>
+<td>
+{% if cragreport !='' %}
+      {{cragreport|raw}}
+{% else %}
+Sorry no report yet for this visit<br/>
+{% endif %}
+</td>
+</tr>
+</table>
+
+    <h1>Who was there?</h1>
+       <table>
+	<tr>
+	{% set i_did = 0 %}
+	{% for v in visiteddata %}
+	<td>{{v.firstname|escape}} {{v.surname|escape}}</td>
+	 </tr>
+		{% if v.user_id == user_id %}
+			{% set i_did = 1 %}
+		{% endif %}
+	{% endfor %}	
+{% if visitdate|date('Y') == "now"|date('Y') %}
+	{% if i_did != 1 %}
+		Did you visit this crag? Click <a href="/craglogger/dashboard/craglist.php">here</a> to log your visit.<br/><br/> 
+	{% endif %}
+{% endif %}
+        </table>
+{% endblock %}

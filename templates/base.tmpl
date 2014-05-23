@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+			<title>{% block title %}{{pageTitle}}{% endblock %} - Tuesday Nighters CragLogger</title>
+			<meta charset="utf-8" />
+			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/app.css" media="screen" />
+			<link rel="stylesheet" type="text/css" href="/craglogger/assets/css/slicknav.css" media="screen" />
+			<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+			<!--[if lt IE 9]>
+			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/html5shiv.js"></script>
+			 <script type="text/javascript" src="/craglogger/assets/js/base/polyfills/respond.min.js"></script>
+			<![endif]-->
+		{% endblock %}
+	</head>
+	<body{% block class %}{% endblock %}>
+		<div class="wrap">
+			<header role="banner">
+				<hgroup class="branding">
+					<h1>
+						<a href="/craglogger/">Tuesday Nighters CragLogger</a>
+					</h1>
+					<p>
+						{% if sid == true %}
+							Hello {{ firstname }}, you are signed in as <b><a href="/craglogger/dashboard/editaccount.php">{{ username|escape }}</a></b>
+						{% else %}
+							Log in to access your account
+						{% endif %}
+					</p>
+				</hgroup>
+				<nav role="navigation">
+					<ul>
+						<li class="home">
+							<a href="/craglogger/">Home</a>
+						</li>
+						{% if sid == false %}
+							<li class="about-us">
+								<a href="#">About us</a>
+							</li>
+							<li class="log-your-visit">
+								<a href="/craglogger/dashboard/craglist.php">Log your visit</a>
+							</li>
+							<li class="register">
+								<a href="/craglogger/register.php">Sign up</a>
+							</li>
+							<li class="login">
+								<a href="/craglogger/login.php">Log in</a>
+							</li>
+						{% endif %}
+						{% if sid == true %}
+							<li class="crag-list">
+								<a href="/craglogger/dashboard/craglist.php">Log my visits</a>
+							</li>
+							<li class="my-stats">
+								<a href="/craglogger/dashboard/mystats.php">My stats</a>
+							</li> 
+							<li class="crag-visit">
+								<a href="/craglogger/dashboard/cragattendence.php">Crag visits {{"now"|date("Y")}}</a>
+							</li>
+							<li class="crag-stats">
+								<a href="/craglogger/dashboard/cragstats.php?year=2014">Crag stats {{"now"|date("Y")}}</a>
+							</li>
+							<li class="visit-archive">
+								<a href="/craglogger/dashboard/visitarchive.php">Archive</a>
+							</li>
+							<li class="members">
+								<a href="/craglogger/dashboard/memberlist.php">Members list</a>
+							</li>
+							<li class="user-account">
+								<a href="/craglogger/dashboard/editaccount.php">My account</a>
+							</li>
+							{% if admin == true %}
+							<li class="admin">
+								<a href="/craglogger/admin/admin.php">Admin</a>
+							</li>
+							{% endif %}
+							<li class="logout">
+								<a href="/craglogger/logout.php">Log out</a>
+							</li> 
+						{% endif %}
+					</ul>
+				</nav>
+			</header>
+			<div role="content">
+				{% block content %}
+				{% endblock %}
+			</div>
+			<footer>
+				{% block footer %}
+				<p>
+					&copy; 2014 <b>Tuesday Nighters Craglogger</b> <br/>
+					Last updated on: {{ updated }}
+				</p>
+				{% endblock %}
+			</footer>
+		</div>
+		<!-- Start Javascript includes -->
+		<script type="text/javascript" src="/craglogger/assets/js/base/modernizr.custom.23562.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/base/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/jquery.slicknav.min.js"></script>
+		<script type="text/javascript" src="/craglogger/assets/js/base.min.js"></script>
+		{% block body_js %}{% endblock %}
+		<!-- End Javascript includes -->
+	</body>
+</html>

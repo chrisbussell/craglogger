@@ -1,0 +1,32 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'reset' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Forgotten your password?</h1>
+{% if passed != 1 %}
+
+<form action="{{ php_self }}" method="post">
+<p>Please complete this form to get your password reset link.</p>
+	<div>
+		<label for="email">Your email</label>
+		<br/>
+		<input type="text" name="email" id="email" value="" />
+		{% if error != '' %}
+		<b>{{error}}</b>
+		{% endif %}
+	</div>
+	<input type="submit" value="Email Reset Code" />
+</form>
+{% else %}
+<p>
+	Thank you, we have sent an email to {{email}} with your password reset link.
+	<br>Please follow the link to reset your password.
+</p>
+{% endif %}
+
+{% endblock %}

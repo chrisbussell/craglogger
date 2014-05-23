@@ -1,0 +1,142 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'visit-archive' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Tuesday Nighters Archive {{viewyear|escape}} {{monthname|escape}}</h1>
+{% if viewyear == ''%}
+<article class="intro__text"><b>All Time Visit Stats</b></article>
+<!-- summary of ALL TIME stats -->
+<table class="flexitable">
+        <tr>
+                <th>Attempts</th>
+                <th>Rainedoff</th>
+                <th>Visited</th>
+                <th>% Visited</th>
+                <th>% Rained off</th>
+        </tr>
+        {% for s in allsummary %}
+        <tr>
+                <td data-th="Attempts">{{ s.attempts|escape }}</td>
+                <td data-th="Rained off">{{ s.rainedoff|escape }}</td>
+                <td data-th="Visited">{{ s.actual|escape }}</td>
+                <td data-th="% Visited">{{ s.percentvisited|escape }}%</td>
+                <td data-th="% Rained off">{{ s.percentraindedoff|escape }}%</td>
+                <td><a href="alltimestats.php">more stats</a></td>
+        {% endfor %}
+</table>
+{% endif %}
+<!-- end ALL TIME stats -->
+
+<!-- show years available to view -->
+<article class="intro__text"><b>Choose the year you want to view</b></article>
+<table class="flexitable">
+	<tr>
+		<th>Years Available</th>
+		<td data-th="Years Available"></td>
+		{% for y in years %}
+		<td><a href="visitarchive.php?year={{y.year}}">{{y.year|escape}}</a></td>
+		{% endfor %}
+	</tr>
+</table>
+<hr/>
+
+<!-- If a year is selected show these tables -->
+{% if viewyear != '' %}
+<h3>Visit Stats {{viewyear|escape}}</h3>
+<!-- summary of year -->
+<table class="flexitable">
+        <tr>
+                <th>Attempted visits</th>
+                <th>Rainedoff</th>
+                <th>Successful visits</th>
+                <th>Successful visits %</th>
+                <th>Rained off %</th>
+        </tr>
+        {% for y in yearstats %}
+        <tr>
+                <td data-th="Attempted visits">{{ y.attempts }}</td>
+                <td data-th="Rained off"><a href="cragstats.php?year={{viewyear}}&#rain">{{ y.rainedoff }}</a></td>
+                <td data-th="Successful visits">{{ y.actual }}</td>
+                <td data-th="Successful visits %">{{ y.percentvisited }}%</td>
+                <td data-th="Rained off %">{{ y.percentraindedoff }}%</td>
+        </tr>
+        {% endfor %}
+</table>
+
+<!-- full stats and end of term report -->
+<table class="flexitable">
+	<tr>
+		<th data-th="Full Stats">View full stats for: 
+		<a href="cragstats.php?year={{viewyear}}"><b>{{viewyear}}</b></a></th>
+	</tr>
+	{% if showlink == 1 %}
+	<tr>
+		<th>End of term report: <a href="visitarchive.php?year={{viewyear}}&showreport={{showreport1}}"><b>{{tag}}</b></a></th>
+	</tr>
+	{% endif %}
+</table>
+
+{% if showreport == 1 %}
+	<article class="intro__text">{{termreport|raw}}<br/>
+	<a href="visitarchive.php?showreport=0&year={{viewyear}}">{{tag}}</a><br/><br/>
+	</article>
+{% endif %}
+
+<!-- list of months availavble to view -->
+<table class="flexitable">
+	<tr>
+		<th>Months available<br/>See where and who was there</th>
+		{% for mon in months %}
+			<td data-th="Month"><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}">{{mon.monthname|escape}}</a></td>
+		{% endfor %}
+	</tr>
+</table>
+{% endif %}
+<!-- end year stats -->
+
+{% if viewmonth != '' %}
+<table class="flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Visit</th>
+		{% for d in data %}
+		<th>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
+			<br/>
+			{{ d.date|date("d F Y") }}
+			<br/>
+			<small>{{ d.event }}</small>
+			{% if d.rainedoff == 1 %}
+                        <small>Rain stop play</small>
+			{% endif %}
+		</th>
+		{% endfor %}
+	</tr>
+	{% for m in member %}
+	<tr>
+		<td data-th="cragger" class="cragger">{{ m.firstname }} {{m.surname}}</td>
+		{% for d in data %}
+			{% set has_attended_this_crag = 0 %}
+			{% for a in attended %}
+				{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+					{% set has_attended_this_crag = 1 %}
+				{% endif %}
+			{% endfor %}
+			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
+				{% if has_attended_this_crag == 1 %}
+					<span class="yes">YES</span>
+				{% else %}
+					<span class="no">NO</span>
+				{% endif %}
+			</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

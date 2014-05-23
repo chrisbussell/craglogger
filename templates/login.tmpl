@@ -1,0 +1,37 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'login' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+<form action="{{ php_self }}" method="post">
+	<div>
+		<label for="username">Username:</label>
+		<br/>
+		<input type="text" name="username" id="username" value="{{submitted_username|escape}}" />
+	</div>
+
+	<div>
+	<div>
+		<label for="password">Password:</label>
+		<br/>
+		<input type="password" name="password" id="password" value="" />
+	</div>
+	<div class="field{% if errApproved %} error{% endif %}">
+		<b class="error--message">{{errApproved}}</b>
+	</div>
+	<div class="field{% if errFailed %} error{% endif %}">
+		<b class="error--message">{{errFailed}}</b>
+	</div>
+		<a href="reset.php">forgot password?</a>
+	</div>
+
+	<div>
+		<input type="submit" value="Login" />
+	</div>
+</form>
+{% endblock %}

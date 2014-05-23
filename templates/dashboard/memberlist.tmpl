@@ -1,0 +1,31 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'members' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Memberlist</h1>
+<table class="flexitable">
+	<tr>
+		<th>Username</th>
+		<th>e-mail</th>
+	</tr>
+	{% for m in members %}
+	<tr>
+		<td data-th="Username">{{ m.firstname }} {{m.surname}}</td>
+		{% if m.emailshow == 1 %}
+		<td data-th="e-mail">{{ m.email }}</td>
+		{% else %}
+		<td data-th="e-mail"></td>
+		{% endif %}
+	</tr>
+	{% endfor %}
+	<tr>
+		<th>Total Members</th>
+		<td data-th="Total Members">{{ members|length}}</td>
+	</tr>
+</table>
+{% endblock %}
