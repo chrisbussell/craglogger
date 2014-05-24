@@ -6,6 +6,15 @@
 		return str_replace($bad,"",$string);
 	}
 */
+	function getcragbyyear($db,$query_params){
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cv.event FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+
 	function test_input($data) {
   		$data = trim($data);
   		$data = stripslashes($data);

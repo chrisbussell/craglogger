@@ -33,6 +33,9 @@
 	$query_params = array(
                         ':year' => $_GET['year']);
 
+	$stmt = getcragbyyear($db,$query_params);
+	$visitedcrags = $stmt->fetchAll();
+
 	$stmt = getyearstats($db, $query_params);
 	$yearstats = $stmt->fetchAll();
 
@@ -101,6 +104,7 @@
 			'counties' => $counties,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
+			'visitedcrags' => $visitedcrags,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,

@@ -7,6 +7,9 @@
 	$showlink = '';
 	$showreport1 = '';
 	$tag = '';
+	$chosenyear = '';
+	$viewyear = '';
+	$year = '';
 
 	if(!isset($_GET['showreport'])){
 		$_GET['showreport'] = '';
@@ -28,12 +31,6 @@
 		die("Redirecting to login/login.php");
 	}
 
-	// Check if user has admin perms - will remove this section on live release
-      //  if($_SESSION['user']['admin'] == 0){
-        //        header("Location: /craglogger/dashboard/craglist.php");
-          //      die("Redirecting to login.php");
-        //}
-
 	// include and register Twig auto-loader
 	include '../Twig/Autoloader.php';
 	Twig_Autoloader::register();
@@ -51,18 +48,25 @@
 	$stmt = getalltimesummary($db);
 	$allsummary = $stmt->fetchAll();
 
+	// get list of years we have data for, displayed as dropdown
 	$stmt = getvisithistoryyear($db);
+	$years = $stmt->fetchAll();
 
-	while ($row = $stmt->fetchObject()) {
-                $years[] = $row;
-        }
+	if(!empty($_POST))
+	{
+		$chosenyear = $_POST['year'];
+	}
+	elseif(!empty($_GET))
+	{
+		$chosenyear = $_GET['year'];
+	}
 
 	//Get list of crags available this year
 	$query_params = array(
-		':year' => $_GET['year']
+		':year' => $chosenyear
 	);
 
-	// Get this years Summary stats - 
+	// Get chosen years Summary stats - 
 	$stmt = getyearstats($db, $query_params);
 	$yearstats = $stmt->fetchAll();
 
@@ -103,26 +107,25 @@
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
-		$query_params = array(
-			':year' => $_GET['year']
-		);
+	
+	$query_params = array(
+		':year' => $_GET['year']
+	);
 
 	// GET MEMBERS LIST	
 	$membersresults = getmembersattended($db, $query_params);
-        $membersrows = $membersresults->fetchAll();
+	$membersrows = $membersresults->fetchAll();
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS
 	$results = getattended($db, $query_params);
 	$rows = $results->fetchAll();
 
-
 	$selectedmonth = $_GET['month'];
 	$selectmonth = getmonth($selectedmonth);
 
-
-		// set template variables
-		// render template
-		echo $template->render(array (
+	// set template variables
+	// render template
+	echo $template->render(array (
 			'pageTitle' => 'Visit Archive',
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'updated' => $lastupdated,
@@ -130,7 +133,7 @@
 			'username' =>$_SESSION['user']['username'],
 			'admin' =>$_SESSION['user']['admin'],
 			'firstname' =>$_SESSION['user']['firstname'],
-			'viewyear' => $_GET['year'],
+			'viewyear' => $chosenyear,
 			'viewmonth' => $_GET['month'],
 			'showreport' => $_GET['showreport'],
 			'showreport1' => $showreport1,
@@ -144,6 +147,7 @@
 			'years' => $years,
 			'months' => $months,
 			'attended' => $rows,
+			'selected' => $selected,
 			'member' =>$membersrows
-		));
+	));
 ?>
