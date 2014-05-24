@@ -147,7 +147,6 @@
 			'years' => $years,
 			'months' => $months,
 			'attended' => $rows,
-			'selected' => $selected,
 			'member' =>$membersrows
 	));
 ?>

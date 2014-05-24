@@ -40,12 +40,15 @@
 <table class="flexitable">
    <tr>
       	<td>
-      	<select name="year">
-      	{% for y in years %}
-      	<option {{selected}} value="{{ y['year'] }}">{{ y['year'] }}</option>
-      	{% endfor %}
-    	</select>
-    	view year{{viewyear}}
+		<select name ="year">
+    	{% for y in years %}
+			{% if y['year'] == viewyear %}
+				<option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+			{% else %}
+				<option value="{{ y['year'] }}">{{ y['year'] }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
       </td>
       <td><input type="submit" name="submit" value="Choose" /></td>
 	</tr>
@@ -99,7 +102,7 @@
 	<tr>
 		<th>Months available<br/>See where and who was there</th>
 		{% for mon in months %}
-			<td data-th="Month"><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}&viewyear=1">{{mon.monthname|escape}}</a></td>
+			<td data-th="Month"><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}">{{mon.monthname|escape}}</a></td>
 		{% endfor %}
 	</tr>
 </table>
