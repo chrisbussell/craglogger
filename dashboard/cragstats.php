@@ -30,6 +30,11 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/cragstats.tmpl');
 
+	// get list of years we have data for, displayed as dropdown
+	$stmt = getvisithistoryyear($db);
+	$years = $stmt->fetchAll();
+
+
 	$query_params = array(
                         ':year' => $_GET['year']);
 
@@ -72,11 +77,11 @@
 		$numWeeks = weeksleftofsummer();
 	}
 
-	$stmt = getvisithistoryyear($db);
+	//$stmt = getvisithistoryyear($db);
 
-        while ($row = $stmt->fetchObject()) {
-                $years[] = $row;
-        }
+      //  while ($row = $stmt->fetchObject()) {
+        //        $years[] = $row;
+        //}
 
 	$stmt = getcountytotals($db, $query_params);
 

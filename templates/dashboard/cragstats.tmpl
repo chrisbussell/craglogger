@@ -16,6 +16,31 @@
 {% endif %}
 <br/>
 {% if year != '2014' %}
+<legend><b>Choose the year you want to view</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+        <td>
+                <select name ="year">
+                {% for y in years %}
+                        {% if y['year'] == year %}
+                                <option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+                        {% else %}
+                                <option value="{{ y['year'] }}">{{ y['year'] }}</option>
+                        {% endif %}
+                {% endfor %}
+                </select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+        </tr>
+</table>
+</form>
+
+
+
+
+
+<!--
 <table class="cragattendance flexitable">
         <tr>
                 <th scope="row" class="visit" valign="middle">Years Available</th>
@@ -25,7 +50,7 @@
                 </th>
                 {% endfor %}
         </tr>
-</table>
+</table>-->
 <a href="visitarchive.php?year={{year}}">Return to visit archive</a>
 <hr/>
 {% endif %}
