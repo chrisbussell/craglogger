@@ -83,7 +83,7 @@
 	</tr>
 	{% for d in data %}
 	<tr>
-		<td data-th="Name">{{ d.firstname }} {{d.surname}}</td>
+		<td data-th="Name">{{ d.firstname }} {{d.surname}} {% if d.nickname %} <small><i>({{d.nickname}})</i></small>{% endif %}</td>
 		<td data-th="Visits">{{ d.count }}</td>
 		<td data-th="Attendence %">{{ d.percent }}%</td>
 	</tr>

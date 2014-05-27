@@ -72,6 +72,11 @@
                 $rainedoffdetail[] = $row;
         }
 
+        $stmt = gettotalcragsvisited($db);
+		while ($row = $stmt->fetchObject()) {
+                $totalcrags[] = $row;
+        }        
+
 		// set template variables
 		// render template
 		echo $template->render(array (
@@ -84,6 +89,7 @@
 			'counties' => $counties,
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
+			'totalcrags' => $totalcrags,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,

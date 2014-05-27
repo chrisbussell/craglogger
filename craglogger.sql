@@ -25,6 +25,15 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`)
 ); 
 
+CREATE TABLE nickname (
+  nickname_id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11),
+  nickname varchar(50),
+  timestamp timestamp,
+  PRIMARY KEY (nickname_id),
+  UNIQUE KEY `user_id` (`user_id`)
+  );
+
 CREATE TABLE lastlogin (
   lastlogin_id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11),

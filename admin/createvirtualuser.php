@@ -1,7 +1,7 @@
 <?php
 	require("../includes/common.php");
 	require("../includes/functions.php");
-	require("../includes/PHPMailer/class.phpmailer.php");
+	//require("../includes/PHPMailer/class.phpmailer.php");
 
 	$user_id = $_SESSION['user']['user_id'];
 
@@ -78,9 +78,9 @@
 	
 		if(!$error){
 			$query_params = array(
-                                ':firstname' => $_POST['firstname'],
-                                ':surname' => $_POST['surname'],
-                                ':username' => md5(rand(10,99)),
+				':firstname' => $_POST['firstname'],
+				':surname' => $_POST['surname'],
+				':username' => md5(rand(10,99)),
                                 ':password' => md5(rand(100,999)),
                                 ':salt' => '',
                                 ':email' => $_POST['email'],
@@ -89,7 +89,20 @@
 
 			// All ok, so lets add the user to the database
 			$success = insertuser($db, $query_params);
-		}
+
+		if ($success == 1 && (!empty($_POST['nickname']))){
+
+			$stmt = getlastsignup($db);
+			$result = $stmt->fetch();
+
+			$query_params = array(
+				':user_id' => $result['user_id'],
+				'nickname' => $_POST['nickname']);
+			
+			insertusernickname($db, $query_params);
+
+		}			
+	}
 		else{
 			echo $template->render(array ( 
                 	'pageTitle' => 'Create Virtual Member',

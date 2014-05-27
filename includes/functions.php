@@ -33,6 +33,26 @@
 
 	}
 
+	function insertusernickname($db, $query_params)
+	{
+		$query = "INSERT INTO nickname (user_id, nickname) VALUES (:user_id, :nickname)";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+
+	function getlastsignup($db)
+	{
+		$query = "SELECT MAX(user_id) as user_id FROM users";
+
+		$results = $db->prepare($query);
+		$results->execute();
+
+		return $results;
+	}
+
 	function getlastlogin($db, $query_params)
 	{
 		$query = "SELECT u.firstname, u.surname, max(ll.lastlogin) as lastlogin
@@ -167,12 +187,7 @@
 	{
 		// Get Accounts that need approving List Data
 		$query = "
-			SELECT
-				user_id,
-				username,
-				password,
-				salt,
-				firstname,
+			SELECT u.user_id,username,n.nickname,password,salt,firstname,
 				surname,
 				username,
 				email,
@@ -180,7 +195,7 @@
 				approved,
 				emailshow,
 				virtualuser
-			FROM users";
+			FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id";
 
 		if($getapproved == 0){
 			$query .="
@@ -226,7 +241,9 @@
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id";
 
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
-		$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
+		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
+
+		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
 
 		try{
@@ -249,19 +266,7 @@
 	function getaccountsall($db, $query_params)
 	{
 		$query = "
-			SELECT
-				user_id,
-				username,
-				password,
-				salt,
-				firstname,
-				surname,
-				username,
-				email,
-				admin,
-				approved,
-				emailshow
-			FROM users";
+			SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,username,email,admin,approved,emailshow, virtualuser FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id";
 
 		if(isset($query_params[':username'])){
 			$query .="
@@ -271,7 +276,7 @@
 
 		if(isset($query_params[':user_id'])){
 			$query .="
-				WHERE user_id = :user_id
+				WHERE u.user_id = :user_id
 			";
 		}
 		
@@ -531,7 +536,9 @@
 	// dashboard/visitarchive.php
 	function getattended($db, $query_params)
 	{
-		$attendsql = "SELECT a.user_id, u.firstname, u.surname, a.cragvisit_id, cv.date FROM attended a, users u, cragvisit cv WHERE u.user_id = a.user_id AND a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = :year ORDER BY u.user_id";
+		//$attendsql = "SELECT a.user_id, u.firstname, u.surname, a.cragvisit_id, cv.date FROM attended a, users u, cragvisit cv WHERE u.user_id = a.user_id AND a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = :year ORDER BY u.user_id";
+
+		$attendsql = "SELECT a.user_id, u.firstname, u.surname, n.nickname, a.cragvisit_id, cv.date FROM attended a INNER JOIN users u ON a.user_id = u.user_id INNER JOIN cragvisit cv ON a.cragvisit_id = cv.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id WHERE YEAR(cv.date) = :year ORDER BY u.user_id ";
 
 		$results = $db->prepare($attendsql);
 		$results->execute($query_params);
@@ -938,7 +945,7 @@
 	//////////////////////////////////////////////////////////
 	function getuserattendence($db, $query_params)
 	{
-		$query = "SELECT a.user_id,
+		/*$query = "SELECT a.user_id,
                                 u.firstname, 
                                 u.surname, 
                                 count(a.cragvisit_id) as count,
@@ -954,6 +961,27 @@
                          WHERE a.cragvisit_id = cv.cragvisit_id
                          AND u.user_id = a.user_id
                          AND YEAR(cv.date)= :year AND date < NOW()
+                         GROUP BY a.user_id
+                         ORDER BY count DESC
+                         LIMIT 10";
+*/
+ 		$query = "SELECT a.user_id,
+                                u.firstname,
+                                u.surname,
+                                n.nickname,
+                                count(a.cragvisit_id) as count,
+                                round(count(*) / t.total * 100,0) AS percent
+                        FROM attended as a 
+                        INNER JOIN cragvisit cv ON a.cragvisit_id = cv.cragvisit_id
+                        INNER JOIN users u ON u.user_id = a.user_id
+                        LEFT JOIN nickname n ON u.user_id = n.user_id,
+                             (SELECT COUNT(*) AS total
+                              FROM cragdetail cd
+                              INNER JOIN cragvisit cv
+                              ON cd.cragdetail_id = cv.cragdetail_id
+                              WHERE YEAR(cv.date) = :year AND date < NOW()
+                              AND cv.rainedoff = 0) AS t
+                         WHERE YEAR(cv.date)= :year AND date < NOW()
                          GROUP BY a.user_id
                          ORDER BY count DESC
                          LIMIT 10";
@@ -1201,5 +1229,16 @@ WHERE date < now()
                 return $results;
 	}
 
+	function gettotalcragsvisited($db)
+	{
+		$query = "SELECT cd.venue, cd.area, count(*) AS count, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, 
+(SELECT COUNT(*) AS total FROM cragvisit cv WHERE date < NOW() AND cv.rainedoff = 0) AS t
+ WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
+
+ 		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
 
 ?>

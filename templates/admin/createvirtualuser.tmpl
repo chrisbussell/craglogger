@@ -24,8 +24,14 @@ It is to be used to allow you to assign visits to people who do not have an acco
 		<b class="error--message">{{errSurname}}</b>
 	</div>
 
+	<div class="field{% if errNickname %} error{% endif %}">
+		<label for="nickname">Member nickname <small>(optional)</small>:</label>
+		<input type="text" name="nickname" id="nickname" value="" />
+		<b class="error--message">{{errNickname}}</b>
+	</div>
+
 	<div class="field{% if errEmail %} error{% endif %}">
-		<label for="email">Member email <small>(if available)</small></label>
+		<label for="email">Member email <small>(optional)</small>:</label>
 		<input type="text" name="email" id="email" value="" />
 		<b class="error--message">{{errEmail}}</b>
 	</div>

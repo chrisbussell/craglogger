@@ -15,7 +15,7 @@
 	</tr>
 	{% for m in members %}
 	<tr>
-		<td data-th="Username">{{ m.firstname }} {{m.surname}}</td>
+		<td data-th="Username">{{ m.firstname }} {{m.surname}} {% if m.nickname %}<small><i>({{m.nickname}})</small></i>{% endif %}</td>
 		{% if m.emailshow == 1 %}
 		<td data-th="e-mail">{{ m.email }}</td>
 		{% else %}

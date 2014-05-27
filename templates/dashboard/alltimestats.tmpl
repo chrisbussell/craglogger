@@ -92,6 +92,19 @@
         </tr>
         {% endfor %}
 </table>
+<h3>Crags Visited</h3>
+<table class="flexitable">
+        <tr>
+                <th>Crag</th>
+                <th>Visits</th>
+        </tr>
+        {% for tc in totalcrags %}
+        <tr>
+                <td data-th="Crag">{{tc.venue|escape}} {{tc.area}}</td>
+                <td data-th="Count">{{tc.count|escape}}</td>
+        </tr>
+        {% endfor %}
+</table>
 <h3><a id="rain">Rained Off Venues</a></h3>
 <table class="flexitable">
         <tr>

@@ -10,7 +10,7 @@
 <h2>Accounts for approval</h2>
 <table>
 	<tr class="heading">
-		<td>User ID</td>
+		<td>ID</td>
 		<td>Firstname</td>
 		<td>Surname</td>
 		<td>Username</td>
@@ -39,9 +39,10 @@
 <h2>Virtual Members</h2>
 <table>
         <tr class="heading">
-                <td>User ID</td>
+                <td>ID</td>
                 <td>Firstname</td>
                 <td>Surname</td>
+                <td>Nickname</td>
                 <td>Email</td>
         </tr>
         {% for v in virtualmember %}
@@ -50,6 +51,7 @@
                         <td> <b>{{ v.user_id|escape }}</b></td>
                         <td>{{ v.firstname|escape}}</td>
                         <td>{{ v.surname|escape}}</td>
+                        <td>{{ v.nickname|escape}}</td>
                         <td>{{ v.email|escape}}</td>
                 </form>
                 {% endfor %}
@@ -59,10 +61,11 @@
 <h2>All Accounts</h2>
 <table>
 	<tr class="heading">
-		<td>User ID</td>
+		<td>ID</td>
 		<td>Firstname</td>
 		<td>Surname</td>
 		<td>Username</td>
+		<td>Nickname</td>
 		<td>Email</td>
 		<td>Admin</td>
 		<td>Approved</td>
@@ -72,12 +75,20 @@
 	<form method="post" action="{{ php_self }}">
 		<input type="hidden" name="user_id" value="{{ fd.user_id|escape }}"</td>
 		<tr>
-			<td> <b>{{ fd.user_id|escape }}</b>
-			</td>
+			<td> <b>{{ fd.user_id|escape }}</b></td>
 			<td>{{ fd.firstname|escape}}</td>
 			<td>{{ fd.surname|escape}}</td>
+			{% if fd.virtualuser != 1 %}
 			<td>{{ fd.username|escape}}</td>
+			{% else %}
+			<td></td>
+			{% endif %}
+			<td>{{ fd.nickname|escape}}</td>
+			{% if fd.virtualuser != 1 %}
 			<td>{{ fd.email|escape}}</td>
+			{% else %}
+			<td></td>
+			{% endif %}
 			<td>
 				<select name="admin">
 					{% if fd.admin == 1 %}
