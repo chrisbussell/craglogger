@@ -243,7 +243,7 @@
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
-		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
+		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id WHERE YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
 
 		try{
