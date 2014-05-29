@@ -7,7 +7,7 @@
 	}
 */
 	function getcragbyyear($db,$query_params){
-		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cv.event FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
 
 		$results = $db->prepare($query);
 		$results->execute($query_params);
@@ -415,6 +415,7 @@
 				cv.event, 
 				cd.venue, 
 				cd.area, 
+				cd.crag,
 				cd.web, 
 				cd.rock, 
 				cd.faces, 
@@ -508,7 +509,8 @@
 	{
 		$query = "SELECT cd.cragdetail_id, 
 			    	 cd.venue, 
-				cd.area, 
+				cd.area,
+				cd.crag, 
 				cd.rock, 
 				cd.country, 
 				cd.county, 
@@ -518,7 +520,7 @@
 				cd.lat, 
 				cd.lng
 			FROM cragdetail as cd 
-			ORDER BY cd.venue";
+			ORDER BY cd.venue, cd.area";
 
 		try{
 			$stmt = $db->prepare($query);
@@ -570,6 +572,7 @@
 			UPDATE cragdetail SET
 				venue = :venue,
 				area = :area,
+				crag = :crag,
 				web = :web,
 				rock = :rock, 
 				country = :country, 
@@ -622,6 +625,7 @@
 							INSERT INTO cragdetail (
 									venue,
 									area,
+									crag,
 									rock,
 									country,
 									county,
@@ -633,6 +637,7 @@
 							) VALUES (
 									:venue,
 									:area,
+									:crag,
 									:rock,
 									:country,
 									:county,
@@ -778,7 +783,7 @@
 	// index.php
 	function getlatestcragreport($db)
 	{
-		$query="SELECT cv.date, cd.venue, cd.area, cr.cragvisit_id, cr.cragreport FROM cragreports cr, cragvisit cv, cragdetail cd WHERE cv.cragvisit_id = cr.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id ORDER BY cv.date DESC LIMIT 1";
+		$query="SELECT cv.date, cd.venue, cd.area, cd.crag, cr.cragvisit_id, cr.cragreport FROM cragreports cr, cragvisit cv, cragdetail cd WHERE cv.cragvisit_id = cr.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id ORDER BY cv.date DESC LIMIT 1";
 		try{
                         $stmt = $db->prepare($query);
                         $stmt->execute();
@@ -865,7 +870,7 @@
 	function getnextcrag($db)
 	{
 		$query ="SELECT cv.cragvisit_id, 
-						cv.date, cv.event, cd.venue, cd.area, cd.rock, cd.altitude, cd.faces 
+						cv.date, cv.event, cd.venue, cd.area, cd.crag, cd.rock, cd.altitude, cd.faces 
 				FROM cragdetail as cd, cragvisit as cv 
 				WHERE cd.cragdetail_id = cv.cragdetail_id 
 				AND cv.date BETWEEN CURDATE() 
@@ -994,7 +999,7 @@
 
 	function gettopattendedcrag($db, $query_params)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cv.date ORDER BY count DESC Limit 3";
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cv.date ORDER BY count DESC Limit 3";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -1014,7 +1019,7 @@
 
     function getrainedoffdetail($db, $query_params)
     {
-    	$query = "SELECT cv.date, cd.venue, cd.area FROM cragvisit as cv INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id WHERE cv.rainedoff = 1 AND YEAR(cv.date)= :year";
+    	$query = "SELECT cv.date, cd.venue, cd.area, cd.crag FROM cragvisit as cv INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id WHERE cv.rainedoff = 1 AND YEAR(cv.date)= :year";
 
 		$results = $db->prepare($query);
 		$results->execute($query_params);
@@ -1080,7 +1085,7 @@
 	//////////////////////////////////////////////////////////
 	function getcragvisitsbyuser($db, $query_params)
 	{
-		$query = "SELECT cd.cragdetail_id, cd.venue as venue, cd.area as area, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = :user_id group by venue, area ORDER BY count DESC";
+		$query = "SELECT cd.cragdetail_id, cd.venue as venue, cd.area as area, cd.crag as crag, count(*) as count FROM cragdetail cd, cragvisit cv, attended a WHERE cv.cragvisit_id = a.cragvisit_id AND cd.cragdetail_id = cv.cragdetail_id AND a.user_id = :user_id group by venue, area ORDER BY count DESC";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);
@@ -1221,7 +1226,7 @@ WHERE date < now()
 
 	function gettopattendedcragalltime($db)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id GROUP BY cv.date ORDER BY count DESC Limit 3";
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id GROUP BY cv.date ORDER BY count DESC Limit 3";
 
 		$results = $db->prepare($query);
                 $results->execute();
@@ -1229,7 +1234,7 @@ WHERE date < now()
                 return $results;
 	}
 
-	function gettotalcragsvisited($db)
+	function gettotalcragsareavisited($db)
 	{
 		$query = "SELECT cd.venue, cd.area, count(*) AS count, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, 
 (SELECT COUNT(*) AS total FROM cragvisit cv WHERE date < NOW() AND cv.rainedoff = 0) AS t
@@ -1241,4 +1246,14 @@ WHERE date < now()
                 return $results;
 	}
 
+	function gettotalcragsvisited($db)
+	{
+		$query = "SELECT cd.venue, count(*) as count FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE date < NOW() AND cv.rainedoff = 0 GROUP BY cd.venue ORDER BY count desc";
+
+		$results = $db->prepare($query);
+		$results->execute();
+
+		return $results;
+
+	}
 ?>

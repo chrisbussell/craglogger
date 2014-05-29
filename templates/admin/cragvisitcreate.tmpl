@@ -22,12 +22,14 @@
 			<tr>
 				<td>Crag</td>
 				<td>Area</td>
+				<td>Crag</td>
 				<td>Select crag</td>
 			</tr>
 			{% for d in data %}
 			<tr>
 				<td>{{ d.venue|escape}}</td>
 				<td>{{ d.area|escape }}</td>
+				<td>{{ d.crag|escape }}</td>
 				<td>
 					<input type="radio" name="cragdetail_id" value="{{d.cragdetail_id}}"></td>
 			</tr>

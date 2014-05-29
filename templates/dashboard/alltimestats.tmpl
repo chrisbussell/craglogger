@@ -57,7 +57,7 @@
 	{% for a in attendedcrag %}
 	<tr>
 		<td data-th="Date">{{ a.date|date ('d F Y') }}</td>
-		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}">{{ a.venue }} {{a.area}}</a></td>
+		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}">{{ a.venue }} {{a.area}} {%if a.crag %} - {{a.crag}} {% endif %} {%if a.event %}<small>({{a.event}})</small>{% endif %}</a></td>
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>
 	{% endfor %}
@@ -98,10 +98,10 @@
                 <th>Crag</th>
                 <th>Visits</th>
         </tr>
-        {% for tc in totalcrags %}
+        {% for tca in totalcragsall %}
         <tr>
-                <td data-th="Crag">{{tc.venue|escape}} {{tc.area}}</td>
-                <td data-th="Count">{{tc.count|escape}}</td>
+                <td data-th="Crag">{{tca.venue|escape}}</td>
+                <td data-th="Count">{{tca.count|escape}}</td>
         </tr>
         {% endfor %}
 </table>

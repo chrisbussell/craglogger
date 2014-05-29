@@ -35,6 +35,7 @@
 			':cragdetail_id' => $_POST['cragdetail_id'],
 			':venue' => $_POST['venue'],
 			':area' => $_POST['area'],
+			':crag' => $_POST['crag'],
 			':rock' => $_POST['rock'],
 			':country' => $_POST['country'],
 			':county' => $_POST['county'],

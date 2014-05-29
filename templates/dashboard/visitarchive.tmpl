@@ -115,7 +115,7 @@
 		<th scope="row" class="visit" valign="middle">Visit</th>
 		{% for d in data %}
 		<th>
-			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}} {%if d.crag %} - {{d.crag }} {% endif %}</a>
 			<br/>
 			{{ d.date|date("d F Y") }}
 			<br/>

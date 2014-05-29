@@ -51,7 +51,7 @@
 	</tr>
 	{% for d in data %}
 	<tr>
-		<td data-th="Venue">{{ d.venue }} {{d.area}}</td>
+		<td data-th="Venue">{{ d.venue }} {{d.area}} {%if d.crag %} - {{d.crag}} {% endif %} {%if d.event %} <small>({{d.event}})</small>{% endif %}</td>
 		<td data-th="Visits"><a href="mystats.php?cragdetail_id={{d.cragdetail_id}}&dates=1">{{ d.count }}</a></td>
 	</tr>
         {% endfor %}

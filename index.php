@@ -49,6 +49,7 @@
 		'date' => $nextcrag['date'],
 		'venue' => $nextcrag['venue'],
 		'area' => $nextcrag['area'],
+		'crag' => $nextcrag['crag'],
 		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
 		'moonphase' => $moonphase['phase'],

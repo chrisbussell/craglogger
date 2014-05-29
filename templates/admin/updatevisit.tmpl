@@ -14,6 +14,7 @@
 		<th>Event</th>
 		<th>Venue</th>
 		<th>Area</th>
+		<th>Crag</th>
 		<th>Conditions</th>
 		<th>Pub</th>
 		<th>Rained Off</th>
@@ -33,6 +34,7 @@
 			</td>
 			<td>{{ d.venue|escape }}</td>
 			<td>{{ d.area|escape }}</td>
+			<td>{{ d.crag|escape }}</td>
 			<td>
 				<input type="text" name="conditions" value="{{ d.conditions|escape }}"/>
 			</td>

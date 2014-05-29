@@ -12,6 +12,7 @@
 	<tr class="heading">
 		<th>Venue</th>
 		<th>Area</th>
+		<th>Crag</th>
 		<th>Rock</th>
 		<th>Country</th>
 		<th>County</th>
@@ -20,6 +21,7 @@
 		<th>Web</th>
 		<th>Lat</th>
 		<th>Long</th>
+		<th>Action</th>
 	</tr>
 	{% for d in data %}
 	<form method="post" action="{{ php_self }}">
@@ -30,6 +32,9 @@
 			</td>
 			<td>
 				<input type="text" name="area" value="{{ d.area|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="crag" value="{{ d.crag|escape }}"/>
 			</td>
 			<td>
 				<input type="text" name="rock" value="{{ d.rock|escape }}"/>
