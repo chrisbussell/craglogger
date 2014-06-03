@@ -44,10 +44,10 @@
 		}
 
 		// Ensure that the user has entered a non-empty surname
-		if(empty($_POST['surname'])){
-			$error = 1;
-			$errSurname= "Please enter a surname";
-		}
+		//if(empty($_POST['surname'])){
+		//	$error = 1;
+		//	$errSurname= "Please enter a surname";
+		//}
 
 		if(!empty($_POST['password']))
 		{
@@ -72,16 +72,20 @@
 			}
 		}
 
+		// Add a fake email
 		if(empty($_POST['email'])){
-			$_POST['email'] = md5(rand(10,99)); 
+
+			$rand = rand(1,100);
+			
+			$_POST['email'] = $_POST['firstname'].$rand.$_POST['surname'].$rand; 
 		}
 	
 		if(!$error){
 			$query_params = array(
 				':firstname' => $_POST['firstname'],
 				':surname' => $_POST['surname'],
-				':username' => md5(rand(10,99)),
-                                ':password' => md5(rand(100,999)),
+				':username' => md5(uniqid(rand(10,999),true)),
+                                ':password' => md5(rand(10,999)),
                                 ':salt' => '',
                                 ':email' => $_POST['email'],
                                 ':emailshow' => '0',

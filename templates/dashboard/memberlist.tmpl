@@ -12,6 +12,7 @@
 	<tr>
 		<th>Username</th>
 		<th>e-mail</th>
+		<th>Member Status</th>
 	</tr>
 	{% for m in members %}
 	<tr>
@@ -21,11 +22,20 @@
 		{% else %}
 		<td data-th="e-mail"></td>
 		{% endif %}
+
+		<td data-th"Member Status">
+		{% if m.virtualuser == 1 %}
+		<small>Virtual Member</small>
+		{% else %}
+		<small>Full</small>
+		{% endif%}
+		</td>
 	</tr>
 	{% endfor %}
 	<tr>
 		<th>Total Members</th>
 		<td data-th="Total Members">{{ members|length}}</td>
+		<td></td>
 	</tr>
 </table>
 {% endblock %}
