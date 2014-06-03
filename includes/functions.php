@@ -1236,15 +1236,29 @@ WHERE date < now()
 
 	function gettotalcragsareavisited($db)
 	{
-		$query = "SELECT cd.venue, cd.area, count(*) AS count, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, 
-(SELECT COUNT(*) AS total FROM cragvisit cv WHERE date < NOW() AND cv.rainedoff = 0) AS t
- WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
+		//$query = "SELECT cd.venue, cd.area, count(*) AS count, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, 
+//(SELECT COUNT(*) AS total FROM cragvisit cv WHERE date < NOW() AND cv.rainedoff = 0) AS t
+// WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
+
+		$query = "SELECT cd.venue, cd.area, count(*) AS count FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
+
 
  		$results = $db->prepare($query);
                 $results->execute();
 
                 return $results;
 	}
+
+	function gettotalcragvisited($db)
+	{
+		$query = "SELECT cd.venue, cd.area, cd.crag, count(*) AS count FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area, cd.crag ORDER BY count desc";
+
+ 		$results = $db->prepare($query);
+                $results->execute();
+
+                return $results;
+	}
+
 
 	function gettotalcragsvisited($db)
 	{
@@ -1255,5 +1269,15 @@ WHERE date < now()
 
 		return $results;
 
+	}
+
+	function getareabreakdown($db, $query_params)
+	{
+		$query = "SELECT cd.venue, cd.area, count(*) AS count FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue GROUP BY cd.venue, cd.area ORDER BY count desc";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
 	}
 ?>

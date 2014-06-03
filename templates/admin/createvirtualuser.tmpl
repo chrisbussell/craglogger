@@ -12,6 +12,9 @@
 It is to be used to allow you to assign visits to people who do not have an account.</div>
 <br/>
 <form action="{{ php_self }}" method="post">
+<div>
+		<input type="submit" value="Register" />
+	</div>
 	<div class="field{% if errFirstname %} error{% endif %}">
 		<label for="firstname">Member firstname:</label>
 		<input type="text" name="firstname" id="firstname" value="" />

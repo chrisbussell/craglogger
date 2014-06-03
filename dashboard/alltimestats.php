@@ -77,6 +77,11 @@
                 $totalcrags[] = $row;
         }   
 
+        $stmt = gettotalcragvisited($db);
+        while ($row = $stmt->fetchObject()) {
+                $totalcragsvisited[] = $row;
+        }
+
         $stmt = gettotalcragsvisited($db);
 		while ($row = $stmt->fetchObject()) {
                 $totalcragsall[] = $row;
@@ -95,6 +100,7 @@
 			'rocktype' => $rocktypes,
 			'weeksleft' => $numWeeks,
 			'totalcrags' => $totalcrags,
+			'totalcragsvisited' => $totalcragsvisited,
 			'totalcragsall' => $totalcragsall,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],

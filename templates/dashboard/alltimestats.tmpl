@@ -33,7 +33,7 @@
                 <td data-th="Rained off %">{{ as.percentraindedoff }}%</td>
         </tr>
         {% endfor %}
-</table>
+</table><!--
 <h3>Top 10 Attenders</h3>
 <table class="flexitable">
 	<tr>
@@ -61,7 +61,7 @@
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>
 	{% endfor %}
-</table>
+</table>-->
 <h3>Rock Types</h3>
 <table class="flexitable">
 	<tr>
@@ -92,6 +92,7 @@
         </tr>
         {% endfor %}
 </table>
+
 <h3>Crags Visited</h3>
 <table class="flexitable">
         <tr>
@@ -105,6 +106,8 @@
         </tr>
         {% endfor %}
 </table>
+
+
 <h3><a id="rain">Rained Off Venues</a></h3>
 <table class="flexitable">
         <tr>
@@ -119,4 +122,63 @@
         </tr>
         {% endfor %}
 </table>
+<h1>All Time Visit Breakdowns</h1>
+<div style="overflow: hidden;">
+    <div style="float: left; position: relative; left: 50%;">
+        <div style="float: left; position: relative; left: -50%;">
+            <div style="float: left;">
+                <h3>Top Level Venue</h3>
+                <small>eg. Stanage, Chee Dale</small>
+                <table class="flexitable">
+                        <tr>
+                                <th>Venue</th>
+                                <th>Visits</th>
+                        </tr>
+                        {% for tca in totalcragsall %}
+                        <tr>
+                                <td data-th="Crag"><a href="areabreakdown.php?venue={{tca.venue}}">{{tca.venue|escape}}</a></td>
+                                <td data-th="Count">{{tca.count|escape}}</td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        
+            <div style="float: left;">
+            <h3>Venue Breakdown</h3>
+            <small>eg. Stanage Popular, Chee Dale Upper</small>
+            <table class="flexitable">
+                        <tr>
+                                <th>Venue & Area</th>
+                                <th>Visits</th>
+                        </tr>
+                        {% for tc in totalcrags %}
+                        <tr>
+                                <td data-th="Crag">{{tc.venue|escape}} {{tc.area}}</td>
+                                <td data-th="Count">{{tc.count|escape}}</td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+            <div style="float: left;">
+            <h3>Venue Area Breakdown</h3>
+            <small>eg. Stanage Popular - BAWs, Chee Dale Upper - Moving Buttress</small>
+            <table class="flexitable">
+                        <tr>
+                                <th>Venue, Area & Crag</th>
+                                <th>Visits</th>
+                        </tr>
+                        {% for tcv in totalcragsvisited %}
+                        <tr>
+                                <td data-th="Crag">{{tcv.venue|escape}} {{tcv.area}} {% if tcv.crag %} - {{tcv.crag}} {% endif %}</td>
+                                <td data-th="Count">{{tcv.count|escape}}</td>
+                        </tr>
+                        {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
