@@ -119,8 +119,7 @@
 	 // GET LIST OF ATTENDED CRAGS BY USERS
 	$results = getattended($db, $query_params);
 	$rows = $results->fetchAll();
-	print_r($rows);
-
+	
 	$selectedmonth = $_GET['month'];
 	$selectmonth = getmonth($selectedmonth);
 
