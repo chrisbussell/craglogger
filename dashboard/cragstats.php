@@ -34,10 +34,20 @@
 	$stmt = getvisithistoryyear($db);
 	$years = $stmt->fetchAll();
 
+	if(!empty($_POST))
+	{
+		$chosenyear = $_POST['year'];
+	}
+	elseif(!empty($_GET))
+	{
+		$chosenyear = $_GET['year'];
+	}
+
+
 
 	$query_params = array(
-                        ':year' => $_GET['year']);
-
+                        ':year' => $chosenyear);
+print_r($chosenyear);
 	$stmt = getcragbyyear($db,$query_params);
 	$visitedcrags = $stmt->fetchAll();
 
@@ -71,7 +81,7 @@
                 $rocktypes[] = $row;
         }
 
-	if ($_GET['year'] == '2014')
+	if ($chosenyear == '2014')
 	{
 		//get number of weeks of summer left
 		$numWeeks = weeksleftofsummer();
@@ -102,7 +112,7 @@
 			'pageTitle' => 'Crag Stats 2014',
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
-			'year' => $_GET['year'],
+			'year' => $chosenyear,
 			'years' => $years,
 			'rainedoff' => $rainedoff,
 			'yearstats' => $yearstats,

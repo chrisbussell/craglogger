@@ -243,7 +243,7 @@
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
 		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
-		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
+		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id WHERE YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
 
 		try{
@@ -1280,4 +1280,45 @@ WHERE date < now()
 
 		return $results;
 	}
-?>
+
+	function getdatebyvenue($db, $query_params)
+	{
+		$query = "SELECT cv.cragvisit_id,cv.date, cd.venue, cv.event FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue ORDER BY cv.date DESC";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+
+	function getdatebyvenuearea($db, $query_params)
+	{
+		$query = "SELECT cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue AND cd.area = :area ORDER BY cv.date DESC";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+
+	}
+
+	function get3rdlevel($db, $query_params)
+	{
+		$query = "SELECT cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue AND cd.area = :area";
+
+		if (isset($query_params[':crag']))
+		{
+			$query .=" AND cd.crag = :crag";
+		}
+		else
+		{ 
+			$query .=" AND cd.crag IS NULL";
+		} 
+			$query .=" ORDER BY cv.date DESC";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+

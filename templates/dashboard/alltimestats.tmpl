@@ -15,7 +15,6 @@
 <i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
 {% endif %}
 <br/>
-<h3>Visit Stats</h3>
 <table class="flexitable">
         <tr>
                 <th>Attempted visits</th>
@@ -28,7 +27,7 @@
         <tr>
                 <td data-th="Attempted visits">{{ as.attempts }}</td>
                 <td data-th="Rained off"><a href="#rain">{{ as.rainedoff }}</a></td>
-                <td data-th="Successful visits">{{ as.actual }}</td>
+                <td data-th="Successful visits"><a href="#allvisits">{{ as.actual }}</td>
                 <td data-th="Successful visits %">{{ as.percentvisited }}%</td>
                 <td data-th="Rained off %">{{ as.percentraindedoff }}%</td>
         </tr>
@@ -93,36 +92,7 @@
         {% endfor %}
 </table>
 
-<h3>Crags Visited</h3>
-<table class="flexitable">
-        <tr>
-                <th>Crag</th>
-                <th>Visits</th>
-        </tr>
-        {% for tca in totalcragsall %}
-        <tr>
-                <td data-th="Crag">{{tca.venue|escape}}</td>
-                <td data-th="Count">{{tca.count|escape}}</td>
-        </tr>
-        {% endfor %}
-</table>
-
-
-<h3><a id="rain">Rained Off Venues</a></h3>
-<table class="flexitable">
-        <tr>
-                <th>Venue</th>
-                <th>Times Rained off</th>
-
-        </tr>
-        {% for ro in rainedoffdetail %}
-        <tr>
-                <td data-th="Venue">{{ro.venue}} {{ro.area|escape}}</td>
-                <td data-th="Times Rained off">{{ro.count|escape}} </td>
-        </tr>
-        {% endfor %}
-</table>
-<h1>All Time Visit Breakdowns</h1>
+<h1><a id="allvisits">All Time Visit Breakdowns</h1>
 <div style="overflow: hidden;">
     <div style="float: left; position: relative; left: 50%;">
         <div style="float: left; position: relative; left: -50%;">
@@ -136,8 +106,8 @@
                         </tr>
                         {% for tca in totalcragsall %}
                         <tr>
-                                <td data-th="Crag"><a href="areabreakdown.php?venue={{tca.venue}}">{{tca.venue|escape}}</a></td>
-                                <td data-th="Count">{{tca.count|escape}}</td>
+                                <td data-th="Crag">{{tca.venue|escape}}</td>
+                                <td data-th="Count"><a href="areabreakdown.php?venue={{tca.venue}}">{{tca.count|escape}}</a></td>
                         </tr>
                         {% endfor %}
                 </table>
@@ -154,7 +124,7 @@
                         {% for tc in totalcrags %}
                         <tr>
                                 <td data-th="Crag">{{tc.venue|escape}} {{tc.area}}</td>
-                                <td data-th="Count">{{tc.count|escape}}</td>
+                                <td data-th="Count"><a href="areabreakdown.php?venue={{tc.venue}}&area={{tc.area}}&crag=&break=true">{{tc.count|escape}}</a></td>
                         </tr>
                         {% endfor %}
                 </table>
@@ -170,7 +140,7 @@
                         {% for tcv in totalcragsvisited %}
                         <tr>
                                 <td data-th="Crag">{{tcv.venue|escape}} {{tcv.area}} {% if tcv.crag %} - {{tcv.crag}} {% endif %}</td>
-                                <td data-th="Count">{{tcv.count|escape}}</td>
+                                <td data-th="Count"><a href="areabreakdown.php?venue={{tcv.venue}}&area={{tcv.area}}&crag={{tcv.crag}}&break1=true">{{tcv.count|escape}}</a></td>
                         </tr>
                         {% endfor %}
                 </table>
@@ -180,5 +150,19 @@
     </div>
 </div>
 
+<h3><a id="rain">Rained Off Venues</a></h3>
+<table class="flexitable">
+        <tr>
+                <th>Venue</th>
+                <th>Times Rained off</th>
+
+        </tr>
+        {% for ro in rainedoffdetail %}
+        <tr>
+                <td data-th="Venue">{{ro.venue}} {{ro.area|escape}}</td>
+                <td data-th="Times Rained off">{{ro.count|escape}} </td>
+        </tr>
+        {% endfor %}
+</table>
 
 {% endblock %}

@@ -106,7 +106,6 @@
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
 			'rainedoffdetail' => $rainedoffdetail,
-			'date' => $date,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
 			'username' =>$_SESSION['user']['username'],
