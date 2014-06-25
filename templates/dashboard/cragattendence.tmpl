@@ -44,7 +44,7 @@
 			{% endfor %}
 			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
 				{% if has_attended_this_crag == 1 %}
-					<span data-th="Attended" class="yes">YES</span>
+					<span data-th="Attended" class="yes"><i>YES</i></span>
 				{% else %}
 					<span class="no">NO</span>
 				{% endif %}
