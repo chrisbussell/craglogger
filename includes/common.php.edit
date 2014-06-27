@@ -5,7 +5,9 @@
     $dbname = "";
 
     //set date site last updated
-    $lastupdated = "26 March 2014";
+    $lastupdated = "27 June 2014";
+    $emailaddress = ""; // domain email, Emails appear to come from this address
+    $bccaddress = ""; // any bccing of generated emails
 
     $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     
