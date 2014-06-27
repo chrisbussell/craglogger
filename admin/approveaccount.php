@@ -51,11 +51,13 @@
 		$mail = new PHPMailer();
 		$mail->IsHTML(true);
 
-		$mail->From     = "chrisbussell@gmail.com";
-		$mail->AddAddress("$email");
-
+		$mail->From     = $emailaddress; //domain from address -> common.php
+		$mail->FromName = "Craglogger Team";
+		$mail->AddAddress("$email"); //recepitants email
+		$mail->AddCC ("");
+		$mail->AddBCC ("$bccaddress");
 		$mail->Subject  = "Tuesday Nighters Account Approved";
-		$mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters Craglogger account has been approved.  You can now start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> Click <a href='http://www.chrisbussell.co.uk/craglogger/login.php'>here</a> to start log in and get started<p>Thanks<br>The Craglogger Team.";
+		$mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters Craglogger account has been approved.  You can now start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> Click <a href='http://www.chrisbussell.co.uk/craglogger/login.php'>here</a> to <b>log in</b> and get started<p>Thanks<br>The Craglogger Team.";
 		$mail->WordWrap = 50;
 
 		if(!$mail->Send()) {

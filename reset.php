@@ -57,14 +57,17 @@
 			$encodeemail = urlencode($email);
 
 			//echo"YES WE KNOW THIS USER, SEND ACTIVATION CODE";
-			$resetlink = "http://ccgi.chrisbussell.plus.com/craglogger/resetconfirm.php?email=$encodeemail&code=$code&expiry=$expiry";
+			$resetlink = "http://chrisbussell.co.uk/craglogger/resetconfirm.php?email=$encodeemail&code=$code&expiry=$expiry";
 			
 			//Email admin account details to approve
 			$mail = new PHPMailer();
 			$mail->IsHTML(true);
 
-			$mail->From     = "chrisbussell@gmail.com";
+			$mail->From     = $emailaddress;
+			$mail->FromName = "Craglogger Team";
 			$mail->AddAddress("$email");
+			$mail->AddCC ("");
+			$mail->AddBCC ("chrisbussell@gmail.com");
 
 			$mail->Subject  = "Tuesday Nighters password reset";
 			$mail->Body     = "Hi, <p>Your password reset link is $resetlink <p>Thanks<br>The Craglogger Team.";

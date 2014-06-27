@@ -59,13 +59,16 @@
 
 		if($passed == true)
 		{
-			$linky = "http://ccgi.chrisbussell.plus.com/craglogger/login.php";
+			$linky = "http://chrisbussell.co.uk/craglogger/login.php";
 			//Email admin account details to approve
 			$mail = new PHPMailer();
 			$mail->IsHTML(true);
 
-			$mail->From     = "chrisbussell@gmail.com";
+			$mail->From     = $emailaddress;
+			$mail->FromName = "Craglogger Team";
 			$mail->AddAddress($_POST['email']);
+			$mail->AddCC ("");
+			$mail->AddBCC ("chrisbussell@gmail.com");
 
 			$mail->Subject  = "Tuesday Nighters password changed";
 			$mail->Body     = "Hi, <p> You have changed your password for Tuesday Nighers Craglogger.<p> To login please click $linky<p>Thanks<br>The Craglogger Team.";

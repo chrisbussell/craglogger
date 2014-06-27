@@ -162,15 +162,17 @@
 			$username = $_POST['username'];
 			$email = $_POST['email'];
 
-			//Email admin account details to approve
+			//Email ADMIN account details to approve
 			$mail = new PHPMailer();
 			$mail->IsHTML(true);
 
-			$mail->From     = "chrisbussell@gmail.com";
-			$mail->AddAddress("chrisbussell@gmail.com");
-
+			$mail->From     = $emailaddress; //domain from address -> common.php
+			$mail->FromName = "Craglogger Team";
+			$mail->AddAddress("craglogger@gmail.com");
+			$mail->AddCC ("");
+			$mail->AddBCC ("$bccaddress");
 			$mail->Subject  = "Tuesday Nighters account approval required";
-			$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='ccgi.chrisbussell.plus.com/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
+			$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='http://chrisbussell.co.uk/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {
@@ -184,9 +186,11 @@
 			$mail = new PHPMailer();
 			$mail->IsHTML(true);
 
-			$mail->From     = "chrisbussell@gmail.com";
+			$mail->From     = $emailaddress; //domain from address -> common.php
+			$mail->FromName = "Craglogger Team";
 			$mail->AddAddress("$email");
-
+			$mail->AddCC ("");
+			$mail->AddBCC ("$emailaddress");
 			$mail->Subject  = "Tuesday Nighters account signup";
 			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2014.<p>Thank you<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
