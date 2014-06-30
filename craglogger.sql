@@ -199,7 +199,7 @@ CREATE TABLE userconfig (
   UNIQUE KEY `user_id` (`user_id`)
   );
 
-INSERT INTO userconfig (user_id, admin, approved, emailshow, usertype_id) VALUES ('')
+INSERT INTO userconfig (user_id, admin, approved, emailshow, usertype_id) VALUES ('1')
 
 CREATE TABLE usertype (
   usertype_id int(11) NOT NULL AUTO_INCREMENT,
