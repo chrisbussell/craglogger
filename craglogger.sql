@@ -185,3 +185,27 @@ INSERT INTO sunset (date, sunsettime) VALUES ('2014-05-06', '20:45');
 select year(date) as 'year', count(*) as attempts, sum(if(rainedoff = 0, 1, 0)) as actual, sum(if(rainedoff = 1, 1, 0)) as rainedoff from cragvisit group by YEAR(date);
 
 ALTER TABLE cragdetail add column crag varchar(255) AFTER area;
+
+
+CREATE TABLE userconfig (
+  userconfig_id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11),
+  admin int(1),
+  approved int(1),
+  emailshow int(1),
+  usertype_id int(1),
+  timestamp timestamp,
+  PRIMARY KEY (userconfig_id),
+  UNIQUE KEY `user_id` (`user_id`)
+  );
+
+INSERT INTO userconfig (user_id, admin, approved, emailshow, usertype_id) VALUES ('')
+
+CREATE TABLE usertype (
+  usertype_id int(11) NOT NULL AUTO_INCREMENT,
+  handle varchar(20),
+  PRIMARY KEY (usertype_id)
+  );
+
+INSERT INTO usertype (handle) VALUES ('FULL');
+INSERT INTO usertype (handle) VALUES ('VIRTUAL USER');
