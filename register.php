@@ -88,7 +88,6 @@
 		$row = $stmt->fetch();
 	
 		if($row){
-			//die("This email address is already registered");
 			$error = 1;
 			$errEmail= "This email address is already registered";
 		}
@@ -102,28 +101,17 @@
 			$password = hash('sha256', $password . $salt);
 		}
 		
-	
 		//check if we have any errors on the form
-		if(!$error){
-
+		if(!$error)
+		{
 			$query_params = array(
 				':firstname' => $_POST['firstname'],
-                                ':surname' => $_POST['surname']);
+				':surname' => $_POST['surname']);
 
 			// Check if firstname & surname match any exisiting virtual members
 			$stmt = checkvirtualmemberdetails($db, $query_params);
 
 			$membercheck = $stmt->fetch();
-
-			$query_params = array(
-                                ':firstname' => $_POST['firstname'],
-                                ':surname' => $_POST['surname'],
-                                ':username' => $_POST['username'],
-                                ':password' => $password,
-                                ':salt' => $salt,
-                                ':email' => $_POST['email'],
-                                ':emailshow' => $_POST['emailshow'],
-                                ':virtualuser' => '0');
 
 			// All ok, so lets add the user to the database
 			if (!empty($membercheck)){
@@ -135,25 +123,40 @@
                                 ':password' => $password,
                                 ':salt' => $salt,
                                 ':email' => $_POST['email'],
-                                ':emailshow' => $_POST['emailshow'],
-                                ':virtualuser' => '0',
                                 ':user_id' => $membercheck['user_id']);
 
-				convertvirtualtofull($db, $query_params);
+				$query_params2 = array(
+								'user_id' => $membercheck['user_id'],
+                                ':admin' => 0,
+                                ':approved' => 0,
+                                ':emailshow' => $_POST['emailshow'],
+                                ':usertype_id' => 1);
+
+				// Convert match user to full and set details as submited at signup
+				convertvirtualtofull($db, $query_params, $query_params2);
+			
 			}
 			else{
-
+				// Prepare variables for new user insert
 				$query_params = array(
                                 ':firstname' => $_POST['firstname'],
                                 ':surname' => $_POST['surname'],
                                 ':username' => $_POST['username'],
                                 ':password' => $password,
                                 ':salt' => $salt,
-                                ':email' => $_POST['email'],
-                                ':emailshow' => $_POST['emailshow'],
-                                ':virtualuser' => '0');
+                                ':email' => $_POST['email']);
 
-				insertuser($db, $query_params);
+				// Add new user signup to the database ready for approval
+				$user_id = insertuser($db, $query_params);
+			
+				// Prepare variables for userconfig insert				
+				$query_params = array(
+								':user_id' => $user_id,
+								':emailshow' => $_POST['emailshow'],
+								':usertype_id' => '1');
+
+				// Insert user config data
+				insertuserconfig($db, $query_params); 
 			}
 			////////////////////////////////////////////////////////////
 			// Set variables for email send

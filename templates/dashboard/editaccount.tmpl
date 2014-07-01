@@ -13,30 +13,42 @@
 		<label for="username">Username:</label>
 		<input type="text" name="username" id="username" value="{{username}}" disabled />
 	</div>
-	<div class="field">
-		<label for="firstname">First name:</label>
+	<div class="field{% if errFirstname %} error{% endif %}">
+		<label for="firstname">Your firstname:</label>
 		<input type="text" name="firstname" id="firstname" value="{{firstname}}" />
+		<b class="error--message">{{errFirstname}}</b>
 	</div>
-	<div class="field">
-		<label for="surname">Surname:</label>
+
+	<div class="field{% if errSurname %} error{% endif %}">
+		<label for="surname">Your surname:</label>
 		<input type="text" name="surname" id="surname" value="{{surname}}" />
+		<b class="error--message">{{errSurname}}</b>
 	</div>
-	<div class="field">
-		<label for="emai">E-Mail Address::</label>
+
+	<div class="field{% if errEmail %} error{% endif %}">
+		<label for="email">Your email:</label>
 		<input type="text" name="email" id="email" value="{{email}}" />
+		<b class="error--message">{{errEmail}}</b>
+	</div>
+	<div>
 		{% if emailshow == 1 %}
 		<input type="checkbox" name="emailshow" value="1" checked>
 		<i>(check to allow other members to see your email address on the members list)</i> 
 		{% else %}
-		<input type="checkbox" name="emailshow" value="1">
+		<input type="checkbox" name="emailshow">
 		<i>(check to allow other members to see your email address on the members list)</i> 
 		{% endif %}
 	</div>
+
 	<div class="field">
 		<label for="password">Password:</label>
 		<input type="password" name="password" id="password" value="" />
 		<i>(leave blank if you do not want to change your password)</i>
 	</div>
-	<input type="submit" value="Update Account" />
+	<input type="submit" name="submit" value="Update Account" />
+	<div class="field">
+<p><b>{{editaccount}}</b></p>
+</div>
 </form>
+
 {% endblock %}

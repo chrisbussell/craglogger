@@ -26,7 +26,7 @@
 	$template = $twig->loadTemplate('dashboard/memberlist.tmpl');
 
 	//Get all approved accounts 
-	$stmt = getaccounts($db, $getapproved=1, $getvirtual=1, $flag=1);
+	$stmt = getuserbyoption($db, $getapproved=1, $getvirtual=1, $flag=1);
 			
 	// Finally, we can retrieve all of the found rows into an array using fetchAll
 	$rows = $stmt->fetchAll();

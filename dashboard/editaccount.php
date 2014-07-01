@@ -20,6 +20,11 @@
 	$firstname = '';
 	$surname = '';
 	$emailshow = '';
+	$editaccount = '';
+	$iserror = '';
+	$errFirstname = '';
+	$errSurname = '';
+	$errPassword = '';
 
 	// Check if user logged in or not
 	if(empty($_SESSION['user'])){
@@ -29,41 +34,31 @@
 		die("Redirecting to login.php");
 	}
 
-	// Define our query parameter values
-	$query_params = array(
-		':user_id' => $_SESSION['user']['user_id']
-	);
-
-	$stmt = getaccountsall($db, $query_params);	
-
-	$rows = $stmt->fetch();
-
-	if (!empty($rows)) {
-		$firstname = $rows['firstname'];
-                $surname = $rows['surname'];
-                $emailshow = $rows['emailshow'];
-	}	
-
 	// Has edit been submited
-	if(!empty($_POST)){
+	if(!empty($_POST))
+	{
 		if($_POST['firstname'] == null){
-			die("Invalid firstname");
+			$iserror = 1;
+			$errFirstname= "Please enter a firstname";
+		//	die("Invalid firstname");
 		}	
 
 		if($_POST['surname'] == null){
-			die("Invalid surname");
+			$iserror = 1;
+			$errSurname= "Please enter a surname";
+			//die("Invalid surname");
 		}		
 		// Make sure the user entered a valid E-Mail address
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-			die("Invalid E-Mail Address");
+			$iserror = 1;
+			$errEmail= "Invalid E-Mail Address";
+			//die("Invalid E-Mail Address");
 		}
 				
 		// check if email being updated has already been used
 		if($_POST['email'] != $_SESSION['user']['email']){
 			// Define our query parameter values
-			$query_params = array(
-					':email' => $_POST['email']
-			);
+			$query_params = array(':email' => $_POST['email']);
 			
 			// check if email has been used before
 			$stmt = checkemail($db, $query_params);
@@ -71,9 +66,12 @@
 			// Retrieve results (if any)
 			$row = $stmt->fetch();
 			if($row){
-				die("This E-Mail address is already in use");
+				$iserror = 1;
+				$errEmail = "This e-mail address is already in use";
+				//die("This E-Mail address is already in use");
 			}
-		}				
+		}		
+
 		// If the user entered a new password, hash it and generate a fresh salt
 		if(!empty($_POST['password'])){
 			$salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647));
@@ -82,7 +80,8 @@
 				$password = hash('sha256', $password . $salt);
 			}
 		}
-		else{
+		else
+		{
 			// If the user did not enter a new password not update their old one.
 			$password = null;
 			$salt = null;
@@ -93,8 +92,7 @@
 			':email' => $_POST['email'],
 			':user_id' => $_SESSION['user']['user_id'],
 			':firstname' => $_POST['firstname'],
-			':surname' => $_POST['surname'],
-			':emailshow' => $_POST['emailshow']
+			':surname' => $_POST['surname']
 		);
 		
 		// If the user is changing their password, then we need parameter values
@@ -103,45 +101,84 @@
 			$query_params[':password'] = $password;
 			$query_params[':salt'] = $salt;
 		}
-				
-		$query = "
-			UPDATE users
-			SET
-			firstname = :firstname,
-			surname = :surname,
-			email = :email,
-			emailshow = :emailshow
-		";
-				
-		if($password !== null){
-				$query .= "
-						, password = :password
-						, salt = :salt
-				";
-		}
-				
-		$query .= "
-				WHERE
-						user_id = :user_id
-		";
+		
+		if(!$iserror){
 
-		try {
-			// Execute the query
-			$stmt = $db->prepare($query);
-			$result = $stmt->execute($query_params);
-		}
-		catch(PDOException $ex){
-			die("Failed to run query: " . $ex->getMessage());
-		}
-			
-		// Now that the user's E-Mail address has changed, the data stored in the $_SESSION
-		// array is stale; we need to update it so that it is accurate.
-		$_SESSION['user']['email'] = $_POST['email'];
+			// update firstname/surname/email/password
+			updateuserdetails($db, $query_params);
+
+			// Set email show preference 
+			if (isset($_POST['emailshow']))
+			{
+				$query_params = array(
+					':emailshow' => 1,
+					':user_id' => $_SESSION['user']['user_id']);
+			}
+			else
+			{
+				$query_params = array(
+					':emailshow' => 0,
+					':user_id' => $_SESSION['user']['user_id']);
+			}
+
+			// Set emailshow preference
+			updateuserconfig($db, $query_params);
+
+			// Now that the user's E-Mail address has changed, the data stored in the $_SESSION
+			// array is stale; we need to update it so that it is accurate.
+			$_SESSION['user']['email'] = $_POST['email'];
 		
-		// This redirects the user back to the edit page after submit
-		header("Location: editaccount.php");
-		
-		die("Redirecting to editaccount.php");
+			$editaccount = "Thanks, your details have been updated";
+
+		}
+		else
+		{
+			$query_params = array(':user_id' => $_SESSION['user']['user_id']);
+	
+			// Get details for this user
+			$stmt = getalluserdetails($db, $query_params);	
+			$rows = $stmt->fetch();
+	
+			if (!empty($rows)) {
+				$firstname = $rows['firstname'];
+				$surname = $rows['surname'];
+				$emailshow = $rows['emailshow'];
+				$admin = $rows['admin'];
+				$approved = $rows['approved'];
+			}
+
+			echo $template->render(array (
+				'pageTitle' => 'Edit your account',
+				'sid' => $_SESSION['user'],
+				'updated' => $lastupdated,
+				'admin' => $_SESSION['user']['admin'],
+				'php_self' => $_SERVER['PHP_SELF'],
+				'username' =>$_SESSION['user']['username'],
+				'firstname' =>$firstname,
+				'surname' =>$surname,
+				'emailshow' =>$emailshow,
+				'email' =>$_SESSION['user']['email'],
+				'errPassword' => $errPassword,
+				'errFirstname' => $errFirstname,
+				'errSurname' => $errSurname,
+				'errEmail' => $errEmail));
+				die();
+		}
+	}
+
+	$query_params = array(':user_id' => $_SESSION['user']['user_id']);
+	
+	// Get details for this user
+	$stmt = getalluserdetails($db, $query_params);	
+
+	$rows = $stmt->fetch();
+	
+	if (!empty($rows)) {
+		$firstname = $rows['firstname'];
+		$surname = $rows['surname'];
+		$emailshow = $rows['emailshow'];
+		$admin = $rows['admin'];
+		$approved = $rows['approved'];
 	}
 
 	// set template variables
@@ -151,12 +188,13 @@
 		'sid' => $_SESSION['user'],
 		'updated' => $lastupdated,
 		'admin' => $_SESSION['user']['admin'],
-		'php_self' =>$_SERVER['PHP_SELF'],
-		'username' =>$_SESSION['user']['username'],
-		'firstname' =>$firstname,
-		'surname' =>$surname,
-		'emailshow' =>$emailshow,
+		'php_self' => $_SERVER['PHP_SELF'],
+		'username' => $_SESSION['user']['username'],
+		'firstname' => $firstname,
+		'surname' => $surname,
+		'emailshow' => $emailshow,
+		'editaccount' => $editaccount,
 		'email' =>$_SESSION['user']['email']
 	));
-		
-?>
+
+	

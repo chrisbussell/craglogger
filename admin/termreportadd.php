@@ -33,6 +33,7 @@
 		header("Location: /craglogger/dashboard/craglist.php");
 		die("Redirecting to login.php");
 	}
+	print_r($_SESSION);
 	
 	// Get list of years available	
 	$stmt = getvisithistoryyear($db);

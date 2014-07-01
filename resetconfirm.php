@@ -83,11 +83,12 @@
 			}
 		}
 	}
-	else{
+	else
+	{
 		// Set query params for sql call
 		$query_params = array(
+		//	':expiry' => $expiry['expiry'],
 			':email' => $_GET['email'],
-			':expiry' => $_GET['expiry'],
 			':code' => $_GET['code']
 		);
 
@@ -95,7 +96,7 @@
 		$stmt = checkpasswordcode($db, $query_params);
 
 		$row = $stmt->fetch();
-
+	
 		// If we get a result then everything matches and we can continue
 		if(!$row){
 			// set error variable to true for template to handle

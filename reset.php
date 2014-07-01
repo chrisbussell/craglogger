@@ -20,8 +20,9 @@
 	$passed = '';
 	$email = '';
 	$error = '';
+	print_r($_POST);
 	
-	if(!empty($_POST))
+	if(!empty($_POST['email']))
 	{
 		// Set query params for sql call
 		$query_params = array(
@@ -32,6 +33,8 @@
 		$stmt = checkemail($db, $query_params);
 
 		$row = $stmt->fetch();
+		print_r($row);
+		//die();
 
 		if($row)
 		{
@@ -57,7 +60,7 @@
 			$encodeemail = urlencode($email);
 
 			//echo"YES WE KNOW THIS USER, SEND ACTIVATION CODE";
-			$resetlink = "http://chrisbussell.co.uk/craglogger/resetconfirm.php?email=$encodeemail&code=$code&expiry=$expiry";
+			$resetlink = "http://chrisbussell.co.uk/craglogger/resetconfirm.php?email=$encodeemail&code=$code";
 			
 			//Email admin account details to approve
 			$mail = new PHPMailer();

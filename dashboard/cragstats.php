@@ -43,11 +43,9 @@
 		$chosenyear = $_GET['year'];
 	}
 
-
-
 	$query_params = array(
                         ':year' => $chosenyear);
-print_r($chosenyear);
+
 	$stmt = getcragbyyear($db,$query_params);
 	$visitedcrags = $stmt->fetchAll();
 

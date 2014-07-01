@@ -87,25 +87,40 @@
 				':username' => md5(uniqid(rand(10,999),true)),
                                 ':password' => md5(rand(10,999)),
                                 ':salt' => '',
-                                ':email' => $_POST['email'],
-                                ':emailshow' => '0',
-				':virtualuser' => '1');
+                                ':email' => $_POST['email']
+                                );
 
 			// All ok, so lets add the user to the database
-			$success = insertuser($db, $query_params);
+			//$success = insertuser($db, $query_params);
 
-		if ($success == 1 && (!empty($_POST['nickname']))){
 
-			$stmt = getlastsignup($db);
-			$result = $stmt->fetch();
+			// Add new user signup to the database ready for approval
+				$user_id = insertuser($db, $query_params);
+			
+				// Prepare variables for userconfig insert				
+				$query_params = array(
+								':user_id' => $user_id,
+								':emailshow' => '0',
+								':usertype_id' => '2');
+
+				// Insert user config data
+				insertuserconfig($db, $query_params);
+
+			if (!empty($_POST['nickname'])){
+
+			//$stmt = getlastsignup($db);
+			//$result = $stmt->fetch();
 
 			$query_params = array(
-				':user_id' => $result['user_id'],
+				':user_id' => $user_id,
 				'nickname' => $_POST['nickname']);
 			
 			insertusernickname($db, $query_params);
 
-		}			
+			
+
+		}	
+		$success = 1;		
 	}
 		else{
 			echo $template->render(array ( 

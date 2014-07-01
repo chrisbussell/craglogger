@@ -190,8 +190,8 @@ ALTER TABLE cragdetail add column crag varchar(255) AFTER area;
 CREATE TABLE userconfig (
   userconfig_id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11),
-  admin int(1),
-  approved int(1),
+  admin int(1) default 0,
+  approved int(1) default 0,
   emailshow int(1),
   usertype_id int(1),
   timestamp timestamp,
@@ -209,3 +209,16 @@ CREATE TABLE usertype (
 
 INSERT INTO usertype (handle) VALUES ('FULL');
 INSERT INTO usertype (handle) VALUES ('VIRTUAL USER');
+
+SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,username,email,admin,approved,emailshow, virtualuser FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id
+
+SELECT u.user_id , username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id
+
+
+CREATE TABLE passwordreset (
+  passwordreset_id int(11) NOT NULL AUTO_INCREMENT,
+  user_id int(11),
+  activation_code varchar(100) NOT NULL default'0',
+  expiry date NOT NULL,
+  PRIMARY KEY (passwordreset_id)
+  );

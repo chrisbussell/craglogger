@@ -76,20 +76,22 @@
 	// resetconfirm.php
 	function checkpasswordcode($db, $query_params)
 	{
-		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND :expiry <= expiry";
+		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND expiry >= CURDATE()";
 		try{
+			echo "query = $query end";
+			print_r($query_params);
 			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
-			//die("Failed to run query: " . $ex->getMessage());
+			die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
 	}
 
 	//////////////////////////////////////////////////////////
 	// register.php
-	function checkvirtualmemberdetails($db, $query_params)
+	function checkvirtualmemberdetails_OLD($db, $query_params)
 	{
 		$query = " SELECT user_id, firstname, surname, email, virtualuser 
 			   FROM users 
@@ -108,26 +110,90 @@
 
 	//////////////////////////////////////////////////////////
 	// register.php
-	function convertvirtualtofull($db, $query_params)
+	function checkvirtualmemberdetails($db, $query_params)
 	{
-		$query = "UPDATE users 
-			  SET   firstname = :firstname,
+		$query = " SELECT u.user_id, u.firstname, u.surname, u.email, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id WHERE usertype_id = 2 AND u.firstname = :firstname AND u.surname = :surname";
+		try{
+                        $stmt = $db->prepare($query);
+                        $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+              //          die("Failed to run query: " . $ex->getMessage());
+                }
+                return $stmt;
+	}
+
+
+
+	//////////////////////////////////////////////////////////
+	// dashboard/editaccount.php
+	function updateuserdetails($db, $query_params)
+	{
+		$query = "UPDATE users SET 
+				firstname = :firstname,
 				surname = :surname,
-				username = :username, 
-				password = :password, 
-				salt = :salt,
-				email = :email, 
-				emailshow = :emailshow,
-				virtualuser = :virtualuser 
-			  WHERE user_id = :user_id";
+				email = :email"; 
+				
+				if ($query_params[':password'] !== null){
+					$query .= "
+					, password = :password
+					, salt = :salt";
+				}
+				
+			  $query .= " WHERE user_id = :user_id";
 		try{
                         // Execute the query
                         $stmt = $db->prepare($query);
                         $result = $stmt->execute($query_params);
                 }
                 catch(PDOException $ex){
-                       // die("Failed to run query: " . $ex->getMessage());
+                 //   die("Failed to run query: " . $ex->getMessage());
                 }
+                return true;
+
+	}
+
+	//////////////////////////////////////////////////////////
+	// register.php
+	function convertvirtualtofull($db, $query_params, $query_params2)
+	{
+		$query = "UPDATE users SET   
+				firstname = :firstname,
+				surname = :surname,
+				username = :username, 
+				password = :password, 
+				salt = :salt,
+				email = :email
+			  	WHERE user_id = :user_id";
+				try{
+                        // Execute the query
+                        $stmt = $db->prepare($query);
+                        $result = $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                     //  die("Failed to run query: " . $ex->getMessage());
+                }
+
+        $query2 = "UPDATE userconfig SET
+        			admin = :admin,
+        			approved = :approved,
+        			emailshow = :emailshow,
+        			usertype_id = :usertype_id
+        			WHERE user_id = :user_id";
+
+        			try{
+                        // Execute the query
+                        $stmt = $db->prepare($query2);
+                        $result = $stmt->execute($query_params2);
+                }
+                catch(PDOException $ex){
+                      // die("Failed to run query: " . $ex->getMessage());
+                }
+
+
+
+
+
                 return true;
 
 	}
@@ -138,8 +204,7 @@
 	// resetconfirm.php
 	function updatememberpassword($db, $query_params)
 	{
-		$query = "
-							UPDATE users
+		$query = "UPDATE users
 							SET
 							password = :password,
 							salt = :salt
@@ -183,43 +248,34 @@
 	// admin/logmemberattendence.php
 	// dashboard/cragattendence.php
 	// dashboard/memberlist.php 
-	function getaccounts($db, $getapproved, $getvirtual, $flag)
+	function getuserbyoption($db, $getapproved, $getvirtual, $flag)
 	{
 		// Get Accounts that need approving List Data
-		$query = "
-			SELECT u.user_id,username,n.nickname,password,salt,firstname,
-				surname,
-				username,
-				email,
-				admin,
-				approved,
-				emailshow,
-				virtualuser
-			FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id";
+		$query = "SELECT u.user_id, username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
 
 		if($getapproved == 0){
 			$query .="
-				WHERE approved = 0
+				WHERE uc.approved = 0
 			";
 		}
 		elseif($getapproved == 1){
 			$query .="
-				WHERE approved = 1
+				WHERE uc.approved = 1
 			";
 		}
 		if($getvirtual == 1){
 				if ($flag != 1){
 				$query .="
-					AND virtualuser = 1";
+					AND uc.usertype_id = 2";
 				}
 				else{
 				$query .="
-					OR virtualuser = 1";
+					OR uc.usertype_id = 2";
 				}
 		}
 		elseif($getvirtual == 0){
 			$query .="
-				AND virtualuser = 0
+				AND uc.usertype_id = 1
 			";
 		}
 			$query .= " ORDER BY surname, firstname";
@@ -263,7 +319,7 @@
 	// admin/approveaccount.php
 	// dashboard/editaccount.php
 	// login.php
-	function getaccountsall($db, $query_params)
+	function getaccountsall_OLD($db, $query_params)
 	{
 		$query = "
 			SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,username,email,admin,approved,emailshow, virtualuser FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id";
@@ -291,37 +347,66 @@
 	}
 
 	//////////////////////////////////////////////////////////
-	// Update member account set admin / approved status
+	// Get all member accounts
 	// admin/approveaccount.php
-	function updateaccounts($db, $query_params)
+	// dashboard/editaccount.php
+	// login.php
+	function getalluserdetails($db, $query_params)
 	{
-		$update="
-			UPDATE users SET
-				admin = :admin,
-				approved = :approved
-			WHERE user_id = :user_id
-						";
+		$query = "SELECT u.user_id , username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
 
+		if(isset($query_params[':username'])){
+			$query .=" WHERE username = :username";
+		}
+
+		if(isset($query_params[':user_id'])){
+			$query .=" WHERE u.user_id = :user_id";
+		}
+		
 		try{
-			$stmt = $db->prepare($update);
+			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
 		}
 		catch(PDOException $ex){
 			//die("Failed to run query: " . $ex->getMessage());
 		}
+		return $stmt;
+	}
+
+
+
+	//////////////////////////////////////////////////////////
+	// Update member account set admin / approved status
+	// admin/approveaccount.php
+	// dashboard/editaccount.php
+	function updateuserconfig($db, $query_params)
+	{
+		$query = "UPDATE userconfig SET";
+
+		if (isset($query_params[':admin'])){
+		$query .= " admin = :admin, approved = :approved";
+		}
+
+		if (isset($query_params[':emailshow'])){
+			$query .=" emailshow = :emailshow";
+		}
+			$query .=" WHERE user_id = :user_id";
+
+		try{
+			$stmt = $db->prepare($query);
+			$stmt->execute($query_params);
+		}
+		catch(PDOException $ex){
+			die("Failed to run query: " . $ex->getMessage());
+		}
+		//return true;
 	}
 
 	//////////////////////////////////////////////////////////
 	// register.php
 	function checkusername($db,$query_params)
 	{
-		$query = "
-							SELECT
-							1
-							FROM users
-							WHERE
-							username = :username
-						";
+		$query = "SELECT 1 FROM users WHERE username = :username";
 
 		try{
 			$stmt = $db->prepare($query);
@@ -340,13 +425,7 @@
 	// dashboard/editaccount.php
 	function checkemail($db, $query_params)
 	{
-		$query = "
-							SELECT
-							1
-							FROM users
-							WHERE
-							email = :email
-						";
+		$query = "SELECT 1 FROM users WHERE email = :email";
 					
 		try{
 			$stmt = $db->prepare($query);
@@ -361,7 +440,7 @@
 	//////////////////////////////////////////////////////////
 	// register.php
 	// admin/createvirtualuser.php
-	function insertuser($db, $query_params)
+	function insertuser_OLD($db, $query_params)
 	{
 		$query = "
 			INSERT INTO users (
@@ -393,6 +472,69 @@
 		}
 		catch(PDOException $ex){
 			return false;
+			//die("Failed to run query: " . $ex->getMessage());
+		}
+	}
+
+	//////////////////////////////////////////////////////////
+	// register.php
+	// admin/createvirtualuser.php
+	function insertuser($db, $query_params)
+	{
+		$query = "INSERT INTO users (
+				firstname,
+				surname,
+				username,
+				password,
+				salt,
+				email,
+				regdate
+			) VALUES (
+				:firstname,
+				:surname,
+				:username,
+				:password,
+				:salt,
+				:email,
+				now()
+			)";
+		try{
+			// Execute the query to create the user
+			$stmt = $db->prepare($query);
+			$result = $stmt->execute($query_params);
+
+			$user_id = $db->lastInsertId();
+			return $user_id;
+			
+		}
+		catch(PDOException $ex){
+			return false;
+			die();
+			//die("Failed to run query: " . $ex->getMessage());
+		}
+	}
+	//////////////////////////////////////////////////////////
+	// register.php
+	// 
+	function insertuserconfig($db, $query_params)
+	{
+		$query = "INSERT INTO userconfig (
+					user_id,  
+					emailshow, 
+					usertype_id 
+				) VALUES (
+					:user_id,
+					:emailshow,
+					:usertype_id )";
+		try{
+			// Execute the query to create the user
+			$stmt = $db->prepare($query);
+			$result = $stmt->execute($query_params);
+			return true;
+		}
+		catch(PDOException $ex){
+			return false;
+			die();
 			//die("Failed to run query: " . $ex->getMessage());
 		}
 	}

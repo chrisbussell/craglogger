@@ -10,21 +10,21 @@
 <h1>Memberlist</h1>
 <table class="flexitable">
 	<tr>
-		<th>Username</th>
+		<th>Name</th>
 		<th>e-mail</th>
-		<th>Member Status</th>
+		<th>Member Type</th>
 	</tr>
 	{% for m in members %}
 	<tr>
-		<td data-th="Username">{{ m.firstname }} {{m.surname}} {% if m.nickname %}<small><i>({{m.nickname}})</small></i>{% endif %}</td>
+		<td data-th="Name">{{ m.firstname }} {{m.surname}} {% if m.nickname %}<small><i>({{m.nickname}})</small></i>{% endif %}</td>
 		{% if m.emailshow == 1 %}
 		<td data-th="e-mail">{{ m.email }}</td>
 		{% else %}
 		<td data-th="e-mail"></td>
 		{% endif %}
 
-		<td data-th"Member Status">
-		{% if m.virtualuser == 1 %}
+		<td data-th"Memeber Type">
+		{% if m.usertype_id == 2 %}
 		<small>Virtual</small>
 		{% else %}
 		<small>Full</small>

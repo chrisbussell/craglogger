@@ -17,19 +17,19 @@
 		<td>Email</td>
 		<td>Action</td>
 	</tr>
-	{% for d in data %}
+	{% for na in needapproval %}
 	<form method="post" action="{{ php_self }}">
-		<input type="hidden" name="user_id" value="{{ d.user_id|escape }}"</td>
-		<input type="hidden" name="email" value="{{ d.email|escape }}"</td>
-		<input type="hidden" name="firstname" value="{{ d.firstname|escape }}"</td>
-		<input type="hidden" name="surname" value="{{ d.surname|escape }}"</td>
-		<input type="hidden" name="username" value="{{ d.username|escape }}"</td>
+		<input type="hidden" name="user_id" value="{{ na.user_id|escape }}"</td>
+		<input type="hidden" name="email" value="{{ na.email|escape }}"</td>
+		<input type="hidden" name="firstname" value="{{ na.firstname|escape }}"</td>
+		<input type="hidden" name="surname" value="{{ na.surname|escape }}"</td>
+		<input type="hidden" name="username" value="{{ na.username|escape }}"</td>
 		<tr>
-			<td> <b>{{ d.user_id|escape }}</b></td>
-			<td>{{ d.firstname|escape}}</td>
-			<td>{{ d.surname|escape}}</td>
-			<td>{{ d.username|escape}}</td>
-			<td>{{ d.email|escape}}</td>
+			<td> <b>{{ na.user_id|escape }}</b></td>
+			<td>{{ na.firstname|escape}}</td>
+			<td>{{ na.surname|escape}}</td>
+			<td>{{ na.username|escape}}</td>
+			<td>{{ na.email|escape}}</td>
 			<td>
 				<input type="submit" name="submit" value="Approve"></td>
 		</form>

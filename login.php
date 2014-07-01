@@ -4,17 +4,17 @@
 	require("includes/functions.php");
 
 	// include and register Twig auto-loader
-        include 'Twig/Autoloader.php';
-        Twig_Autoloader::register();
+	include 'Twig/Autoloader.php';
+	Twig_Autoloader::register();
 
-        // define template directory location
-        $loader = new Twig_Loader_Filesystem('templates');
+	// define template directory location
+	$loader = new Twig_Loader_Filesystem('templates');
 
-        // initialize Twig environment
-        $twig = new Twig_Environment($loader);
+	// initialize Twig environment
+	$twig = new Twig_Environment($loader);
 
-        // load template
-        $template = $twig->loadTemplate('login.tmpl');
+	// load template
+	$template = $twig->loadTemplate('login.tmpl');
 
 	$submitted_username = '';
 	$errApproved = '';
@@ -26,12 +26,10 @@
 		$username = test_input($_POST["username"]);
 
 		// Set query params for sql call
-                $query_params = array(
-			':username' => $username
-			);
+		$query_params = array(':username' => $username);
 
-		// get member account details
-		$stmt = getaccountsall($db, $query_params);
+		// get user account details
+		$stmt = getalluserdetails($db, $query_params);
 
 		// Set login to false, variable set to true on succesful login
 		$login_ok = false;
@@ -68,14 +66,11 @@
 				}
 			}
 		}
-		else
-		{
+		else{
 			$errFailed = '1';//"login failed, please check the details you have entered";
-
 		}
 
 		if($errFailed == '1'){
-
 			$errFailed = "login failed, please check the details you have entered";		
 		}
 		
@@ -91,13 +86,10 @@
 			$user_id = test_input($_SESSION["user"]["user_id"]);
 
 			// Set query params for sql call
-                $query_params = array(
-			':user_id' => $user_id
-			);
+			$query_params = array(':user_id' => $user_id);
 
 			//log login to db
 			insertlastlogin($db, $query_params);
-
 
 			// Redirect the user to the members-only page craglist.php.
 			header("Location: /craglogger/dashboard/craglist.php");
