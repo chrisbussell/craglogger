@@ -37,8 +37,8 @@
 		// Retrieve the user data from the database.  If $row is false, then the username
 		// they entered is not registered.
 		$row = $stmt->fetch();
-			
-		if($row){
+	
+		if($row['usertype_id'] != '2'){
 			// Ensure that the user has entered a non-empty password
 			if(empty($_POST['password'])){
 				$errFailed = '1';//"login failed, please check the details you have entered";
@@ -71,7 +71,7 @@
 		}
 
 		if($errFailed == '1'){
-			$errFailed = "login failed, please check the details you have entered";		
+			$errFailed = "Login failed, please check the details you have entered";		
 		}
 		
 		// If user logged in succesfully, send customer to main craglist.php page else show login failed.

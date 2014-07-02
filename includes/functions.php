@@ -1,11 +1,4 @@
 <?php
-/*
-	function clean_string($string)
-	{
-		$bad = array("content-type","bcc:","to:","cc:","href");
-		return str_replace($bad,"",$string);
-	}
-*/
 	function getcragbyyear($db,$query_params){
 		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
 
@@ -123,8 +116,6 @@
                 return $stmt;
 	}
 
-
-
 	//////////////////////////////////////////////////////////
 	// dashboard/editaccount.php
 	function updateuserdetails($db, $query_params)
@@ -150,7 +141,6 @@
                  //   die("Failed to run query: " . $ex->getMessage());
                 }
                 return true;
-
 	}
 
 	//////////////////////////////////////////////////////////
@@ -190,12 +180,7 @@
                       // die("Failed to run query: " . $ex->getMessage());
                 }
 
-
-
-
-
                 return true;
-
 	}
 
 
@@ -294,11 +279,6 @@
 	//dashboard/cragattendence.php
 	function getmembersattended($db, $query_params)
 	{
-		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id";
-
-		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = YEAR(now())";
-		//$query = "SELECT distinct(u.user_id), u.firstname, surname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id AND YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
-
 		$query = "SELECT distinct(u.user_id), u.firstname, surname, n.nickname FROM users as u INNER JOIN attended as a on u.user_id = a.user_id INNER JOIN cragvisit as c ON a.cragvisit_id = c.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id WHERE YEAR(c.date) = :year ORDER BY u.surname, u.firstname";
 
 
@@ -310,40 +290,6 @@
               //          die("In Function: getmembersattended: Failed to run query: " . $ex->getMessage());
                 }
                 return $stmt;
-	}
-
-
-
-	//////////////////////////////////////////////////////////
-	// Get all member accounts
-	// admin/approveaccount.php
-	// dashboard/editaccount.php
-	// login.php
-	function getaccountsall_OLD($db, $query_params)
-	{
-		$query = "
-			SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,username,email,admin,approved,emailshow, virtualuser FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id";
-
-		if(isset($query_params[':username'])){
-			$query .="
-				WHERE username = :username
-			";
-		}
-
-		if(isset($query_params[':user_id'])){
-			$query .="
-				WHERE u.user_id = :user_id
-			";
-		}
-		
-		try{
-			$stmt = $db->prepare($query);
-			$stmt->execute($query_params);
-		}
-		catch(PDOException $ex){
-			//die("Failed to run query: " . $ex->getMessage());
-		}
-		return $stmt;
 	}
 
 	//////////////////////////////////////////////////////////
@@ -372,8 +318,6 @@
 		}
 		return $stmt;
 	}
-
-
 
 	//////////////////////////////////////////////////////////
 	// Update member account set admin / approved status
@@ -435,45 +379,6 @@
 			//die("Failed to run query: " . $ex->getMessage());
 		}
 		return $stmt;
-	}
-
-	//////////////////////////////////////////////////////////
-	// register.php
-	// admin/createvirtualuser.php
-	function insertuser_OLD($db, $query_params)
-	{
-		$query = "
-			INSERT INTO users (
-				firstname,
-				surname,
-				username,
-				password,
-				salt,
-				email,
-				emailshow,
-				regdate,
-				virtualuser
-			) VALUES (
-				:firstname,
-				:surname,
-				:username,
-				:password,
-				:salt,
-				:email,
-				:emailshow,
-				now(),
-				:virtualuser
-			)";
-		try{
-			// Execute the query to create the user
-			$stmt = $db->prepare($query);
-			$result = $stmt->execute($query_params);
-			return true;
-		}
-		catch(PDOException $ex){
-			return false;
-			//die("Failed to run query: " . $ex->getMessage());
-		}
 	}
 
 	//////////////////////////////////////////////////////////
@@ -680,8 +585,6 @@
 	// dashboard/visitarchive.php
 	function getattended($db, $query_params)
 	{
-		//$attendsql = "SELECT a.user_id, u.firstname, u.surname, a.cragvisit_id, cv.date FROM attended a, users u, cragvisit cv WHERE u.user_id = a.user_id AND a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = :year ORDER BY u.user_id";
-
 		$attendsql = "SELECT a.user_id, u.firstname, u.surname, n.nickname, a.cragvisit_id, cv.date FROM attended a INNER JOIN users u ON a.user_id = u.user_id INNER JOIN cragvisit cv ON a.cragvisit_id = cv.cragvisit_id LEFT JOIN nickname n ON u.user_id = n.user_id WHERE YEAR(cv.date) = :year ORDER BY u.user_id ";
 
 		$results = $db->prepare($attendsql);
@@ -740,10 +643,9 @@
 	// admin/updatevisit.php
 	function updatecragvisit($db, $query_params)
 	{
-		$update=("
-							UPDATE cragvisit SET
-							date = :date,
-							event = :event,
+		$update=("UPDATE cragvisit SET 
+					date = :date,
+					event = :event,
 							conditions = :conditions,
 							pub = :pub, 
 							rainedoff = :rainedoff 
@@ -763,8 +665,7 @@
 	// admin/cragcreate.php
 	function insertcragdata($db, $query_params)
 	{
-		$query = "
-							INSERT INTO cragdetail (
+		$query = "INSERT INTO cragdetail (
 									venue,
 									area,
 									crag,
@@ -1064,18 +965,6 @@
 
                 return $results;
 	}
-	
-	/*
-	function getmembersbyyear($db, $query_params)
-	{
-		$query="SELECT distinct u.user_id, u.firstname, u.surname from users u, attended a, cragvisit cv WHERE u.user_id = a.user_id and a.cragvisit_id = cv.cragvisit_id AND YEAR(cv.date) = 2014";
-
-		$results = $db->prepare($query);
-                $results->execute($query_params);
-
-                return $results;
-	}
-	*/
 
 	function getvisitmonths($db, $query_params)
         {
@@ -1092,26 +981,6 @@
 	//////////////////////////////////////////////////////////
 	function getuserattendence($db, $query_params)
 	{
-		/*$query = "SELECT a.user_id,
-                                u.firstname, 
-                                u.surname, 
-                                count(a.cragvisit_id) as count,
-                                round(count(*) / t.total * 100,0) AS percent
-                         FROM attended as a, 
-                              cragvisit cv, 
-                              users u, (SELECT COUNT(*) AS total 
-                              FROM cragdetail cd 
-                              INNER JOIN cragvisit cv 
-                              ON cd.cragdetail_id = cv.cragdetail_id 
-                              WHERE YEAR(cv.date) = :year AND date < NOW()
-                              AND cv.rainedoff = 0) AS t
-                         WHERE a.cragvisit_id = cv.cragvisit_id
-                         AND u.user_id = a.user_id
-                         AND YEAR(cv.date)= :year AND date < NOW()
-                         GROUP BY a.user_id
-                         ORDER BY count DESC
-                         LIMIT 10";
-*/
  		$query = "SELECT a.user_id,
                                 u.firstname,
                                 u.surname,
@@ -1201,8 +1070,6 @@
 
 	function getyearstats($db, $query_params)
 	{
-	//	$query ="SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0 AND YEAR(date) = :year AND date < NOW()) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1 AND date < NOW() AND YEAR(date) = :year) as r, (SELECT COUNT(*) as total FROM cragvisit WHERE date < NOW() AND YEAR(date) = :year) as t WHERE YEAR(date) = :year AND date < NOW()";
-
 		$query = "SELECT attempts, actual, rainedoff,
 					round(actual/attempts*100,0) as percentvisited,
 					round(rainedoff/attempts*100,0) as percentraindedoff
@@ -1237,8 +1104,6 @@
 
 	function gettotalvisitsbyuser($db, $query_params)
 	{
-		//$query = "SELECT YEAR(cv.date) as year, count(*) as visits FROM attended a, cragvisit cv WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id GROUP BY YEAR(cv.date)";
-
 		$query = "SELECT YEAR(cv.date) as year, count(*) as myvisits, t.total as attempts, round(count(*) / t.total * 100,0) as percent  FROM attended a, cragvisit cv, (SELECT YEAR(date) as year, count(*) as total from cragvisit WHERE rainedoff = 0 AND date < now() GROUP BY year) as t WHERE a.cragvisit_id = cv.cragvisit_id AND a.user_id = :user_id and t.year = YEAR(cv.date) GROUP BY YEAR(cv.date) ORDER BY YEAR(cv.date) DESC";
 
 		$results = $db->prepare($query);
@@ -1285,8 +1150,6 @@
 	/////All Time Stats
 	function getalltimesummary($db)
 	{
-		//$query = "SELECT count(*) as attempts, r.rainedoff, a.actual, round(actual / t.total * 100,0) AS percentvisited, round(r.rainedoff / t.total * 100,0) as percentraindedoff FROM cragvisit, (SELECT count(*) as actual FROM cragvisit WHERE rainedoff = 0) as a, (SELECT count(*) as rainedoff FROM cragvisit WHERE rainedoff = 1) as r, (SELECT COUNT(*) as total FROM cragvisit) as t";
-
 		$query = "SELECT attempts, rainedoff, actual,
 round(actual / attempts * 100,0) AS percentvisited,
 round(rainedoff / attempts * 100,0) as percentraindedoff
@@ -1328,8 +1191,6 @@ WHERE date < now()
 
     function getrainedoffdetailalltime($db)
     {
-    	//$query = "SELECT cv.date, cd.venue, cd.area FROM cragvisit as cv INNER JOIN cragdetail cd ON cv.cragdetail_id = cd.cragdetail_id WHERE cv.rainedoff = 1 ORDER BY cv.date";
-
     	$query = "SELECT cd.venue, cd.area, count(*) as count FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE rainedoff = 1 GROUP BY cd.venue ORDER BY count DESC";
 
 		$results = $db->prepare($query);
@@ -1378,10 +1239,6 @@ WHERE date < now()
 
 	function gettotalcragsareavisited($db)
 	{
-		//$query = "SELECT cd.venue, cd.area, count(*) AS count, round(count(*) / t.total * 100,0) AS percent FROM cragdetail cd, cragvisit cv, 
-//(SELECT COUNT(*) AS total FROM cragvisit cv WHERE date < NOW() AND cv.rainedoff = 0) AS t
-// WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
-
 		$query = "SELECT cd.venue, cd.area, count(*) AS count FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 GROUP BY cd.venue, cd.area ORDER BY count desc";
 
 
