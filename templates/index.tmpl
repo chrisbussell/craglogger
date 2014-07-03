@@ -29,7 +29,7 @@
 			<b>{{event}}</b><br/>
 		{% endif %}
 		{% if venue %}
-			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}">{{ date|date ('jS F Y') }} {{venue}} {{area}} {%if crag %}- {{crag}} {% endif %}</a><br/><br/>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}"><b>{{ date|date ('jS F Y') }} {{venue}} {{area}} {%if crag %}- {{crag}} {% endif %}</b></a><br/><br/>
 			
 <i>Sunset: {{sunset}}</i><br/>
 <i>Moon: {{moonphase|capitalize}} with {{mooncoverage}}% cover</i><br/>
@@ -40,7 +40,7 @@
 	<div class="news-section__lates-report">
 		<h2>Latest Reports</h2>
 		{% for d in data %}
-			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{d.date}} {{d.venue}} {{d.area}} {% if d.crag %}- {{d.crag}} {% endif %}</a><br/><br/>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}"><b>{{d.date}} {{d.venue}} {{d.area}} {% if d.crag %}- {{d.crag}} {% endif %}</b></a><br/><br/>
 		{% endfor %}
 			{{cragreport|raw}}<br/><br/>
 

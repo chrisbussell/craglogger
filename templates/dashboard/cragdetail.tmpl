@@ -7,20 +7,20 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Details for {{venue}} {{area}} <small>{{event}}</small></h1><br/><i>Rock {{rock}},  Aspect {{faces}},  Altitude {{altitude}}m a.s.l</i>
+    <h1>Details for <b>{{venue}} {{area}} <small>{{event}}</small></b></h1><br/><i>Rock {{rock}},  Aspect {{faces}},  Altitude {{altitude}}m a.s.l</i>
     <table>
       <tr class="heading">
         <td>Date</td>
         <td>Venue</td>
         <td>Area</td>
-        <td>Website</td>
+        <td>UKC</td>
         <td>Conditions</td>
         <td>Pub</td>
         <td>Sunset</td>
         <td>Rained Off</td>
       </tr> 
        <tr>
-        <td>{{ visitdate|date ('d M Y') }}</td>
+        <td><b>{{ visitdate|date ('d M Y') }}</b></td>
         <td>{{ venue|escape }}</td>
         <td>{{ area|escape }}</td>
         <td><a href="{{ web|escape }}">view</a></td>

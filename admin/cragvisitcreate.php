@@ -40,12 +40,6 @@
 			$data[] = $row;
 		}
 
-		//	foreach ($stmt as $cragdetail)
-		//	{
-		//			$dropdown = '<option value="'.$cragdetail['id'].'"';
-		//			$dropdown .= '>'.$cragdetail['venue'].' - '. $cragdetail['area'] . '</option>'."\n";
-		//			echo $dropdown;
-		//	}
 	if(isset($_POST['submit'])){
 
 			//check if crag selected
@@ -76,7 +70,8 @@
 					':event' => $_POST['event'],
 					':conditions' => $_POST['conditions'],
 					':pub' => $_POST['pub'],
-					':rainedoff' => $_POST['rainedoff']
+					':rainedoff' => $_POST['rainedoff'],
+					':firstvisit' => $_POST['firstvisit']
 				);
 				// Insert crag data
 				$success = insertcragvisit($db, $query_params);

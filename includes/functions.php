@@ -1,6 +1,6 @@
 <?php
 	function getcragbyyear($db,$query_params){
-		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event, cv.firstvisit FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
 
 		$results = $db->prepare($query);
 		$results->execute($query_params);
@@ -467,7 +467,8 @@
 				cd.altitude, 
 				cv.conditions, 
 				cv.rainedoff, 
-				cv.pub 
+				cv.pub,
+				cv.firstvisit
 			  FROM cragdetail as cd, 
 			       cragvisit as cv 
 			  WHERE cd.cragdetail_id = cv.cragdetail_id";
@@ -705,14 +706,15 @@
 	function insertcragvisit($db,$query_params)
 	{
 		$query = "INSERT INTO cragvisit 
-				(cragdetail_id, date, event, conditions, pub, rainedoff) 
+				(cragdetail_id, date, event, conditions, pub, rainedoff, firstvisit) 
 				VALUES (
 				:cragdetail_id,
 				:date,
 				:event,
 				:conditions,
 				:pub,
-				:rainedoff)";
+				:rainedoff,
+				:firstvisit)";
 
 		try{
 			$stmt = $db->prepare($query);
@@ -1008,7 +1010,7 @@
 
 	function gettopattendedcrag($db, $query_params)
 	{
-		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, count(cd.venue) as count, cv.conditions FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cv.date ORDER BY count DESC Limit 3";
+		$query ="SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, count(cd.venue) as count, cv.conditions, cv.firstvisit FROM cragdetail as cd, cragvisit as cv, attended as a WHERE a.cragvisit_id = cv.cragvisit_id AND cv.cragdetail_id = cd.cragdetail_id AND YEAR(cv.date)= :year GROUP BY cv.date ORDER BY count DESC Limit 3";
 
 		$results = $db->prepare($query);
                 $results->execute($query_params);

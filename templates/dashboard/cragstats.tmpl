@@ -84,7 +84,7 @@
 	{% for a in attendedcrag %}
 	<tr>
 		<td data-th="Date">{{ a.date|date ('d F Y') }}</td>
-		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}">{{ a.venue }} {{a.area}} {%if a.crag %} - {{a.crag}} {% endif %} {%if a.event %}<small>({{a.event}})</small>{% endif %}</a></td>
+		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}"><b>{{ a.venue }} {{a.area}} {%if a.crag %} - {{a.crag}} {% endif %}</b> {%if a.event %}<small>({{a.event}})</small>{% endif %}</a>{% if a.firstvisit %}<i>(new crag points)</i> {% endif %}</td>
 		<td data-th="Visits">{{ a.count }}</td>
 	</tr>
 	{% endfor %}
@@ -128,10 +128,11 @@
         {% for vc in visitedcrags %}
         <tr>
                 <td data-th="Date">{{vc.date|date('d F Y')}}</td>
-                <td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{vc.cragvisit_id}}">{{vc.venue|escape}} {{vc.area|escape}} {%if vc.crag %} - {{vc.crag}} {% endif %} {%if vc.event %}<small>({{vc.event}})</small>{% endif %}</a></td>
+                <td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{vc.cragvisit_id}}"><b>{{vc.venue|escape}} {{vc.area|escape}} {%if vc.crag %} - {{vc.crag}} {% endif %}</b> {%if vc.event %}<small>({{vc.event}})</small>{% endif %}</a> {% if vc.firstvisit %} <i>(new crag points)</i> {% endif %}</td>
         </tr>
         {% endfor %}
 </table>
+
 <h3><a id="rain">Rained Off Venues</a></h3>
 <table class="flexitable">
         <tr>
