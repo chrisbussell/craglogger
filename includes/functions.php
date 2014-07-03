@@ -71,8 +71,6 @@
 	{
 		$query = "SELECT 1 FROM users WHERE email = :email AND activation_code = :code AND expiry >= CURDATE()";
 		try{
-			echo "query = $query end";
-			print_r($query_params);
 			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
 		}

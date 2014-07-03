@@ -214,11 +214,3 @@ SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,usern
 
 SELECT u.user_id , username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id
 
-
-CREATE TABLE passwordreset (
-  passwordreset_id int(11) NOT NULL AUTO_INCREMENT,
-  user_id int(11),
-  activation_code varchar(100) NOT NULL default'0',
-  expiry date NOT NULL,
-  PRIMARY KEY (passwordreset_id)
-  );
