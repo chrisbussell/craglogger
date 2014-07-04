@@ -27,11 +27,12 @@
 		header("Location: /craglogger/login.php");
 		die("Redirecting to login.php");
 	}
-		// Check if user has admin perms
-        	if($_SESSION['user']['admin'] == 0){
-                	header("Location: /craglogger/dashboard/craglist.php");
-                	die("Redirecting to login.php");
-        }
+	
+	// Check if user has admin perms
+    if($_SESSION['user']['admin'] == 0){
+    	header("Location: /craglogger/dashboard/craglist.php");
+      	die("Redirecting to login.php");
+    }
 	else{
 		// get list of available crags
 		$stmt = getcragdetail($db);
@@ -42,14 +43,14 @@
 
 	if(isset($_POST['submit'])){
 
-			//check if crag selected
-			if(!isset($_POST['cragdetail_id'])){
-				$nocragselected = 1;
-			}
+		//check if crag selected
+		if(!isset($_POST['cragdetail_id'])){
+			$nocragselected = 1;
+		}
 
-			// check date format
-			$date = $_POST['date'];
-			list($y, $m, $d) = explode('-', $date);
+		// check date format
+		$date = $_POST['date'];
+		list($y, $m, $d) = explode('-', $date);
 
 			if(checkdate($m, $d, $y)){
 				$nodate = 0;
@@ -62,6 +63,10 @@
 
 				if ($_POST['rainedoff'] != 1){
 					$_POST['rainedoff'] = 0;
+				}
+
+				if ($_POST['firstvisit'] != 1){
+					$_POST['firstvisit'] = 0;
 				}
 
 				$query_params = array(
