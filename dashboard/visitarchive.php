@@ -109,8 +109,25 @@
 	}
 	
 	$query_params = array(
-		':year' => $_GET['year']
+		':year' => $chosenyear
 	);
+
+	$result = mappingdetails($db, $query_params);
+	$mapdetails = $result->fetchAll();
+
+	$locations = array();
+
+	foreach ($mapdetails as $mapdetail) {
+    $locations[] = array(
+      $mapdetail['venue'],
+      $mapdetail['area'], 
+      $mapdetail['crag'],
+      $mapdetail['rock'],
+      $mapdetail['date'],
+      $mapdetail['lat'], 
+      $mapdetail['lng'],
+      $mapdetail['cragvisit_id']);
+	}
 
 	// GET MEMBERS LIST	
 	$membersresults = getmembersattended($db, $query_params);
@@ -147,6 +164,7 @@
 			'years' => $years,
 			'months' => $months,
 			'attended' => $rows,
+			'locations' => $locations,
 			'member' =>$membersrows
 	));
 ?>

@@ -1,4 +1,15 @@
 <?php
+
+	function mappingdetails($db, $query_params)
+	{
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cd.rock, cd.lat, cd.lng FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE year(cv.date) = :year AND cv.rainedoff = 0";
+
+		$results = $db->prepare($query);
+		$results->execute($query_params);
+
+		return $results;
+	}
+
 	function getcragbyyear($db,$query_params){
 		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event, cv.firstvisit FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE YEAR(cv.date) = :year AND rainedoff = 0 ORDER BY cv.date asc";
 
@@ -913,7 +924,7 @@
 	function getnextcrag($db)
 	{
 		$query ="SELECT cv.cragvisit_id, 
-						cv.date, cv.event, cd.venue, cd.area, cd.crag, cd.rock, cd.altitude, cd.faces 
+						cv.date, cv.event, cd.venue, cd.area, cd.crag, cd.rock, cd.altitude, cd.faces, cd.lat, cd.lng
 				FROM cragdetail as cd, cragvisit as cv 
 				WHERE cd.cragdetail_id = cv.cragdetail_id 
 				AND cv.date BETWEEN CURDATE() 

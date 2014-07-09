@@ -77,7 +77,89 @@
         </tr>
         {% endfor %}
 </table>
+<legend>Map Locations of where we have been in <b>{{year}}</b></legend>
+<br/>
+<style>
+    body { font-family: Helvetica; }
+    .map-content h3 { margin: 0; padding: 5px 50px 0 0; }
+    </style>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 
+    <script>
+        // Set the Map variable
+        var map;
+        
+        function initialize() 
+        {  
+          var myOptions = 
+          {
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+
+          var all = {{ locations|json_encode|raw }};
+
+          var infoWindow = new google.maps.InfoWindow;
+        
+          map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+
+          // Set the center of the map
+          var pos = new google.maps.LatLng(53.342,-1.775);
+          map.setCenter(pos);
+
+          function infoCallback(infowindow, marker) { 
+             return function() {
+             infowindow.open(map, marker);
+          };
+        }
+
+        function setMarkers(map, all) {  
+          for (var i in all) {                    
+            var venue  = all[i][0];
+            var area = all[i][1];
+            var crag  = all[i][2];
+            var rock   = all[i][3];
+            var date   = all[i][4];
+            var lat   = all[i][5];
+            var lng   = all[i][6];
+            var id    = all[i][7];
+            var latlngset;
+
+            latlngset = new google.maps.LatLng(lat, lng);
+
+            var heading = venue + ' ' + area + ' ' + crag;
+
+            var marker = new google.maps.Marker({  
+              map: map,  title: heading,  position: latlngset  
+            });
+
+            //map.setZoom(11);
+          //  map.panTo(marker.position);
+
+            var content = '<div class="map-content"><b>' 
+            + venue + ' ' + area + '</b>' 
+            + crag + '<br />' +
+            'Visited: ' + date + '<br />' 
+            + rock + '<br /><a href="cragdetail.php?cragvisit_id=' + id + ' " target="_blank">More Details</a></div>';
+
+            var infowindow = new google.maps.InfoWindow();
+
+              infowindow.setContent(content);
+
+              google.maps.event.addListener(marker,'click',infoCallback(infowindow, marker));
+          }
+        }     
+        // Set all markers in the all variable
+        setMarkers(map, all);
+      };
+      // Initializes the Google Map
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  
+  <body>
+    <div id="map_canvas" style="height: 400px; width: 500px;"></div>
+  </body>
+<br/>
 <!-- full stats and end of term report -->
 <table class="flexitable">
 	<tr>

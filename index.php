@@ -24,6 +24,19 @@
 	$query_params = array(
                         ':date' => $nextcrag['date']);
 
+	// Build array of details for map points
+	$locations = array();
+
+	$locations[] = array(
+      $nextcrag['venue'],
+      $nextcrag['area'], 
+      $nextcrag['crag'],
+      $nextcrag['rock'],
+      $nextcrag['date'],
+      $nextcrag['lat'], 
+      $nextcrag['lng'],
+      $nextcrag['cragvisit_id']);
+
 	//get sunset time for this visit (ie date)
 	$stmt = getsunsettime($db, $query_params);
 	$sunset = $stmt->fetch();
@@ -55,6 +68,7 @@
 		'moonphase' => $moonphase['phase'],
 		'mooncoverage' => $moonphase['coverage'],
 		'data' => $data,
+		'locations' => $locations,
 		'cragreport' => $cragreport
 	));
 
