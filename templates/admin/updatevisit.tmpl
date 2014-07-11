@@ -7,7 +7,29 @@
 {% endblock %}
 
 {% block content %}
-<h1>Update crag visit</h1>
+<h1>Update crag visit {{viewyear}}</h1>
+
+<legend><b>Choose the year you want to view</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+      	<td>
+		<select name ="year">
+    	{% for y in years %}
+			{% if y['year'] == viewyear %}
+				<option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+			{% else %}
+				<option value="{{ y['year'] }}">{{ y['year'] }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+	</tr>
+</table>
+</form>
+<hr/>
+
 <table>
 	<tr class="heading">
 		<th>Date</th>
@@ -51,7 +73,7 @@
 			</td>
 			{% endif %}
 			<td>
-				<input type="submit" name="submit" value="Update Crag"/>
+				<input type="submit" name="update" value="Update Crag"/>
 			</td>
 			<td>
 			{% set have_report = 0 %}

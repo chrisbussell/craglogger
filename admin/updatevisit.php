@@ -28,8 +28,21 @@
 	// load template
 	$template = $twig->loadTemplate('admin/updatevisit.tmpl');
 
+	// get list of years we have data for, displayed as dropdown
+	$stmt = getvisithistoryyear($db);
+	$years = $stmt->fetchAll();
+
+	if(!empty($_POST))
+	{
+		$chosenyear = $_POST['year'];
+	}
+	else
+	{
+		$chosenyear = '2014';
+	}
+
 	// Update Crag Detail Data
-	if(isset($_POST['submit'])){
+	if(isset($_POST['update'])){
 	
 		if ($_POST['rainedoff'] != 1){
 			$_POST['rainedoff'] = 0;
@@ -47,10 +60,15 @@
 
 		// update crag details
 		updatecragvisit($db, $query_params);
+
+		$chosenyear = '2014';
 	}
 
+	$query_params = array(
+			':year' => $chosenyear);
+
 	// get all crag details
-	$stmt = getcragdata($db, $query_params = null);
+	$stmt = getcragdata($db, $query_params);
 
 	while ($row = $stmt->fetchObject()){
 		$data[] = $row;
@@ -70,9 +88,6 @@
 		$cragreport = '';
 	}
 
-
-	$date = date('Y-m-d H:i:s');
-
 		// set template variables
 		// render template
 		echo $template->render(array (
@@ -81,9 +96,10 @@
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
-			'date' => $date,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'pageTitle' => 'Update visit',
+			'years' => $years,
+			'viewyear' => $chosenyear,
 			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));

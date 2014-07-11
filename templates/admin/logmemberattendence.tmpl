@@ -25,7 +25,7 @@
 	</tr>
 	{% for m in member %}
 	<tr>
-		<td data-th="Cragger" class="cragger">{{m.user_id}} {{ m.firstname }} {{m.surname}}</td>
+		<td data-th="Cragger" class="cragger">{{m.user_id}} {{ m.firstname }} {{m.surname}} {%if m.nickname %}({{m.nickname}}) {% endif %}</td>
 		{% for d in data %}
 			{% set has_attended_this_crag = 0 %}
 			{% for a in attended %}
