@@ -25,11 +25,19 @@
 	// load template
 	$template = $twig->loadTemplate('dashboard/memberlist.tmpl');
 
-	//Get all approved accounts 
-	$stmt = getuserbyoption($db, $getapproved=1, $getvirtual=1, $flag=1);
+	//Get FULL members approved accounts 
+	$stmt = getuserbyoption($db, $getapproved=1, $getvirtual=0, $flag=0);
 			
 	// Finally, we can retrieve all of the found rows into an array using fetchAll
 	$rows = $stmt->fetchAll();
+
+	//Get Virtual members approved accounts 
+	$stmt = getuserbyoption($db, $getapproved=0, $getvirtual=1, $flag=1);
+			
+	// Finally, we can retrieve all of the found rows into an array using fetchAll
+	$virtual = $stmt->fetchAll();
+
+	$totalmembers = array_merge($rows, $virtual);
 
 	// set template variables
 	// render template
@@ -37,6 +45,8 @@
 		'pageTitle' => 'Members',
 		'updated' => $lastupdated,
 		'members' => $rows,
+		'virtual' => $virtual,
+		'totalmembers' => $totalmembers,
 		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname'],
 		'admin' => $_SESSION['user']['admin'],

@@ -7,12 +7,11 @@
 {% endblock %}
 
 {% block content %}
-<h1>Memberlist</h1>
+<h1>Active Members</h1>
 <table class="flexitable">
 	<tr>
 		<th>Name</th>
 		<th>e-mail</th>
-		<th>Member Type</th>
 	</tr>
 	{% for m in members %}
 	<tr>
@@ -22,20 +21,38 @@
 		{% else %}
 		<td data-th="e-mail"></td>
 		{% endif %}
-
-		<td data-th"Memeber Type">
-		{% if m.usertype_id == 2 %}
-		<small>Virtual</small>
-		{% else %}
-		<small>Full</small>
-		{% endif%}
 		</td>
 	</tr>
 	{% endfor %}
 	<tr>
-		<th>Total Members</th>
-		<td data-th="Total Members">{{ members|length}}</td>
-		<td></td>
+		<th>Total Active Members</th>
+		<td data-th="Total Members"><b>{{ members|length}}</b></td>
 	</tr>
 </table>
+	<h1>Virtual Members</h1>
+<table class="flexitable">
+	<tr>
+		<th>Name</th>
+		<th></th>
+	</tr>
+	{% for v in virtual %}
+	<tr>
+		<td data-th="Name">{{ v.firstname }} {{v.surname}} {% if v.nickname %}<small><i>({{v.nickname}})</small></i>{% endif %}</td>
+		<td></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<th>Total Virtual Members</th>
+		<td data-th="Total Members"><b>{{ virtual|length}}</b></td>
+	</tr>
+</table>
+
+<table>
+	<tr>
+		<th>Total Members</th>
+		<td data-th="Total Members"><b>{{ totalmembers|length}}</b></td>
+	</tr>
+</table>
+
+
 {% endblock %}
