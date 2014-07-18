@@ -20,7 +20,7 @@ $form-label-font-size: rem-calc(15) !default;
 $form-label-font-weight: normal !default;
 $form-label-line-height: 1.5 !default;
 $form-label-font-color: scale-color(#000, $lightness: 30%) !default;
-$form-label-small-transform: capitalize !default;
+$form-label-small-transform: normal !default;
 $form-label-bottom-margin: 0 !default;
 $input-font-family: inherit !default;
 $input-font-color: rgba(0,0,0,0.75) !default;

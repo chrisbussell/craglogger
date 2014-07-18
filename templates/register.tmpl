@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Register</h1>
+<h1>Sign up for your craglogger account</h1>
 <form action="{{ php_self }}" method="post">
 	<div class="field{% if errFirstname %} error{% endif %}">
 		<label for="firstname">Your firstname:</label>
@@ -22,13 +22,13 @@
 	</div>
 
 	<div class="field{% if errUsername %} error{% endif %}">
-		<label for="username">Your username (used to login to the site):</label>
+		<label for="username">Your username: <small>(used to login to the site)</small></label>
 		<input type="text" name="username" id="username" value="" />
 		<b class="error--message">{{errUsername}}</b>
 	</div>
 
 	<div class="field{% if errEmail %} error{% endif %}">
-		<label for="email">Your email</label>
+		<label for="email">Your email:</label>
 		<input type="text" name="email" id="email" value="" />
 		<b class="error--message">{{errEmail}}</b>
 	</div>
@@ -36,12 +36,12 @@
 	<div>
 		<label for="emailshow">
 			<input type="checkbox" name="emailshow" id="emailshow" value="1" checked/>
-			<i>(check to allow other members to see your email address)</i>
+			<i><small>(check to allow other members to see your email address)</small></i>
 		</label>
 	</div>
-
+<br/>
 	<div class="field{% if errPassword %} error{% endif %}">
-		<label for="password">Choose password <i>(6 characters or more)</i>:</label>
+		<label for="password">Choose password: <i><small>(6 characters or more)</i></small></label>
 		<input type="password" name="password" id="password" value="" />
 		<b class="error--message">{{errPassword}}</b>
 	</div>
