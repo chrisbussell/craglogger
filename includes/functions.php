@@ -202,9 +202,7 @@
 	// dashboard/visitarchive.php
 	function mappingdetails($db, $query_params)
 	{
-		//$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cd.rock, cd.lat, cd.lng FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE year(cv.date) = :year AND cv.rainedoff = 0";
-
-		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.rock, cd.lat, cd.lng FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE year(cv.date) = :year AND cv.rainedoff = 0";
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cd.rock, cd.lat, cd.lng FROM cragdetail cd INNER JOIN cragvisit cv ON cd.cragdetail_id = cv.cragdetail_id WHERE year(cv.date) = :year AND cv.rainedoff = 0";
 
 		$results = $db->prepare($query);
 		$results->execute($query_params);

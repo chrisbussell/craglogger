@@ -92,59 +92,34 @@
 
       var bounds = new google.maps.LatLngBounds();
 
-
-
       for (i = 0; i < locations.length; i++) {
         marker = new google.maps.Marker({
 
-
-
-            position: new google.maps.LatLng(locations[i][3], locations[i][4]),
+            position: new google.maps.LatLng(locations[i][5], locations[i][6]),
             map: map,
-            title: "Stop Coofffrds: " + locations[i][0],
+            title: "" + locations[i][0] +  ' ' + locations[i][1] + ' ' + locations[i][2],
             content: '<div class="map-info-window">'+ 
-                        '<b>Venue </b>' + locations[i][0] +
-                        '<br/><b>Date </b>' + locations[i][2] + 
-                        '<br/><b>Rock </b>'+ locations[i][1] +
+                        '<b>Venue </b>' + locations[i][0] + ' ' + locations[i][1] + ' ' + locations[i][2] +
+                        '<br/><b>Date </b>' + locations[i][4] + 
+                        '<br/><b>Rock </b>'+ locations[i][3] +
+                        '<br/><br/><a href="cragdetail.php?cragvisit_id='+ locations[i][7] + '"target="_blank">Full Visit Details</a>'+
                         '</div>'
         });
 
         var len = locations.length;
         popupDirections(marker, len, locations);
 
-        console.log( JSON.stringify(locations) );
-
-      /*  var rock   = locations[i][1];
-        var id    = locations[i][4];
-        var venue    = locations[i][0];
-
-        var content = '<div class="map-info-window">'+
-                      '<h1>Venue</h1>'+ venue +
-                      '<h1>Rock</h1>'+ rock +
-                      '<p>Visit ID</p>'+ id +
-                      '</div>';*/
-
         bounds.extend(marker.position);
 
         function popupDirections(marker, len, locations) {
-    //this function created listener listens for click on a marker
-    google.maps.event.addListener(marker, 'click', function() {
-        for (var i = 0; i < len; i++) {
-
-            infowindow.setContent(marker.content);
-          //  infowindow.setContent(content);
-        } //sets the content of your global infowindow to string "Tests: "
-        infowindow.open(map, marker); //then opens the infowindow at the marker
-    });
-}
-
-
-      //  google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            //return function () {
-            //      infowindow.setContent(content);
-          //      infowindow.open(map, marker);
-        //    }
-      //  })(marker, i));
+          google.maps.event.addListener(marker, 'click', function() {
+          
+            for (var i = 0; i < len; i++) {
+             infowindow.setContent(marker.content);
+            } 
+            infowindow.open(map, marker); 
+          });
+        }
       }
 
       map.fitBounds(bounds);
@@ -155,8 +130,6 @@
       });
     }
 
-
-
     function loadScript() {
       var script = document.createElement('script');
       script.type = 'text/javascript';
@@ -165,7 +138,6 @@
     }
 
 window.onload = loadScript;
-
 
 </script>
 

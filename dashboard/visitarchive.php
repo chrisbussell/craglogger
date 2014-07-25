@@ -120,8 +120,8 @@
 	foreach ($mapdetails as $mapdetail) {
     $locations[] = array(
       $mapdetail['venue'],
-   //   $mapdetail['area'], 
-   //   $mapdetail['crag'],
+      $mapdetail['area'], 
+      $mapdetail['crag'],
       $mapdetail['rock'],
       $mapdetail['date'],
       $mapdetail['lat'], 
