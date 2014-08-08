@@ -1,0 +1,149 @@
+{% extends "base.tmpl" %}
+{% if year == '2014' %}
+	{% set page_class = 'crag-stats' %}
+{% else %}
+	{% set page_class = 'visit-archive' %}
+{% endif %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Crag Stats {{year}}</h1>
+{% if weeksleft != '' %}
+<i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
+{% endif %}
+<br/>
+{% if year != '2014' %}
+<legend><b>Choose the year you want to view</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+        <td>
+                <select name ="year">
+                {% for y in years %}
+                        {% if y['year'] == year %}
+                                <option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+                        {% else %}
+                                <option value="{{ y['year'] }}">{{ y['year'] }}</option>
+                        {% endif %}
+                {% endfor %}
+                </select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+        </tr>
+</table>
+</form>
+<a href="visitarchive.php?year={{year}}">Return to visit archive</a>
+<hr/>
+{% endif %}
+<br/>
+
+<h3>Visit Stats</h3>
+<table class="flexitable">
+        <tr>
+                <th>Attempted visits</th>
+                <th>Rained off</th>
+                <th>Successful visits</th>
+                <th>Successful visits %</th>
+                <th>Rained off %</th>
+        </tr>
+        {% for ys in yearstats %}
+        <tr>
+                <td data-th="Attempted visits"><a href="#visited">{{ ys.attempts }}</td>
+                <td data-th="Rained off"><a href="#rain">{{ ys.rainedoff }}</a></td>
+                <td data-th="Successful visits">{{ ys.actual }}</td>
+                <td data-th="Successful Visits %">{{ ys.percentvisited }}%</td>
+                <td data-th="Rained off %">{{ ys.percentraindedoff }}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<h3>Top 10 Attenders</h3>
+<table class="flexitable">
+	<tr>
+		<th>Name</th>
+		<th>Visits</th>
+		<th>Attendence %</th>
+	</tr>
+	{% for d in data %}
+	<tr>
+		<td data-th="Name">{{ d.firstname }} {{d.surname}} {% if d.nickname %} <small><i>({{d.nickname}})</i></small>{% endif %}</td>
+		<td data-th="Visits">{{ d.count }}</td>
+		<td data-th="Attendence %">{{ d.percent }}%</td>
+	</tr>
+	{% endfor %}
+</table>
+<h3>Top 3 Attended Crags</h3>
+<table class="flexitable">
+	<tr>
+		<th>Date</th>
+		<th>Crag</th>
+		<th>Visits</th>
+	</tr>
+	{% for a in attendedcrag %}
+	<tr>
+		<td data-th="Date">{{ a.date|date ('d F Y') }}</td>
+		<td data-th="Crag"><a href="cragdetail.php?cragvisit_id={{a.cragvisit_id|escape}}"><b>{{ a.venue }} {{a.area}} {%if a.crag %} - {{a.crag}} {% endif %}</b> {%if a.event %}<small>({{a.event}})</small>{% endif %}</a>{% if a.firstvisit %}<i>(new crag points)</i> {% endif %}</td>
+		<td data-th="Visits">{{ a.count }}</td>
+	</tr>
+	{% endfor %}
+</table>
+<h3>Rock Types</h3>
+<table class="flexitable">
+	<tr>
+		<th>Rock</th>
+		<th>Visits</th>
+		<th>Split</th>
+	</tr>
+        {% for rt in rocktype %}
+        <tr>
+                <td data-th="Rock">{{rt.rock|escape}}</td>
+                <td data-th="Visits">{{rt.split|escape}}</td>
+                <td data-th="Split">{{rt.percent|escape}}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<h3>Counties Visited</h3>
+<table class="flexitable">
+        <tr>
+                <th>County</th>
+                <th>Visits</th>
+                <th>Split</th>
+        </tr>
+        {% for co in counties %}
+        <tr>
+                <td data-th="County">{{co.county|escape}}</td>
+                <td data-th="Visits">{{co.split|escape}}</td>
+                <td data-th="Split">{{co.percent|escape}}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<h3><a id="visited">Visited Crags</a></h3>
+<table class="flexitable">
+        <tr>
+                <th>Date</th>
+                <th>Venue</th>
+        </tr>
+        {% for vc in visitedcrags %}
+        <tr>
+                <td data-th="Date">{{vc.date|date('d F Y')}}</td>
+                <td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{vc.cragvisit_id}}"><b>{{vc.venue|escape}} {{vc.area|escape}} {%if vc.crag %} - {{vc.crag}} {% endif %}</b> {%if vc.event %}<small>({{vc.event}})</small>{% endif %}</a> {% if vc.firstvisit %} <i>(new crag points)</i> {% endif %}</td>
+        </tr>
+        {% endfor %}
+</table>
+
+<h3><a id="rain">Rained Off Venues</a></h3>
+<table class="flexitable">
+        <tr>
+                <th>Date</th>
+                <th>Venue</th>
+        </tr>
+        {% for ro in rainedoffdetail %}
+        <tr>
+                <td data-th="Date">{{ro.date|date('d F Y')}}</td>
+                <td data-th="Venue">{{ro.venue|escape}} {{ro.area|escape}} {%if ro.crag %} - {{ro.crag}} {% endif %} {%if ro.event %}<small>({{ro.event}})</small>{% endif %}</a></td> </td>
+        </tr>
+        {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'members' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Active Members</h1>
+<table class="flexitable">
+	<tr>
+		<th>Name</th>
+		<th>e-mail</th>
+	</tr>
+	{% for m in members %}
+	<tr>
+		<td data-th="Name">{{ m.firstname }} {{m.surname}} {% if m.nickname %}<small><i>({{m.nickname}})</small></i>{% endif %}</td>
+		{% if m.emailshow == 1 %}
+		<td data-th="e-mail">{{ m.email }}</td>
+		{% else %}
+		<td data-th="e-mail"></td>
+		{% endif %}
+		</td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<th>Total Active Members</th>
+		<td data-th="Total Members"><b>{{ members|length}}</b></td>
+	</tr>
+</table>
+	<h1>Virtual Members</h1>
+<table class="flexitable">
+	<tr>
+		<th>Name</th>
+		<th></th>
+	</tr>
+	{% for v in virtual %}
+	<tr>
+		<td data-th="Name">{{ v.firstname }} {{v.surname}} {% if v.nickname %}<small><i>({{v.nickname}})</small></i>{% endif %}</td>
+		<td></td>
+	</tr>
+	{% endfor %}
+	<tr>
+		<th>Total Virtual Members</th>
+		<td data-th="Total Members"><b>{{ virtual|length}}</b></td>
+	</tr>
+</table>
+
+<table>
+	<tr>
+		<th>Total Members</th>
+		<td data-th="Total Members"><b>{{ totalmembers|length}}</b></td>
+	</tr>
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.tmpl" %}
+
+	{% set page_class = 'my-stats' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>My Visits</h1>
+{% if weeksleft != '' %}
+<i>{{weeksleft}} glorious weeks of summer left, get out there.<br/><br/></i>
+{% endif %}
+{% if year != '2014' %}
+{% endif %}
+<h3>My Crag Visits</h3>
+<table class="flexitable">
+        <tr>
+                <th>Date</th>
+                <th>Venue</th>
+        </tr>
+        {% for vy in visitbyyear %}
+        <tr>
+                <td data-th="Name">{{ vy.date|date('d F Y') }}</td>
+                <td data-th="Visits"><a href="cragdetail.php?cragvisit_id={{vy.cragvisit_id}}">{{ vy.venue|escape }} {{ vy.area|escape }}</a></td>
+        </tr>
+        {% endfor %}
+</table>
+
+{% endblock %}

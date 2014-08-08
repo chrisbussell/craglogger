@@ -1,0 +1,53 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Create a Virtual Member</h1>
+<div>This will create an account with no permissions to log in.<br/><br/>
+It is to be used to allow you to assign visits to people who do not have an account.</div>
+<br/>
+<form action="{{ php_self }}" method="post">
+<div>
+		<input type="submit" value="Register" />
+	</div>
+	<div class="field{% if errFirstname %} error{% endif %}">
+		<label for="firstname">Member firstname:</label>
+		<input type="text" name="firstname" id="firstname" value="" />
+		<b class="error--message">{{errFirstname}}</b>
+	</div>
+
+	<div class="field{% if errSurname %} error{% endif %}">
+		<label for="surname">Member surname:</label>
+		<input type="text" name="surname" id="surname" value="" />
+		<b class="error--message">{{errSurname}}</b>
+	</div>
+
+	<div class="field{% if errNickname %} error{% endif %}">
+		<label for="nickname">Member nickname <small>(optional)</small>:</label>
+		<input type="text" name="nickname" id="nickname" value="" />
+		<b class="error--message">{{errNickname}}</b>
+	</div>
+
+	<div class="field{% if errEmail %} error{% endif %}">
+		<label for="email">Member email <small>(optional)</small>:</label>
+		<input type="text" name="email" id="email" value="" />
+		<b class="error--message">{{errEmail}}</b>
+	</div>
+
+	<div>
+		<input type="submit" value="Register" />
+	</div>
+</form>
+{% if success == 1%}
+        <br/>
+                <i>
+                        <b>Virtual member has been added.</b> <a href="approveaccount.php">View all members</a>
+                </i>
+{%endif%}
+
+{% endblock %}

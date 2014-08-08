@@ -1,0 +1,85 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin crag-visit-create' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Add A Visit</h1>
+{% if nocragselected == 1 %}
+<i><b>Please select a crag for this visit</b></i>
+{% endif %}
+
+{% if nodate == 1 %}
+<i><b>Please choose a date for this visit</b></i>
+{% endif %}
+<form action="{{php_self}}" method="post">
+	<fieldset>
+		<legend>Choose a crag for this visit</legend>
+		<table>
+			<tr>
+				<td>Crag</td>
+				<td>Area</td>
+				<td>Crag</td>
+				<td>Select crag</td>
+			</tr>
+			{% for d in data %}
+			<tr>
+				<td>{{ d.venue|escape}}</td>
+				<td>{{ d.area|escape }}</td>
+				<td>{{ d.crag|escape }}</td>
+				<td>
+					<input type="radio" name="cragdetail_id" value="{{d.cragdetail_id}}"></td>
+			</tr>
+			{% endfor %}
+		</table>
+		<p>
+			Crag not listed, just add a <a href="/craglogger/admin/cragcreate.php">new crag</a>
+		</p>
+	</fieldset>
+	<fieldset>
+		<legend>Add details for this visit</legend>
+		<div>
+			<label for="date">
+				Date <i>(2014/03/01)</i>
+			</label>
+			<br/>
+			<input type="date" name="date" id="date" value="" />
+		</div>
+		<div>
+			<label for="event">Event name:</label>
+			<br />
+			<input type="text" name="event" id="event" value="" />
+		</div>
+		<div>
+			<label for="conditions">Conditions:</label>
+			<br />
+			<input type="text" name="conditions" id="conditions" value="" />
+		</div>
+		<div>
+			<label for="pub">Visited pub:</label>
+			<br />
+			<input type="text" name="pub" id="pub" value="" />
+		</div>
+		<div>
+			<label for="rainedoff">Rained off:</label>
+			<input type="checkbox" name="rainedoff" id="rainedoff" value="1" />
+		</div>
+		<br/>
+		<div>
+			<label for="firstvisit">First Visit:</label>
+			<input type="checkbox" name="firstvisit" id="firstvisit" value="1" />
+		</div>
+	</fieldset>
+	<input type="submit" name="submit" value="Add the visit" />
+</form>
+{% if success == 1%}
+	<p>
+		<i>
+			<b>Thank you this visit has been added</b>
+		</i>
+	</p>
+{% endif %}
+{% endblock %}

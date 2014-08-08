@@ -1,0 +1,132 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'home' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block title %}{{pageTitle}}{% endblock %}
+
+{% block content %}
+
+<section class="intro">
+	<article class="intro__text">
+		<p>The Tuesday Nighters aka "The Sacred Tuesday Rock Disciples" are an ad hoc, adventurous, active and argumentative midweek climbing crowd based around the peak..</p>
+		<p>Perhaps the longest running, most active, friendliest, liveliest ad hoc and mildly anarchic midweek climbing group in the country.</p>
+		<p>Originating in the 'Altrincham All Stars' back in the Bonnington days, now loosely peak based, accidentally global, and as noisy as ever.</p>
+		<p>'Turn up and tie on'.</p>
+	</article>
+	<aside class="intro__image">
+		<img src="/craglogger/assets/content/tuesday.jpg" alt="fill in with image description" />
+	</aside>
+</section>
+
+<hr/>
+
+<div class="news-section">
+	<div class="news-section__next-meet">
+		<h2>Next Meet</h2>
+		{% if event != '' %}
+			<b>{{event}}</b><br/>
+		{% endif %}
+		{% if venue %}
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{cragvisit_id}}"><b>{{ date|date ('jS F Y') }} {{venue}} {{area}} {%if crag %}- {{crag}} {% endif %}</b></a><br/><br/>
+			<style>
+    body { font-family: Helvetica; }
+    .map-content h3 { margin: 0; padding: 5px 50px 0 0; }
+    </style>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+
+    <script>
+        // Set the Map variable
+        var map;
+        
+        function initialize() 
+        {  
+          var myOptions = 
+          {
+            zoom: 11,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+
+          var all = {{ locations|json_encode|raw }};
+
+          var infoWindow = new google.maps.InfoWindow;
+        
+          map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+
+          // Set the center of the map
+          var pos = new google.maps.LatLng(53.25,-1.91);
+          map.setCenter(pos);
+
+          function infoCallback(infowindow, marker) { 
+             return function() {
+             infowindow.open(map, marker);
+          };
+        }
+
+        function setMarkers(map, all) {  
+          for (var i in all) {                    
+            var venue  = all[i][0];
+            var area = all[i][1];
+            var crag  = all[i][2];
+            var rock   = all[i][3];
+            var date   = all[i][4];
+            var lat   = all[i][5];
+            var lng   = all[i][6];
+            var id    = all[i][7];
+            var latlngset;
+
+            latlngset = new google.maps.LatLng(lat, lng);
+
+            var heading = venue + ' ' + area + ' ' + crag;
+
+            var marker = new google.maps.Marker({  
+              map: map,  title: heading,  position: latlngset  
+            });
+
+            map.panTo(marker.position);
+
+            var content = '<div class="map-content"><b>' 
+            + venue + ' ' + area + '</b>' 
+            + crag + '<br />' +
+            'Visited: ' + date + '<br />' 
+            + rock + '<br /><a href="dashboard/cragdetail.php?cragvisit_id=' + id + ' " target="_blank">More Details</a></div>';
+
+            var infowindow = new google.maps.InfoWindow();
+
+              infowindow.setContent(content);
+
+              google.maps.event.addListener(marker,'click',infoCallback(infowindow, marker));
+          }
+        }     
+        // Set all markers in the all variable
+        setMarkers(map, all);
+      };
+      // Initializes the Google Map
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  
+  <body>
+    <div id="map_canvas" style="height: 250px; width: 400px;"></div>
+  </body>
+
+		
+			<br/>
+<i>Sunset: {{sunset}}</i><br/>
+<i>Moon: {{moonphase|capitalize}} with {{mooncoverage}}% cover</i><br/>
+			{% else %}
+			Venue to be confirmed<br/>
+			{% endif %}
+	</div>
+	<div class="news-section__lates-report">
+		<h2>Latest Reports</h2>
+		{% for d in data %}
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}"><b>{{d.date}} {{d.venue}} {{d.area}} {% if d.crag %}- {{d.crag}} {% endif %}</b></a><br/><br/>
+		{% endfor %}
+			{{cragreport|raw}}<br/><br/>
+
+	</div>
+</div>
+{% endblock %}

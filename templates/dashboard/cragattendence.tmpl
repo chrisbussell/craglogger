@@ -1,0 +1,56 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'crag-visit' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Who has been where in 2014 {{viewmonth|escape}}</h1>
+<table class="cragattendance flexitable">
+	<tr>
+		<td scope="row" class="cragger" valign="middle">Choose a month to see who was there.</td>
+		{% for mon in months %}
+		<td><a href="cragattendence.php?month={{mon.monthnum}}">{{mon.monthname|escape}}</a></td>
+{% endfor %}
+	</tr>
+</table>
+<table class="cragattendance flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Visit</th>
+		{% for d in data %}
+		<th>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}} {% if d.crag %} - {{d.crag}} {% endif %}</a>
+			<br/>
+			{{ d.date|date("d F Y") }}
+			<br/>
+			{%if d.event %}<small>{{ d.event }}</small><br/>{% endif %}
+			{% if d.rainedoff == 1 %}
+			<br/><small>Rain stop play</small>
+			{% endif %}
+		</th>
+		{% endfor %}
+	</tr>
+	{% for m in member %}
+	<tr>
+		<td data-th="Cragger" class="cragger">{{ m.firstname }} {{m.surname}} {% if m.nickname %}<small><i>({{m.nickname}})</i></small>{% endif %}</td>
+		{% for d in data %}
+			{% set has_attended_this_crag = 0 %}
+			{% for a in attended %}
+				{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+					{% set has_attended_this_crag = 1 %}
+				{% endif %}
+			{% endfor %}
+			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
+				{% if has_attended_this_crag == 1 %}
+					<span data-th="Attended" class="yes"><i>YES</i></span>
+				{% else %}
+					<span class="no">NO</span>
+				{% endif %}
+			</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}

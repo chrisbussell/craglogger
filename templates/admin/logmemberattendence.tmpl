@@ -1,0 +1,52 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Add Members to Visit</h1>
+<form method="post" action="{{ php_self }}" class="craglist flexitable">
+<table class="cragattendance flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Visit</th>
+		{% for d in data %}
+		<input type="hidden" name="cragvisit_id" value="{{ d.cragvisit_id|escape }}"/>
+		<th>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
+			<br/>
+			{{ d.date|date("d M Y") }}
+			<br/>
+			<small>{{ d.event }}</small>
+		</th>
+		{% endfor %}
+	</tr>
+	{% for m in member %}
+	<tr>
+		<td data-th="Cragger" class="cragger">{{m.user_id}} {{ m.firstname }} {{m.surname}} {%if m.nickname %}({{m.nickname}}) {% endif %}</td>
+		{% for d in data %}
+			{% set has_attended_this_crag = 0 %}
+			{% for a in attended %}
+				{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+					{% set has_attended_this_crag = 1 %}
+				{% endif %}
+			{% endfor %}
+			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
+				{% if has_attended_this_crag == 1 %}
+					<span class="yes">YES</span>
+				{% else %}
+                                        <input type="checkbox" name="visited[]" value="{{ m.user_id }}"/>
+				{% endif %}
+                                {% if has_attended_this_crag == 1 %}
+                                <a class="undo" href="/craglogger/admin/logmemberattendence.php?undo=true&user_id={{m.user_id}}&cragvisit_id={{d.cragvisit_id}}">undo</a>
+                                {% endif %}
+			</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+ <input type="submit" name="submit" value="Log visits"> <b>{{ crag_visited }}</b>
+</form>
+{% endblock %}

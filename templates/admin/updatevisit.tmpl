@@ -1,0 +1,98 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'admin crag-visit-update' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Update crag visit {{viewyear}}</h1>
+
+<legend><b>Choose the year you want to view</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+      	<td>
+		<select name ="year">
+    	{% for y in years %}
+			{% if y['year'] == viewyear %}
+				<option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+			{% else %}
+				<option value="{{ y['year'] }}">{{ y['year'] }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+	</tr>
+</table>
+</form>
+<hr/>
+
+<table>
+	<tr class="heading">
+		<th>Date</th>
+		<th>Event</th>
+		<th>Venue</th>
+		<th>Area</th>
+		<th>Crag</th>
+		<th>Conditions</th>
+		<th>Pub</th>
+		<th>Rained Off</th>
+		<th>Update</th>
+		<th>Reports</th>
+		<th>Visits</th>
+	</tr>
+	{% for d in data %}
+	<form method="post" action="{{ php_self }}">
+		<input type="hidden" name="cragvisit_id" value="{{ d.cragvisit_id|escape }}"/>
+		<tr>
+			<td>
+				<input type="date" name="date" value="{{ d.date|escape}}"/>
+			</td>
+			<td>
+				<input type="text" name="event" value="{{ d.event|escape }}"/>
+			</td>
+			<td>{{ d.venue|escape }}</td>
+			<td>{{ d.area|escape }}</td>
+			<td>{{ d.crag|escape }}</td>
+			<td>
+				<input type="text" name="conditions" value="{{ d.conditions|escape }}"/>
+			</td>
+			<td>
+				<input type="text" name="pub" value="{{ d.pub|escape }}"/>
+			</td>
+			{% if d.rainedoff == 1 %}
+			<td>
+				<input type="checkbox" name="rainedoff" value="1" checked/>
+			</td>
+			{% else %}
+			<td>
+				<input type="checkbox" name="rainedoff" value="1"/>
+			</td>
+			{% endif %}
+			<td>
+				<input type="submit" name="update" value="Update Crag"/>
+			</td>
+			<td>
+			{% set have_report = 0 %}
+			{% for c in cragreport %}
+				{% if d.cragvisit_id == c.cragvisit_id %}
+					{% set have_report = 1 %}
+				{% endif %}
+			{% endfor %}
+			{% if have_report == 1 %}
+				<a href="/craglogger/admin/cragreportedit.php?cragvisit_id={{d.cragvisit_id}}">Edit Report</a>
+			{% else %}
+				<a href="/craglogger/admin/cragreportadd.php?cragvisit_id={{d.cragvisit_id}}">Add Report</a>
+			{% endif %}			
+			</td>
+			<td>
+				<a href="/craglogger/admin/logmemberattendence.php?cragvisit_id={{d.cragvisit_id}}">Add Members</a>
+			</td>
+		</tr>
+	</form>
+	{% endfor %}
+</table>
+{% endblock %}

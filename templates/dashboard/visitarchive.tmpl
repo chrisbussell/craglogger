@@ -1,0 +1,305 @@
+{% extends "base.tmpl" %}
+
+{% set page_class = 'visit-archive' %}
+
+{% block class %}
+ class="{{page_class}}" 
+{% endblock %}
+
+{% block content %}
+<h1>Tuesday Nighters Archive {{viewyear|escape}} {{monthname|escape}}</h1>
+
+{% if viewyear == '' %}
+<legend><b>All Time Visit Stats</b></legend>
+<!-- summary of ALL TIME stats -->
+<table class="flexitable">
+        <tr>
+                <th>Attempts</th>
+                <th>Rainedoff</th>
+                <th>Visited</th>
+                <th>% Visited</th>
+                <th>% Rained off</th>
+                <th>more..</th>
+        </tr>
+        {% for s in allsummary %}
+        <tr>
+                <td data-th="Attempts">{{ s.attempts|escape }}</td>
+                <td data-th="Rained off">{{ s.rainedoff|escape }}</td>
+                <td data-th="Visited">{{ s.actual|escape }}</td>
+                <td data-th="% Visited">{{ s.percentvisited|escape }}%</td>
+                <td data-th="% Rained off">{{ s.percentraindedoff|escape }}%</td>
+                <td><a href="alltimestats.php">more stats</a></td>
+        {% endfor %}
+</table>
+{% endif %}
+<!-- end ALL TIME stats -->
+
+<!-- show years dropdown available to view -->
+<legend><b>Choose the year you want to view</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+      	<td>
+		<select name ="year">
+    	{% for y in years %}
+			{% if y['year'] == viewyear %}
+				<option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+			{% else %}
+				<option value="{{ y['year'] }}">{{ y['year'] }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+	</tr>
+</table>
+</form>
+<hr/>
+<!-- If a year is selected show these tables -->
+{% if viewyear != '' %}
+<h3>Visit Stats {{viewyear|escape}}</h3>
+<!-- summary of year -->
+<table class="flexitable">
+        <tr>
+                <th>Attempted visits</th>
+                <th>Rainedoff</th>
+                <th>Successful visits</th>
+                <th>Successful visits %</th>
+                <th>Rained off %</th>
+        </tr>
+        {% for y in yearstats %}
+        <tr>
+                <td data-th="Attempted visits"><a href="cragstats.php?year={{viewyear}}&#all">{{ y.attempts }}</td>
+                <td data-th="Rained off"><a href="cragstats.php?year={{viewyear}}&#rain">{{ y.rainedoff }}</a></td>
+                <td data-th="Successful visits"><a href="cragstats.php?year={{viewyear}}&#visited">{{ y.actual }}</td>
+                <td data-th="Successful visits %">{{ y.percentvisited }}%</td>
+                <td data-th="Rained off %">{{ y.percentraindedoff }}%</td>
+        </tr>
+        {% endfor %}
+</table>
+<legend>Map Locations of where we have been in <b>{{year}}</b></legend>
+<br/>
+<script>
+    function initialize() {
+
+      var locations = {{ locations|json_encode|raw }};
+
+      window.map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+
+      var infowindow = new google.maps.InfoWindow();
+
+      var bounds = new google.maps.LatLngBounds();
+
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+
+            position: new google.maps.LatLng(locations[i][5], locations[i][6]),
+            map: map,
+            title: "" + locations[i][0] +  ' ' + locations[i][1] + ' ' + locations[i][2],
+            content: '<div class="map-info-window">'+ 
+                        '<b>Venue </b>' + locations[i][0] + ' ' + locations[i][1] + ' ' + locations[i][2] +
+                        '<br/><b>Date </b>' + locations[i][4] + 
+                        '<br/><b>Rock </b>'+ locations[i][3] +
+                        '<br/><br/><a href="cragdetail.php?cragvisit_id='+ locations[i][7] + '"target="_blank">Full Visit Details</a>'+
+                        '</div>'
+        });
+
+        var len = locations.length;
+        popupDirections(marker, len, locations);
+
+        bounds.extend(marker.position);
+
+        function popupDirections(marker, len, locations) {
+          google.maps.event.addListener(marker, 'click', function() {
+          
+            for (var i = 0; i < len; i++) {
+             infowindow.setContent(marker.content);
+            } 
+            infowindow.open(map, marker); 
+          });
+        }
+      }
+
+      map.fitBounds(bounds);
+
+      var listener = google.maps.event.addListener(map, "idle", function () {
+         map.setZoom(8);
+         google.maps.event.removeListener(listener);
+      });
+    }
+
+    function loadScript() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=initialize';
+      document.body.appendChild(script);
+    }
+
+window.onload = loadScript;
+
+</script>
+
+<body>
+<div id="map" style="width: 500px; height: 500px;"></div>
+</body>
+<!--
+        // Set the Map variable
+        var map;
+        
+        function initialize() 
+        {  
+          var myOptions = 
+          {
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
+
+          var all = {{ locations|json_encode|raw }};
+
+          var infoWindow = new google.maps.InfoWindow;
+        
+          map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+
+          // Set the center of the map
+          var pos = new google.maps.LatLng(53.342,-1.775);
+          map.setCenter(pos);
+
+          function infoCallback(infowindow, marker) { 
+             return function() {
+             infowindow.open(map, marker);
+          };
+        }
+
+        function setMarkers(map, all) {  
+          for (var i in all) {                    
+            var venue  = all[i][0];
+            var area = all[i][1];
+            var crag  = all[i][2];
+            var rock   = all[i][3];
+            var date   = all[i][4];
+            var lat   = all[i][5];
+            var lng   = all[i][6];
+            var id    = all[i][7];
+            var latlngset;
+
+            latlngset = new google.maps.LatLng(lat, lng);
+
+            var heading = venue + ' ' + area + ' ' + crag;
+
+            var marker = new google.maps.Marker({  
+                map: map,  title: heading,  position: latlngset  
+              });
+
+      var latlng = [
+    new google.maps.LatLng(1.23, 4.56),
+    new google.maps.LatLng(7.89, 1.01),
+    // ...
+]; 
+var latlngbounds = new google.maps.LatLngBounds();
+for (var i = 0; i < latlng.length; i++) {
+    latlngbounds.extend(latlng[i]);
+}
+map.fitBounds(latlngbounds);
+
+
+            //map.setZoom(11);
+          //  map.panTo(marker.position);
+
+            var content = '<div class="map-content"><b>' 
+            + venue + ' ' + area + '</b>' 
+            + crag + '<br />' +
+            'Visited: ' + date + '<br />' 
+            + rock + '<br /><a href="cragdetail.php?cragvisit_id=' + id + ' " target="_blank">More Details</a></div>';
+
+            var infowindow = new google.maps.InfoWindow();
+
+              infowindow.setContent(content);
+
+              google.maps.event.addListener(marker,'click',infoCallback(infowindow, marker));
+          }
+        }     
+        // Set all markers in the all variable
+        setMarkers(map, all);
+      };
+      // Initializes the Google Map
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  
+  <body>
+    <div id="map_canvas" style="height: 400px; width: 500px;"></div>
+  </body>-->
+<br/>
+<!-- full stats and end of term report -->
+<table class="flexitable">
+	<tr>
+		<th data-th="Full Stats">View full stats for: 
+		<a href="cragstats.php?year={{viewyear}}"><b>{{viewyear}}</b></a></th>
+	</tr>
+	{% if showlink == 1 %}
+	<tr>
+		<th>End of term report: <a href="visitarchive.php?year={{viewyear}}&showreport={{showreport1}}"><b>{{tag}}</b></a></th>
+	</tr>
+	{% endif %}
+</table>
+
+{% if showreport == 1 %}
+	<article class="intro__text">{{termreport|raw}}<br/>
+	<a href="visitarchive.php?showreport=0&year={{viewyear}}">{{tag}}</a><br/><br/>
+	</article>
+{% endif %}
+
+<!-- list of months availavble to view -->
+<table class="flexitable">
+	<tr>
+		<th>Months available<br/>See where and who was there</th>
+		{% for mon in months %}
+			<td data-th="Month"><a href="visitarchive.php?month={{mon.monthnum}}&year={{viewyear}}">{{mon.monthname|escape}}</a></td>
+		{% endfor %}
+	</tr>
+</table>
+{% endif %}
+<!-- end year stats -->
+
+{% if viewmonth != '' %}
+<table class="flexitable">
+	<tr>
+		<th scope="row" class="visit" valign="middle">Visit</th>
+		{% for d in data %}
+		<th>
+			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}} {%if d.crag %} - {{d.crag }} {% endif %}</a>
+			<br/>
+			{{ d.date|date("d F Y") }}
+			<br/>
+			<small>{{ d.event }}</small>
+			{% if d.rainedoff == 1 %}
+                        <small>Rain stop play</small>
+			{% endif %}
+		</th>
+		{% endfor %}
+	</tr>
+	{% for m in member %}
+	<tr>
+		<td data-th="cragger" class="cragger">{{ m.firstname }} {{m.surname}}</td>
+		{% for d in data %}
+			{% set has_attended_this_crag = 0 %}
+			{% for a in attended %}
+				{% if a.user_id == m.user_id and a.cragvisit_id == d.cragvisit_id %}
+					{% set has_attended_this_crag = 1 %}
+				{% endif %}
+			{% endfor %}
+			<td data-th="{{ d.venue|escape }} {{d.area}} - {{ d.date|date("d M Y") }} - {{ d.rock }}">
+				{% if has_attended_this_crag == 1 %}
+					<span class="yes">YES</span>
+				{% else %}
+					<span class="no">NO</span>
+				{% endif %}
+			</td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}
