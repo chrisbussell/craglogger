@@ -171,7 +171,7 @@
 				FROM cragdetail as cd, cragvisit as cv 
 				WHERE cd.cragdetail_id = cv.cragdetail_id 
 				AND cv.date BETWEEN CURDATE() 
-				AND DATE_ADD(NOW(), INTERVAL 10 DAY)";
+				AND DATE_ADD(NOW(), INTERVAL 150 DAY)";
 
 		$results = $db->prepare($query);
         $results->execute();
