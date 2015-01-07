@@ -9,7 +9,7 @@
 	//set year as now if no other year has been passed
 	if(!isset($_GET['year']))
 	{
-		$_GET['year'] = '2014';
+		$_GET['year'] = '2015';
 	}
 
 	if(!isset($_GET['month']))
@@ -85,7 +85,7 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'pageTitle' => 'Crag Attendance 2014',
+			'pageTitle' => 'Crag Attendance 2015',
 			'data' => $data,
 			'sid' => $_SESSION['user'],
 			'updated' => $lastupdated,

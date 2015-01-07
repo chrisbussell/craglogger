@@ -437,7 +437,7 @@
 	function weeksleftofsummer()
 	{
 		// How many weeks of summer are left this year
-        $dayDif    = date('z',strtotime(date('2014-10-26'))) - date('z',strtotime(date('Y-M-d')));
+        $dayDif    = date('z',strtotime(date('2015-10-25'))) - date('z',strtotime(date('Y-M-d')));
         $numWeeks  = round($dayDif / 7);
 		
 		return $numWeeks;
@@ -1379,7 +1379,7 @@
 	// admin/termreportadd.php
 	function getvisithistoryyear($db)
 	{
-		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2014 ORDER BY date DESC";
+		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2015 ORDER BY date DESC";
 
 		$results = $db->prepare($query);
         $results->execute();

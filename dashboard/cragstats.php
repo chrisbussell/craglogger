@@ -79,7 +79,7 @@
                 $rocktypes[] = $row;
         }
 
-	if ($chosenyear == '2014')
+	if ($chosenyear == '2015')
 	{
 		//get number of weeks of summer left
 		$numWeeks = weeksleftofsummer();
@@ -107,7 +107,7 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'pageTitle' => 'Crag Stats 2014',
+			'pageTitle' => 'Crag Stats 2015',
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
 			'year' => $chosenyear,

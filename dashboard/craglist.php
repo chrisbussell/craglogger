@@ -54,7 +54,7 @@
 
 	//Get list of crags available this year
 	$query_params = array(
-		':year' => '2014'
+		':year' => '2015'
 	);
 
 	// get list of all crags this year
@@ -78,7 +78,7 @@
 		// set template variables
 		// render template
 		echo $template->render(array (
-			'pageTitle' => 'Crag List 2014',
+			'pageTitle' => 'Crag List 2015',
 			'sid' => $_SESSION['user'],
 			'updated' => $lastupdated,
 			'php_self' =>$_SERVER['PHP_SELF'],

@@ -1,5 +1,5 @@
 {% extends "base.tmpl" %}
-{% if year == '2014' %}
+{% if year == '2015' %}
 	{% set page_class = 'crag-stats' %}
 {% else %}
 	{% set page_class = 'visit-archive' %}
@@ -15,7 +15,7 @@
 <i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
 {% endif %}
 <br/>
-{% if year != '2014' %}
+{% if year != '2015' %}
 <legend><b>Choose the year you want to view</b></legend>
 <form action="{{php_self}}" method="post">
 <table class="flexitable">
