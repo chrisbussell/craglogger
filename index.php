@@ -41,8 +41,8 @@
 	$stmt = getsunsettime($db, $query_params);
 	$sunset = $stmt->fetch();
 
-	$stmt = getmoonphase($db, $query_params);
-	$moonphase = $stmt->fetch();
+//	$stmt = getmoonphase($db, $query_params);
+//	$moonphase = $stmt->fetch();
 
 	$stmt = getlatestcragreport($db);
 	$data = $stmt->fetchAll();
@@ -55,7 +55,6 @@
 		'pageTitle' => 'Home',
 		'updated' => $lastupdated,
 		'sid' => $_SESSION['user'],
-		'username' => $_SESSION['user']['username'],
 		'admin' => $_SESSION['user']['admin'],
 		'firstname' => $_SESSION['user']['firstname'],
 		'cragvisit_id' => $nextcrag['cragvisit_id'],

@@ -9,10 +9,6 @@
 {% block content %}
 <h1>Edit Account</h1>
 <form action="{{php_self}}" method="post">
-	<div class="field">
-		<label for="username">Username:</label>
-		<input type="text" name="username" id="username" value="{{username}}" disabled />
-	</div>
 	<div class="field{% if errFirstname %} error{% endif %}">
 		<label for="firstname">Your firstname:</label>
 		<input type="text" name="firstname" id="firstname" value="{{firstname}}" />

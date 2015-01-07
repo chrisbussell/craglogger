@@ -86,7 +86,6 @@
 		'sid' => $_SESSION['user'],
 		'admin' =>$_SESSION['user']['admin'],
 		'firstname' =>$_SESSION['user']['firstname'],
-		'username' =>$_SESSION['user']['username'],
 		'data' => $data,
 		'attended' => $visiteddata,
 		'member' => $membersrows,

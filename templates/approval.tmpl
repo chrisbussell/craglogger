@@ -7,16 +7,10 @@
 {% endblock %}
 
 {% block content %}
-	{% if sid == true %}
-		<div class="alert">
-			<p>
-				You are logged in as <b><a href="/craglogger/dashboard/editaccount.php">{{ username|escape }}</a></b>.
-			</p>
-		</div>
-	{% else %}
+
 		<h1>Waiting Approval</h1>
 
 		<p>Thank you for registering to Tuesday Night Climbers Craglogger</p>
 		<p>Your account is waiting for approval, you will recieve an email when your account has been approved.</p>
-	{% endif %}
+
 {% endblock %}

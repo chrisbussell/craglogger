@@ -18,8 +18,7 @@
 	$template->display(array(
 		'pageTitle' => 'Approval',
 		'updated' => $lastupdated,
-		'sid' => isset($_SESSION['user']),
-		'username' => isset($_SESSION['user']['username'])
+		'sid' => isset($_SESSION['user'])
 	));
 
 ?>

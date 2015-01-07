@@ -47,7 +47,6 @@
 		'members' => $rows,
 		'virtual' => $virtual,
 		'totalmembers' => $totalmembers,
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname'],
 		'admin' => $_SESSION['user']['admin'],
 		'sid' => $_SESSION['user'])

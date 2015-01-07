@@ -108,7 +108,6 @@
 			'rainedoffdetail' => $rainedoffdetail,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));
 ?>

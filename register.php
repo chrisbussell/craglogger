@@ -21,7 +21,6 @@
 	$error = '';
 	$errFirstname = '';
 	$errSurname = '';
-	$errUsername = '';
 	$errPassword = '';
 	$errEmail = '';
 		
@@ -39,12 +38,6 @@
 			$errSurname= "Please enter a surname";
 		}
 
-		// Ensure that the user has entered a non-empty username
-		if(empty($_POST['username'])){
-			$error = 1;
-			$errUsername= "Please enter a username";
-		}
-
 		// Ensure that the user has entered a non-empty password
 		if( strlen($_POST['password']) < 6 ) {
 			$error = 1;
@@ -59,22 +52,6 @@
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
 			$error = 1;
 			$errEmail= "Invalid E-Mail Address";
-		}
-
-		// Set query params for sql call
-		$query_params = array(
-			':username' => $_POST['username']
-		);
-
-		// Call check username
-		$stmt = checkusername($db,$query_params);
-
-		$row = $stmt->fetch();
-	
-		// If we get a result then username already used
-		if($row){
-			$error = 1;
-			$errUsername= "This username is already is use";
 		}
 
 		// Set query params for sql call
@@ -119,7 +96,6 @@
 				$query_params = array(
                                 ':firstname' => $_POST['firstname'],
                                 ':surname' => $_POST['surname'],
-                                ':username' => $_POST['username'],
                                 ':password' => $password,
                                 ':salt' => $salt,
                                 ':email' => $_POST['email'],
@@ -141,7 +117,6 @@
 				$query_params = array(
                                 ':firstname' => $_POST['firstname'],
                                 ':surname' => $_POST['surname'],
-                                ':username' => $_POST['username'],
                                 ':password' => $password,
                                 ':salt' => $salt,
                                 ':email' => $_POST['email']);
@@ -162,7 +137,6 @@
 			// Set variables for email send
 			$firstname = $_POST['firstname'];
 			$surname = $_POST['surname'];
-			$username = $_POST['username'];
 			$email = $_POST['email'];
 
 			//Email ADMIN account details to approve
@@ -175,7 +149,7 @@
 			$mail->AddCC ("");
 			$mail->AddBCC ("$bccaddress");
 			$mail->Subject  = "Tuesday Nighters account approval required";
-			$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> To approve please click <a href='http://chrisbussell.co.uk/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
+			$mail->Body     = "Hi Admin, <p> The following account has been registered on Craglogger and needs you to approve it.<p> Name:<b>$firstname $surname</b><br>Email:<b>$email</b><p> To approve please click <a href='http://chrisbussell.co.uk/craglogger/admin/approveaccount.php'>here</a><p>Thanks<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {
@@ -195,7 +169,7 @@
 			$mail->AddCC ("");
 			$mail->AddBCC ("$emailaddress");
 			$mail->Subject  = "Tuesday Nighters account signup";
-			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2014.<p>Thank you<br>The Craglogger Team.";
+			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2015.<p>Thank you<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {
@@ -215,7 +189,6 @@
 				'errFirstname' => $errFirstname,
 				'errSurname' => $errSurname,
 				'errEmail' => $errEmail,
-				'errUsername' => $errUsername,
 				'php_self' =>$_SERVER['PHP_SELF']));
 				die();
 		}

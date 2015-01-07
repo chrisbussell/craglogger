@@ -46,7 +46,6 @@
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'lastlogin' => $lastlogin,
 			'pageTitle' => 'Admin: Last Login'

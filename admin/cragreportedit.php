@@ -87,7 +87,6 @@
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'success' =>$success,
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname']
 	));
 	

@@ -94,7 +94,6 @@
 		'nocragselected' =>$nocragselected,
 		'nodate' =>$nodate,
 		'success' =>$success,
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname'],
 		'pageTitle' => 'Create crag visit'
 	));

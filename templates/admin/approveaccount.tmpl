@@ -13,7 +13,6 @@
 		<td>ID</td>
 		<td>Firstname</td>
 		<td>Surname</td>
-		<td>Username</td>
 		<td>Email</td>
 		<td>Action</td>
 	</tr>
@@ -23,12 +22,10 @@
 		<input type="hidden" name="email" value="{{ na.email|escape }}"</td>
 		<input type="hidden" name="firstname" value="{{ na.firstname|escape }}"</td>
 		<input type="hidden" name="surname" value="{{ na.surname|escape }}"</td>
-		<input type="hidden" name="username" value="{{ na.username|escape }}"</td>
 		<tr>
 			<td> <b>{{ na.user_id|escape }}</b></td>
 			<td>{{ na.firstname|escape}}</td>
 			<td>{{ na.surname|escape}}</td>
-			<td>{{ na.username|escape}}</td>
 			<td>{{ na.email|escape}}</td>
 			<td>
 				<input type="submit" name="submit" value="Approve"></td>
@@ -64,7 +61,6 @@
 		<td>ID</td>
 		<td>Firstname</td>
 		<td>Surname</td>
-		<td>Username</td>
 		<td>Nickname</td>
 		<td>Email</td>
 		<td>Admin</td>
@@ -78,11 +74,6 @@
 			<td> <b>{{ fd.user_id|escape }}</b></td>
 			<td>{{ fd.firstname|escape}}</td>
 			<td>{{ fd.surname|escape}}</td>
-			{% if fd.virtualuser != 1 %}
-			<td>{{ fd.username|escape}}</td>
-			{% else %}
-			<td></td>
-			{% endif %}
 			<td>{{ fd.nickname|escape}}</td>
 			{% if fd.virtualuser != 1 %}
 			<td>{{ fd.email|escape}}</td>

@@ -100,7 +100,6 @@
 			'pageTitle' => 'Update visit',
 			'years' => $years,
 			'viewyear' => $chosenyear,
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));
 ?>

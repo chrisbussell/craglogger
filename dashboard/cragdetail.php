@@ -80,7 +80,6 @@
 		'date' => $date,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'pageTitle' => 'Crag Detail',
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname']
 	));
 ?>

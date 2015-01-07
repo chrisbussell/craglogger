@@ -33,7 +33,6 @@
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'pageTitle' => 'Admin'
 		));

@@ -43,7 +43,6 @@
 		$query = "UPDATE users SET   
 				firstname = :firstname,
 				surname = :surname,
-				username = :username, 
 				password = :password, 
 				salt = :salt,
 				email = :email
@@ -1030,7 +1029,7 @@
 	function getuserbyoption($db, $getapproved, $getvirtual, $flag)
 	{
 		// Get Accounts that need approving List Data
-		$query = "SELECT u.user_id, username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
+		$query = "SELECT u.user_id, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
 
 		if($getapproved == 0){
 			$query .="
@@ -1075,16 +1074,16 @@
 	// login.php
 	function getalluserdetails($db, $query_params)
 	{
-		$query = "SELECT u.user_id , username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
+		$query = "SELECT u.user_id, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id";
 
-		if(isset($query_params[':username'])){
-			$query .=" WHERE username = :username";
+		if(isset($query_params[':email'])){
+			$query .=" WHERE email = :email";
 		}
 
 		if(isset($query_params[':user_id'])){
 			$query .=" WHERE u.user_id = :user_id";
 		}
-		
+	
 		try{
 			$stmt = $db->prepare($query);
 			$stmt->execute($query_params);
@@ -1148,7 +1147,6 @@
 		$query = "INSERT INTO users (
 				firstname,
 				surname,
-				username,
 				password,
 				salt,
 				email,
@@ -1156,12 +1154,12 @@
 			) VALUES (
 				:firstname,
 				:surname,
-				:username,
 				:password,
 				:salt,
 				:email,
 				now()
 			)";
+
 		try{
 			// Execute the query to create the user
 			$stmt = $db->prepare($query);

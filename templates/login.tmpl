@@ -9,9 +9,10 @@
 {% block content %}
 <h1>Login</h1>
 <form action="{{ php_self }}" method="post">
+
 	<div>
-		<label for="username">Username:</label>
-		<input type="text" name="username" id="username" value="{{submitted_username|escape}}" />
+		<label for="email">Email address:</label>
+		<input type="text" name="email" id="email" value="{{submitted_email|escape}}" />
 	</div>
 
 	<div>

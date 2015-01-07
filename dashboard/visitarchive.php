@@ -148,7 +148,6 @@
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'updated' => $lastupdated,
 			'sid' => $_SESSION['user'],
-			'username' =>$_SESSION['user']['username'],
 			'admin' =>$_SESSION['user']['admin'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'viewyear' => $chosenyear,

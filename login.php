@@ -16,17 +16,17 @@
 	// load template
 	$template = $twig->loadTemplate('login.tmpl');
 
-	$submitted_username = '';
+	$submitted_email = '';
 	$errApproved = '';
 	$errFailed = '';
 
 	// Check if form has been submitted
 	if(!empty($_POST)){
 
-		$username = test_input($_POST["username"]);
+		$email = test_input($_POST["email"]);
 
-		// Set query params for sql call
-		$query_params = array(':username' => $username);
+		$query_params = array(
+				':email' => $email);
 
 		// get user account details
 		$stmt = getalluserdetails($db, $query_params);
@@ -34,8 +34,7 @@
 		// Set login to false, variable set to true on succesful login
 		$login_ok = false;
 
-		// Retrieve the user data from the database.  If $row is false, then the username
-		// they entered is not registered.
+		// Retrieve the user data from the database.  If $row is false, then the username they entered is not registered.
 		$row = $stmt->fetch();
 	
 		if($row['usertype_id'] != '2'){
@@ -97,8 +96,8 @@
 		}
 		else{
 	
-			// Show them their username again so all they have to do is enter a new password. 
-			$submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8');
+			// Show them their email again so all they have to do is enter a new password. 
+			$submitted_email = htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8');
 		}
 	}
 
@@ -108,7 +107,7 @@
 		'pageTitle' => 'Login',
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
-		'submitted_username' => $submitted_username,
+		'submitted_email' => $submitted_email,
 		'errApproved' => $errApproved,
 		'errFailed' => $errFailed
 	));

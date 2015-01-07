@@ -69,7 +69,6 @@
 		'date' => $date,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'pageTitle' => 'Crag Update',
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname']
 	));
 ?>

@@ -33,7 +33,6 @@
 		header("Location: /craglogger/dashboard/craglist.php");
 		die("Redirecting to login.php");
 	}
-	print_r($_SESSION);
 	
 	// Get list of years available	
 	$stmt = getvisithistoryyear($db);
@@ -84,7 +83,6 @@
 			// Insert crag data
 			$success = updatetermreport($db, $query_params);
 			echo"success = $success";
-			print_r($success);
 
 			$query_params = array(
 				':year' => $_POST['viewyear']
@@ -112,7 +110,6 @@
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'success' =>$success,
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname']
 	));
 	

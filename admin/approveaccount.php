@@ -44,7 +44,6 @@
 		// Set variables for email send
 		$firstname = $_POST['firstname'];
 		$surname = $_POST['surname'];
-		$username = $_POST['username'];
 		$email = $_POST['email'];
 
 		//Email admin account details to approve
@@ -57,7 +56,7 @@
 		$mail->AddCC ("");
 		$mail->AddBCC ("$bccaddress");
 		$mail->Subject  = "Tuesday Nighters Account Approved";
-		$mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters Craglogger account has been approved.  You can now start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Username: <b>$username</b><br>Email:<b>$email</b><p> Click <a href='http://www.chrisbussell.co.uk/craglogger/login.php'>here</a> to <b>log in</b> and get started<p>Thanks<br>The Craglogger Team.";
+		$mail->Body     = "Hi $firstname, <p> Your Tuesday Nighters Craglogger account has been approved.  You can now start logging your crag visits for this season.<p>Your account details are:<br>Name:<b>$firstname $surname</b><br>Email:<b>$email</b><p> Click <a href='http://www.chrisbussell.co.uk/craglogger/login.php'>here</a> to <b>log in</b> and get started<p>Thanks<br>The Craglogger Team.";
 		$mail->WordWrap = 50;
 
 		if(!$mail->Send()) {
@@ -121,7 +120,6 @@
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
 		'pageTitle' => 'Approve Accounts',
-		'username' =>$_SESSION['user']['username'],
 		'firstname' =>$_SESSION['user']['firstname']
 	));
 ?>

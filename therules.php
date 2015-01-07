@@ -16,12 +16,10 @@
 	// load template
 	$template = $twig->loadTemplate('therules.tmpl');
 	
-
 	$template->display(array(
 		'pageTitle' => 'The Rules',
 		'updated' => $lastupdated,
 		'sid' => $_SESSION['user'],
-		'username' => $_SESSION['user']['username'],
 		'admin' => $_SESSION['user']['admin'],
 		'firstname' => $_SESSION['user']['firstname']
 	));

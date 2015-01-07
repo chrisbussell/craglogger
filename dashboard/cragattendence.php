@@ -93,7 +93,6 @@
 			'attended' => $rows,
 			'viewyear' => $_GET['year'],
 			'php_self' =>$_SERVER['PHP_SELF'],
-			'username' =>$_SESSION['user']['username'],
 			'admin' =>$_SESSION['user']['admin'],
 			'member' =>$membersrows,
 			'months' =>$months,

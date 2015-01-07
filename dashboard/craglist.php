@@ -87,7 +87,6 @@
 			'date' => $date,
 			'attended' => $rows,
 			'crag_visited' =>$cragvisited,
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));
 ?>

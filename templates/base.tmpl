@@ -22,7 +22,7 @@
 					</h1>
 					<p>
 						{% if sid == true %}
-							Hello {{ firstname }}, you are signed in as <b><a href="/craglogger/dashboard/editaccount.php">{{ username|escape }}</a></b>
+							Hello <b>{{ firstname|escape }}</b> <b><a href="/craglogger/dashboard/editaccount.php">My Profile</a></b>
 						{% else %}
 							Log in to access your account
 						{% endif %}
@@ -66,9 +66,9 @@
 							<li class="members">
 								<a href="/craglogger/dashboard/memberlist.php">Members list</a>
 							</li>
-							<li class="user-account">
+							<!--<li class="user-account">
 								<a href="/craglogger/dashboard/editaccount.php">My account</a>
-							</li>
+							</li>-->
 							{% if admin == true %}
 							<li class="admin">
 								<a href="/craglogger/admin/admin.php">Admin</a>

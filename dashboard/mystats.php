@@ -76,7 +76,6 @@
 			'updated' => $lastupdated,
 			'sid' => $_SESSION['user'],
 			'admin' => $_SESSION['user']['admin'],
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname'],
 			'user_id' =>$_SESSION['user']['user_id'],
 			'dates' =>$_GET['dates'],

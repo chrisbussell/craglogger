@@ -63,7 +63,6 @@
 		'admin' => $_SESSION['user']['admin'],
 		'updated' => $lastupdated,
 		'php_self' =>$_SERVER['PHP_SELF'],
-		'username' =>$_SESSION['user']['username'],
 		'pageTitle' => 'Add new crag',
 		'firstname' =>$_SESSION['user']['firstname']
 	));

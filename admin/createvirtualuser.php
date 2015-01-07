@@ -5,11 +5,11 @@
 
 	$user_id = $_SESSION['user']['user_id'];
 
-        if(empty($_SESSION['user']))
-        {
-                header("Location: ../login.php");
-                die("Redirecting to login.php");
-        }
+	if(empty($_SESSION['user']))
+	{
+		header("Location: ../login.php");
+		die("Redirecting to login.php");
+	}
 
 	// Check if user has admin perms
         if($_SESSION['user']['admin'] == 0){
@@ -84,27 +84,21 @@
 			$query_params = array(
 				':firstname' => $_POST['firstname'],
 				':surname' => $_POST['surname'],
-				':username' => md5(uniqid(rand(10,999),true)),
-                                ':password' => md5(rand(10,999)),
-                                ':salt' => '',
-                                ':email' => $_POST['email']
-                                );
-
-			// All ok, so lets add the user to the database
-			//$success = insertuser($db, $query_params);
-
+				':password' => md5(rand(10,999)),
+				':salt' => '',
+				':email' => $_POST['email']);
 
 			// Add new user signup to the database ready for approval
-				$user_id = insertuser($db, $query_params);
-			
-				// Prepare variables for userconfig insert				
-				$query_params = array(
-								':user_id' => $user_id,
-								':emailshow' => '0',
-								':usertype_id' => '2');
+			$user_id = insertuser($db, $query_params);
+	
+			// Prepare variables for userconfig insert				
+			$query_params = array(
+						':user_id' => $user_id,
+						':emailshow' => '0',
+						':usertype_id' => '2');
 
-				// Insert user config data
-				insertuserconfig($db, $query_params);
+			// Insert user config data
+			insertuserconfig($db, $query_params);
 
 			if (!empty($_POST['nickname'])){
 
@@ -116,9 +110,6 @@
 				'nickname' => $_POST['nickname']);
 			
 			insertusernickname($db, $query_params);
-
-			
-
 		}	
 		$success = 1;		
 	}
@@ -142,7 +133,6 @@
                 'php_self' =>$_SERVER['PHP_SELF'],
                 'sid' => $_SESSION['user'],
                 'admin' => $_SESSION['user']['admin'],
-                'username' =>$_SESSION['user']['username'],
                 'firstname' =>$_SESSION['user']['firstname'],
                 'success' =>$success
         ));

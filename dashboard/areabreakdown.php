@@ -96,7 +96,6 @@
 			'admin' => $_SESSION['user']['admin'],
 			'updated' => $lastupdated,
 			'php_self' =>$_SERVER['PHP_SELF'],
-			'username' =>$_SESSION['user']['username'],
 			'firstname' =>$_SESSION['user']['firstname']
 		));
 ?>
