@@ -711,7 +711,7 @@
 	// dashboard/areabreakdown.php
 	function getdatebyvenuearea($db, $query_params)
 	{
-		$query = "SELECT cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue AND cd.area = :area ORDER BY cv.date DESC";
+		$query = "SELECT cv.cragvisit_id, cv.date, cd.venue, cd.area, cd.crag, cv.event FROM cragdetail cd, cragvisit cv WHERE cd.cragdetail_id = cv.cragdetail_id AND cv.rainedoff = 0 AND cd.venue = :venue AND cd.area = :area ORDER BY cv.date DESC";
 
 		$results = $db->prepare($query);
 		$results->execute($query_params);

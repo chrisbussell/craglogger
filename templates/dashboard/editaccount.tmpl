@@ -7,43 +7,50 @@
 {% endblock %}
 
 {% block content %}
-<h1>Edit Account</h1>
+<h1>My Account</h1>
 <form action="{{php_self}}" method="post">
 	<div class="field{% if errFirstname %} error{% endif %}">
-		<label for="firstname">Your firstname:</label>
+		<label for="firstname"><b>Your firstname:</b></label>
 		<input type="text" name="firstname" id="firstname" value="{{firstname}}" />
 		<b class="error--message">{{errFirstname}}</b>
 	</div>
 
 	<div class="field{% if errSurname %} error{% endif %}">
-		<label for="surname">Your surname:</label>
+		<label for="surname"><b>Your surname:</b></label>
 		<input type="text" name="surname" id="surname" value="{{surname}}" />
 		<b class="error--message">{{errSurname}}</b>
 	</div>
 
 	<div class="field{% if errEmail %} error{% endif %}">
-		<label for="email">Your email:</label>
+		<label for="email"><b>Your email:</b></label>
 		<input type="text" name="email" id="email" value="{{email}}" />
 		<b class="error--message">{{errEmail}}</b>
 	</div>
 	<div>
+		Allow other members to see your email address:
 		{% if emailshow == 1 %}
 		<input type="checkbox" name="emailshow" value="1" checked>
-		<i>(check to allow other members to see your email address on the members list)</i> 
+		<small>yes</small>
 		{% else %}
 		<input type="checkbox" name="emailshow">
-		<i>(check to allow other members to see your email address on the members list)</i> 
+		<small>no</small>
 		{% endif %}
 	</div>
 
+
+
+
+
+
+<br/>
 	<div class="field">
-		<label for="password">Password:</label>
+		<label for="password"><b>Password:</b></label>
 		<input type="password" name="password" id="password" value="" />
-		<i>(leave blank if you do not want to change your password)</i>
+		<i>leave blank if you do not want to change your password</i>
 	</div>
 	<input type="submit" name="submit" value="Update Account" />
 	<div class="field">
-<p><b>{{editaccount}}</b></p>
+<p><br/><b>{{editaccount}}</b></p>
 </div>
 </form>
 

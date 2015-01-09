@@ -128,7 +128,7 @@
 			// array is stale; we need to update it so that it is accurate.
 			$_SESSION['user']['email'] = $_POST['email'];
 		
-			$editaccount = "Thanks, your details have been updated";
+			$editaccount = "Thank you, your details have been updated.";
 
 		}
 		else

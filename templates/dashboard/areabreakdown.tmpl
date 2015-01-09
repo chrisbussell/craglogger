@@ -58,8 +58,8 @@
         </tr>
         {% for va in venuearea %}
         <tr>
-                <td data-th="Date"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ va.date|date('d F Y') }}</a></td>
-                <td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ va.venue }} {{va.area}} {% if va.crag %} - {{va.crag}} {% endif %} {%if va.event %} <small>({{va.event}})</small> {% endif %}</a></td>
+                <td data-th="Date"><a href="cragdetail.php?cragvisit_id={{va.cragvisit_id}}">{{ va.date|date('d F Y') }}</a></td>
+                <td data-th="Venue"><a href="cragdetail.php?cragvisit_id={{va.cragvisit_id}}">{{ va.venue }} {{va.area}} {% if va.crag %} - {{va.crag}} {% endif %} {%if va.event %} <small>({{va.event}})</small> {% endif %}</a></td>
         </tr>
         {% endfor %}
         <tr>
