@@ -3,13 +3,12 @@
 	require("../includes/functions.php");
 
 	$data = '';
-
 	$user_id = $_SESSION['user']['user_id'];
 
 	//set year as now if no other year has been passed
 	if(!isset($_GET['year']))
 	{
-		$_GET['year'] = '2015';
+		$_GET['year'] = date("Y");
 	}
 
 	if(!isset($_GET['month']))
@@ -43,20 +42,18 @@
 	);
 
 	//Get list of months for this years visits
-        $stmt = getvisitmonths($db, $query_params);
-        $months = $stmt->fetchAll();
+	$stmt = getvisitmonths($db, $query_params);
+	$months = $stmt->fetchAll();
 
 	if(isset($_GET['month'])){
-                $query_params = array(
-                        ':year' => $_GET['year'],
-                        ':month' => $_GET['month']
-                );
-        }
-        else{
-                $query_params = array(
-                        ':year' => $_GET['year']
-                );
-        }
+		$query_params = array(
+			':year' => $_GET['year'],
+			':month' => $_GET['month']);
+	}
+	else{
+		$query_params = array(
+			':year' => $_GET['year']);
+	}
 
 	//Get list of crags
 	$stmt = getcragdata($db, $query_params);
@@ -64,9 +61,10 @@
 	while ($row = $stmt->fetchObject()) {
 		$data[] = $row;
 	}
-                $query_params = array(
-                        ':year' => $_GET['year']
-                );
+
+	$query_params = array(
+		':year' => $_GET['year']
+	);
 
 	// GET MEMBERS LIST	
 	$membersresults = getmembersattended($db, $query_params);
@@ -74,21 +72,19 @@
 
 	 // GET LIST OF ATTENDED CRAGS BY USERS BY YEAR
 	$results = getattended($db, $query_params);
-
 	$rows = $results->fetchAll();
 
 	$selectedmonth = $_GET['month'];
-        $selectmonth = getmonth($selectedmonth);
+	$selectmonth = getmonth($selectedmonth);
 
-	$date = date('Y-m-d H:i:s');
-
-		// set template variables
-		// render template
-		echo $template->render(array (
-			'pageTitle' => 'Crag Attendance 2015',
+	// set template variables
+	// render template
+	echo $template->render(array (
+			'pageTitle' => 'Crag Attendance ' . $_GET['year'],
 			'data' => $data,
 			'sid' => $_SESSION['user'],
 			'updated' => $lastupdated,
+			'year' => $_GET['year'],
 			'date' => $date,
 			'attended' => $rows,
 			'viewyear' => $_GET['year'],
@@ -98,5 +94,5 @@
 			'months' =>$months,
 			'viewmonth' =>$selectmonth,
 			'firstname' =>$_SESSION['user']['firstname']
-		));
+	));
 ?>

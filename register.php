@@ -6,17 +6,17 @@
 	require("includes/PHPMailer/class.phpmailer.php");
 
 	// include and register Twig auto-loader
-        include 'Twig/Autoloader.php';
-        Twig_Autoloader::register();
+	include 'Twig/Autoloader.php';
+	Twig_Autoloader::register();
 
-        // define template directory location
-        $loader = new Twig_Loader_Filesystem('templates');
+    // define template directory location
+    $loader = new Twig_Loader_Filesystem('templates');
 
-        // initialize Twig environment
-        $twig = new Twig_Environment($loader);
+    // initialize Twig environment
+    $twig = new Twig_Environment($loader);
 
-        // load template
-        $template = $twig->loadTemplate('register.tmpl');
+    // load template
+    $template = $twig->loadTemplate('register.tmpl');
 
 	$error = '';
 	$errFirstname = '';
@@ -138,6 +138,7 @@
 			$firstname = $_POST['firstname'];
 			$surname = $_POST['surname'];
 			$email = $_POST['email'];
+			$year = date("Y");
 
 			//Email ADMIN account details to approve
 			$mail = new PHPMailer();
@@ -169,7 +170,7 @@
 			$mail->AddCC ("");
 			$mail->AddBCC ("$emailaddress");
 			$mail->Subject  = "Tuesday Nighters account signup";
-			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of 2015.<p>Thank you<br>The Craglogger Team.";
+			$mail->Body     = "Hi $firstname, <p> Thank you for signing up to Tuesday Nighters Craglogger.<br> Your account has been created and is waiting for approval.  You will shortly get an email confirming that your account has been approved.<p>Once approved you will be able to log which crags you have attended over the Tuesday Nighters Season of $year <p>Thank you<br>The Craglogger Team.";
 			$mail->WordWrap = 50;
 
 			if(!$mail->Send()) {

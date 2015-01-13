@@ -7,9 +7,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>Crag List 2015</h1><small>Just select the venues you attended and click on "log my visit" at the bottom of the page.</small><br/>
+<h1>Crag List {{chosenyear}}</h1><small>Just select the venues you attended and click on "log my visit" at the bottom of the page.</small><br/>
 <!--View <a href="/craglogger/dashboard/mystats.php">My stats</a> -->
 <form method="post" action="{{ php_self }}" class="craglist flexitable">
+<input type="hidden" name="year" value="{{chosenyear}}">
 	<table>
 		<tr>
 			<th>Date</th>
@@ -40,7 +41,7 @@
 						<input type="checkbox" name="crag[]" value="{{ d.cragvisit_id }}"/>
 					{% endif %}
 					{% if has_attended_this_crag == 1 %}
-					<a class="undo" href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}">undo</a>
+					<a class="undo" href="/craglogger/dashboard/craglist.php?undo=true&cragvisit_id={{d.cragvisit_id}}&year={{chosenyear}}">undo</a>
 					{% endif %}
 				{% else %}
 				Rain stop play
@@ -51,5 +52,33 @@
 	</table>
 	<input type="submit" name="submit" value="Log my visit">
 	</form>
+
+	<!-- show years dropdown available to view -->
+<legend><b>Need to log a visit from a previous year? Choose the year you want to view:</b></legend>
+<form action="{{php_self}}" method="post">
+<table class="flexitable">
+   <tr>
+      	<td>
+		<select name ="year">
+    	{% for y in years %}
+			{% if y['year'] == viewyear %}
+				<option value=" {{ y['year'] }}" selected="selected">{{ y['year'] }}</option>
+			{% else %}
+				<option value="{{ y['year'] }}">{{ y['year'] }}</option>
+			{% endif %}
+		{% endfor %}
+		</select>
+      </td>
+      <td><input type="submit" name="submit" value="Choose" /></td>
+	</tr>
+</table>
+</form>
+<hr/>
+
+
+
+
+
+
 	<p><b>{{ crag_visited }}</b></p>
 {% endblock %}

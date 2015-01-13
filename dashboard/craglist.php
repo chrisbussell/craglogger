@@ -51,10 +51,22 @@
 	}
 
 	// get list of all crags this year
+	if(!empty($_POST))
+	{
+		$chosenyear = $_POST['year'];
+	}
+	elseif(!empty($_GET))
+	{
+		$chosenyear = $_GET['year'];
+	}
+	else //deafult to current year
+	{
+		$chosenyear = date("Y");
+	}
 
 	//Get list of crags available this year
 	$query_params = array(
-		':year' => '2015'
+		':year' => $chosenyear
 	);
 
 	// get list of all crags this year
@@ -70,23 +82,25 @@
 	);
 
 	$results = getuserattended($db, $query_params);
-
 	$rows = $results->fetchAll();
 
-	$date = date('Y-m-d H:i:s');
+	// get list of years we have data for, displayed as dropdown
+	$stmt = getvisithistoryyear($db);
+	$years = $stmt->fetchAll();
 
-		// set template variables
-		// render template
-		echo $template->render(array (
-			'pageTitle' => 'Crag List 2015',
-			'sid' => $_SESSION['user'],
-			'updated' => $lastupdated,
-			'php_self' =>$_SERVER['PHP_SELF'],
-			'data' => $data,
-			'admin' => $_SESSION['user']['admin'],
-			'date' => $date,
-			'attended' => $rows,
-			'crag_visited' =>$cragvisited,
-			'firstname' =>$_SESSION['user']['firstname']
-		));
+	// set template variables
+	// render template
+	echo $template->render(array (
+		'pageTitle' => 'Crag List '.$chosenyear,
+		'sid' => $_SESSION['user'],
+		'updated' => $lastupdated,
+		'php_self' =>$_SERVER['PHP_SELF'],
+		'chosenyear' => $chosenyear,
+		'years' => $years,
+		'data' => $data,
+		'admin' => $_SESSION['user']['admin'],
+		'attended' => $rows,
+		'crag_visited' =>$cragvisited,
+		'firstname' =>$_SESSION['user']['firstname']
+	));
 ?>

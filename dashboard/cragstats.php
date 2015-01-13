@@ -43,8 +43,7 @@
 		$chosenyear = $_GET['year'];
 	}
 
-	$query_params = array(
-                        ':year' => $chosenyear);
+	$query_params = array(':year' => $chosenyear);
 
 	$stmt = getcragbyyear($db,$query_params);
 	$visitedcrags = $stmt->fetchAll();
@@ -79,17 +78,11 @@
                 $rocktypes[] = $row;
         }
 
-	if ($chosenyear == '2015')
+	if ($chosenyear == date("Y"))
 	{
 		//get number of weeks of summer left
 		$numWeeks = weeksleftofsummer();
 	}
-
-	//$stmt = getvisithistoryyear($db);
-
-      //  while ($row = $stmt->fetchObject()) {
-        //        $years[] = $row;
-        //}
 
 	$stmt = getcountytotals($db, $query_params);
 
@@ -104,10 +97,10 @@
 
 	$date = date('Y-m-d H:i:s');
 
-		// set template variables
+	// set template variables
 		// render template
 		echo $template->render(array (
-			'pageTitle' => 'Crag Stats 2015',
+			'pageTitle' => 'Crag Stats '.$chosenyear,
 			'data' => $data,
 			'attendedcrag' => $attendedcrag,
 			'year' => $chosenyear,

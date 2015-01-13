@@ -38,7 +38,7 @@
 								<a href="/craglogger/therules.php">The rules</a>
 							</li>
 							<li class="log-your-visit">
-								<a href="/craglogger/dashboard/craglist.php">Log your visit</a>
+								<a href="/craglogger/dashboard/craglist.php">Log my visit</a>
 							</li>
 							<li class="register">
 								<a href="/craglogger/register.php">Sign up</a>
@@ -49,7 +49,7 @@
 						{% endif %}
 						{% if sid == true %}
 							<li class="crag-list">
-								<a href="/craglogger/dashboard/craglist.php">Log my visits</a>
+								<a href="/craglogger/dashboard/craglist.php?year={{"now"|date("Y")}}">Log my visits</a>
 							</li>
 							<li class="my-stats">
 								<a href="/craglogger/dashboard/mystats.php">My stats</a>
@@ -58,7 +58,7 @@
 								<a href="/craglogger/dashboard/cragattendence.php">Crag visits {{"now"|date("Y")}}</a>
 							</li>
 							<li class="crag-stats">
-								<a href="/craglogger/dashboard/cragstats.php?year=2015">Crag stats {{"now"|date("Y")}}</a>
+								<a href="/craglogger/dashboard/cragstats.php?year={{"now"|date("Y")}}">Crag stats {{"now"|date("Y")}}</a>
 							</li>
 							<li class="visit-archive">
 								<a href="/craglogger/dashboard/visitarchive.php">Archive</a>
