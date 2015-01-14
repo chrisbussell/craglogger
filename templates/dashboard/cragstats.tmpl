@@ -1,9 +1,9 @@
 {% extends "base.tmpl" %}
-{% if year == '2015' %}
+{% if year == "now"|date("Y") %}
 	{% set page_class = 'crag-stats' %}
 {% else %}
 	{% set page_class = 'visit-archive' %}
-{% endif %}
+{% endif %} 
 
 {% block class %}
  class="{{page_class}}" 
@@ -12,10 +12,14 @@
 {% block content %}
 <h1>Crag Stats {{year}}</h1>
 {% if weeksleft != '' %}
-<i>{{weeksleft}} glorious weeks of summer left, get out there.</i>
+        {% if summertime == '1' %}
+        <i>{{weeksleft}} glorious weeks of summer left, get out there.<br/><br/></i>
+        {% else %}
+        <i>Only <b>{{weeksleft}}</b> weeks until the summer season of {{ "now"|date("Y") }} starts.<br/><br/></i>
+        {% endif %}     
 {% endif %}
 <br/>
-{% if year != '2015' %}
+{% if year != "now"|date("Y") %}
 <legend><b>Choose the year you want to view</b></legend>
 <form action="{{php_self}}" method="post">
 <table class="flexitable">

@@ -10,6 +10,7 @@
 	$years = '';
 	$rocktypes = '';
 	$rainedoffdetail = '';
+	$summertime = '';
 
 	if(empty($_SESSION['user']))
 	{	
@@ -81,7 +82,9 @@
 	if ($chosenyear == date("Y"))
 	{
 		//get number of weeks of summer left
-		$numWeeks = weeksleftofsummer();
+		$results = weeksleftofsummer($db);
+		$numWeeks = $results['0'];
+		$summertime = $results['1'];
 	}
 
 	$stmt = getcountytotals($db, $query_params);
@@ -118,6 +121,7 @@
 			'date' => $date,
 			'php_self' =>$_SERVER['PHP_SELF'],
 			'crag_visited' =>$cragvisited,
-			'firstname' =>$_SESSION['user']['firstname']
+			'firstname' =>$_SESSION['user']['firstname'],
+			'summertime' => $summertime
 		));
 ?>

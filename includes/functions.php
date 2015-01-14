@@ -433,13 +433,40 @@
 	//////////////////////////////////////////////////////////
 	// dashboard/cragstats.php
 	// dashboard/mystats.php
-	function weeksleftofsummer()
+	function weeksleftofsummer($db)
 	{
-		// How many weeks of summer are left this year
-        $dayDif    = date('z',strtotime(date('2015-10-25'))) - date('z',strtotime(date('Y-M-d')));
-        $numWeeks  = round($dayDif / 7);
+		// Get start and end dates for this years british summertime
+		$query = "SELECT startdate, enddate FROM britishsummertime WHERE DATE_FORMAT(startdate, '%Y') = DATE_FORMAT(NOW(), '%Y')";
+
+		$results = $db->prepare($query);
+        $results->execute();
+        
+        $dates = $results->fetch();
+
+        if (date('z',(strtotime(date('Y-m-d')))) <= date('z',(strtotime($dates['startdate']))))
+        {
+        	// How many days until summer starts
+        	$query2 = "SELECT ROUND(SUM(DATEDIFF(bst.startdate,now())/7),0) AS weeks FROM britishsummertime bst WHERE DATE_FORMAT(bst.startdate, '%Y') = DATE_FORMAT(NOW(), '%Y')";
+
+        	$results = $db->prepare($query2);
+        	$results->execute();
+        
+        	$dates = $results->fetch();
+        	$numweeks = $dates['weeks'];
+
+        	$summertime = '0';
+        }
+        else
+       	{
+       		// How many weeks of summer are left this year
+			$dayDif    = date('z',strtotime(date($dates['enddate']))) - date('z',strtotime(date($dates['startdate'])));
+
+        	$numWeeks  = round($dayDif / 7);
+
+        	$summertime = '1';
+       	}
 		
-		return $numWeeks;
+		return array($numweeks,$summertime);
 	}
 
 	//////////////////////////////////////////////////////////
@@ -1377,7 +1404,7 @@
 	// admin/termreportadd.php
 	function getvisithistoryyear($db)
 	{
-		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < 2015 ORDER BY date DESC";
+		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < DATE_FORMAT(NOW(), '%Y') ORDER BY date DESC";
 
 		$results = $db->prepare($query);
         $results->execute();

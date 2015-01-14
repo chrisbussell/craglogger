@@ -49,9 +49,8 @@
 			'user_id' =>$_SESSION['user']['user_id'],
 			'data' => $data,
 			'visitbyyear' => $visitbyyear,
-			'monthvisits' => $monthvisits,
+		//	'monthvisits' => $monthvisits,
 			'years' => $years,
-			'blah' => $_GET['blah'],
 			'weeksleft' => $numWeeks,
 	));
 ?>

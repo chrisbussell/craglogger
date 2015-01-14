@@ -16,7 +16,16 @@
 		<p>Perhaps the longest running, most active, friendliest, liveliest ad hoc and mildly anarchic midweek climbing group in the country.</p>
 		<p>Originating in the 'Altrincham All Stars' back in the Bonnington days, now loosely peak based, accidentally global, and as noisy as ever.</p>
 		<p>'Turn up and tie on'.</p>
+<br/>
+    {% if weeksleft != '' %}
+        {% if summertime == '1' %}
+        <i><b>{{weeksleft}} glorious weeks of summer left, get out there.</b></i>
+        {% else %}
+        <i><b>Only {{weeksleft}} weeks until the Summer Season of {{ "now"|date("Y") }} starts.</b></i>
+        {% endif %}     
+{% endif %}
 	</article>
+
 	<aside class="intro__image">
 		<img src="/craglogger/assets/content/tuesday.jpg" alt="fill in with image description" />
 	</aside>

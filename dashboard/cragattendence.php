@@ -85,7 +85,7 @@
 			'sid' => $_SESSION['user'],
 			'updated' => $lastupdated,
 			'year' => $_GET['year'],
-			'date' => $date,
+			//'date' => $date,
 			'attended' => $rows,
 			'viewyear' => $_GET['year'],
 			'php_self' =>$_SERVER['PHP_SELF'],

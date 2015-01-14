@@ -49,7 +49,10 @@
 	}
 
 	//get number of weeks of summer left
-	$numWeeks = weeksleftofsummer();
+	$results = weeksleftofsummer($db);
+	
+	$numWeeks = $results['0'];
+	$summertime = $results['1'];
 
 	$stmt = getvisithistoryyear($db);
 	$totalyears = $stmt->fetchAll();
@@ -85,5 +88,6 @@
 			'visitdates' => $visitdates,
 			'years' => $years,
 			'weeksleft' => $numWeeks,
+			'summertime' => $summertime
 	));
 ?>

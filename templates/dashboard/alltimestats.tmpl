@@ -1,5 +1,5 @@
 {% extends "base.tmpl" %}
-{% if year == '2015' %}
+{% if year == "now"|date("Y") %}
 	{% set page_class = 'crag-stats' %}
 {% else %}
 	{% set page_class = 'visit-archive' %}

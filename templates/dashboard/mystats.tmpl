@@ -8,11 +8,15 @@
 
 {% block content %}
 <h1>My All Time Stats</h1>
+
 {% if weeksleft != '' %}
-<i>{{weeksleft}} glorious weeks of summer left, get out there.<br/><br/></i>
+        {% if summertime == '1' %}
+        <i>{{weeksleft}} glorious weeks of summer left, get out there.<br/><br/></i>
+        {% else %}
+        <i>Only <b>{{weeksleft}}</b> weeks until the summer season of {{ "now"|date("Y") }} starts.<br/><br/></i>
+        {% endif %}     
 {% endif %}
-{% if year != '2015' %}
-{% endif %}
+
 <h3>My Yearly Visits</h3>
 <table class="flexitable">
         <tr>

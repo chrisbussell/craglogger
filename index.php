@@ -44,6 +44,11 @@
 //	$stmt = getmoonphase($db, $query_params);
 //	$moonphase = $stmt->fetch();
 
+	//get number of weeks of summer left
+	$results = weeksleftofsummer($db);
+	$numWeeks = $results['0'];
+	$summertime = $results['1'];
+
 	$stmt = getlatestcragreport($db);
 	$data = $stmt->fetchAll();
 
@@ -64,11 +69,13 @@
 		'crag' => $nextcrag['crag'],
 		'event' => $nextcrag['event'],
 		'sunset' => $sunset['sunsettime'],
-		'moonphase' => $moonphase['phase'],
-		'mooncoverage' => $moonphase['coverage'],
+	//	'moonphase' => $moonphase['phase'],
+	//	'mooncoverage' => $moonphase['coverage'],
 		'data' => $data,
 		'locations' => $locations,
-		'cragreport' => $cragreport
+		'cragreport' => $cragreport,
+		'weeksleft' => $numWeeks,
+		'summertime' => $summertime
 	));
 
 ?>

@@ -214,3 +214,55 @@ SELECT u.user_id, username, n.nickname, password, salt, firstname, surname,usern
 
 SELECT u.user_id , username, n.nickname, password, salt, firstname, surname, email, uc.admin, uc.approved, uc.emailshow, uc.usertype_id FROM users u INNER JOIN userconfig uc ON u.user_id = uc.user_id LEFT JOIN nickname n ON u.user_id = n.user_id
 
+
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/03/31','19:40');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/04/07','19:53');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/04/08','19:55');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/04/14','20:06');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/04/21','20:18');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/04/28','20:31');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/05','20:43');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/06','20:45');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/12','20:55');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/19','21:06');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/26','21:17');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/05/27','21:18');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/06/02','21:25');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/06/09','21:32');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/06/16','21:37');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/06/23','21:39');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/06/30','21:38');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/07/07','21:35');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/07/14','21:28');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/07/21','21:20');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/07/28','21:09');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/08/04','20:57');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/08/11','20:44');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/08/18','20:29');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/08/25','20:13');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/01','19:57');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/02','19:55');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/08','19:40');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/15','19:23');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/22','19:06');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/09/29','18:49');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/10/06','18:32');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/10/13','18:16');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/10/20','18:00');
+INSERT INTO sunset (date,sunsettime) VALUES ('2015/10/27','16:45');
+
+ALTER TABLE users DROP column username;
+
+CREATE TABLE britishsummertime (
+  summertime_id int(11) NOT NULL AUTO_INCREMENT,
+  startdate date,
+  enddate date,
+  timestamp timestamp,
+  PRIMARY KEY (summertime_id)
+  );
+
+INSERT INTO britishsummertime (startdate,enddate) VALUES ('2015/03/29','2015/10/25');
+INSERT INTO britishsummertime (startdate,enddate) VALUES ('2016/03/27','2016/10/30');
+INSERT INTO britishsummertime (startdate,enddate) VALUES ('2017/03/26','2017/10/29');
+INSERT INTO britishsummertime (startdate,enddate) VALUES ('2018/03/25','2018/10/28');
+INSERT INTO britishsummertime (startdate,enddate) VALUES ('2019/03/31','2019/10/27');
