@@ -24,7 +24,7 @@
 						{% if sid == true %}
 							Hello <b>{{ firstname|escape }}</b><br/> <b><a href="/craglogger/dashboard/editaccount.php"><small>My Account</small></b><img src="/craglogger/assets/images/png/user.png" alt="user" /></a>
 						{% else %}
-							Log in to access your account
+							<a href="/craglogger/login.php">Log in</a> to access your account
 						{% endif %}
 					</p>
 				</hgroup>
@@ -89,7 +89,7 @@
 					Last updated on: {{ updated }}
 				</p>
 				<p class="social">
-				<a href = "https://www.facebook.com/Tuesday.Nighters"><img src="/craglogger/assets/images/png/FB.png" target="_blank" alt="Facebook" /></a>
+				<a href = "https://www.facebook.com/Tuesday.Nighters" target="_blank"><img src="/craglogger/assets/images/png/FB.png"  alt="Facebook" /></a>
 				</p>
 				{% endblock %}
 			</footer>

@@ -16,7 +16,7 @@
         {% for ll in lastlogin %}
         <tr>
                 <td data-th="Name">{{ ll.firstname|escape }} {{ ll.surname|escape }}</td>
-                <td data-th="Last Login">{{ ll.lastlogin|date ("F jS \\a\\t g:ia") }}</a></td>
+                <td data-th="Last Login">{{ ll.lastlogin|date ("Y F jS \\a\\t g:ia") }}</a></td>
         </tr>
         {% endfor %}
 </table>

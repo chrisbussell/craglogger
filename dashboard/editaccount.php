@@ -121,15 +121,36 @@
 					':user_id' => $_SESSION['user']['user_id']);
 			}
 
-			// Set emailshow preference
+			// Set emailshow preference in userconfig
 			updateuserconfig($db, $query_params);
+
+			$query_params = array(':user_id' => $_SESSION['user']['user_id']);
+	
+			// Get details for this user
+			$stmt = getalluserdetails($db, $query_params);	
+			$rows = $stmt->fetch();
+
+			$nickname = $rows['nickname'];
+
+			$query_params = array(
+					':nickname' => $_POST['nickname'],
+					':user_id' => $_SESSION['user']['user_id']);
+
+			if (isset($nickname))
+			{
+				// Update nickname
+				updatenickname($db, $query_params);
+			}
+			elseif(!empty($_POST['nickname']))
+			{
+				insertusernickname($db, $query_params);
+			}
 
 			// Now that the user's E-Mail address has changed, the data stored in the $_SESSION
 			// array is stale; we need to update it so that it is accurate.
 			$_SESSION['user']['email'] = $_POST['email'];
 		
 			$editaccount = "Thank you, your details have been updated.";
-
 		}
 		else
 		{
@@ -145,6 +166,7 @@
 				$emailshow = $rows['emailshow'];
 				$admin = $rows['admin'];
 				$approved = $rows['approved'];
+				$nickname = $rows['nickname'];
 			}
 
 			echo $template->render(array (
@@ -156,6 +178,7 @@
 				'firstname' =>$firstname,
 				'surname' =>$surname,
 				'emailshow' =>$emailshow,
+				'nickname' => $nickname,
 				'email' =>$_SESSION['user']['email'],
 				'errPassword' => $errPassword,
 				'errFirstname' => $errFirstname,
@@ -178,6 +201,7 @@
 		$emailshow = $rows['emailshow'];
 		$admin = $rows['admin'];
 		$approved = $rows['approved'];
+		$nickname = $rows['nickname'];
 	}
 
 	// set template variables
@@ -192,7 +216,8 @@
 		'surname' => $surname,
 		'emailshow' => $emailshow,
 		'editaccount' => $editaccount,
-		'email' =>$_SESSION['user']['email']
+		'email' =>$_SESSION['user']['email'],
+		'nickname' => $nickname,
 	));
 
 	

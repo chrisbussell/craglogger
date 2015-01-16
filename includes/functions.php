@@ -236,6 +236,21 @@
                 return true;
 	}
 
+	function updatenickname($db, $query_params)
+	{
+		$query = "UPDATE nickname SET nickname = :nickname WHERE user_id = :user_id";
+
+		try{
+			// Execute the query
+                        $stmt = $db->prepare($query);
+                        $result = $stmt->execute($query_params);
+                }
+                catch(PDOException $ex){
+                 //   die("Failed to run query: " . $ex->getMessage());
+                }
+                return true;
+	}
+
 	//////////////////////////////////////////////////////////
 	// dashboard/cragattendence.php
 	// dashboard/visitarchive.php

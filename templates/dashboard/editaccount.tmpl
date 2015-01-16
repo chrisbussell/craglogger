@@ -21,6 +21,12 @@
 		<b class="error--message">{{errSurname}}</b>
 	</div>
 
+	<div class="field{% if errNickname %} error{% endif %}">
+		<label for="email"><b>Nickname:</b></label><small>This will show as <b>{{firstname}} {{surname}} {% if nickname %}<small><i>({{nickname}})</small></i>{% endif %}</b> leave blank if you don't want one</small>
+		<input type="text" name="nickname" id="nickname" value="{{nickname}}" />
+		<b class="error--message">{{errEmail}}</b>
+	</div>
+
 	<div class="field{% if errEmail %} error{% endif %}">
 		<label for="email"><b>Your email:</b></label>
 		<input type="text" name="email" id="email" value="{{email}}" />
@@ -36,22 +42,21 @@
 		<small>no</small>
 		{% endif %}
 	</div>
-
-
-
-
-
-
 <br/>
 	<div class="field">
-		<label for="password"><b>Password:</b></label>
+		<label for="password"><b>Password:</b></label><small>Leave blank if you do not want to change your password</small>
 		<input type="password" name="password" id="password" value="" />
-		<i>leave blank if you do not want to change your password</i>
 	</div>
+
+
+
 	<input type="submit" name="submit" value="Update Account" />
 	<div class="field">
 <p><br/><b>{{editaccount}}</b></p>
 </div>
+
+
+
 </form>
 
 {% endblock %}
