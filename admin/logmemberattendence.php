@@ -70,7 +70,10 @@
 	}
 
 	// GET MEMBERS LIST	
-	$membersresults = getuserbyoption($db, $getapproved = 1, $getvirtual=1, $flag=1);
+	//$membersresults = getuserbyoption($db, $getapproved = 1, $getvirtual=1, $flag=1);
+
+	$membersresults = usersbyalltimevisits($db);
+
 	$membersrows = $membersresults->fetchAll();
 
 	$results = getattendendbycragid($db, $query_params);

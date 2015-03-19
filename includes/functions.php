@@ -1,6 +1,18 @@
 <?php
 
 	//////////////////////////////////////////////////////////
+	// admin users
+	function usersbyalltimevisits($db){
+
+		$query ="SELECT u.user_id, u.firstname,u.surname, n.nickname, (SELECT COUNT(a.cragvisit_id) FROM attended a WHERE a.user_id = u.user_id) AS visits FROM users u LEFT JOIN nickname n ON u.user_id = n.user_id GROUP BY u.user_id ORDER BY visits DESC";
+
+		$results = $db->prepare($query);
+        $results->execute();
+
+        return $results;
+	}
+
+	//////////////////////////////////////////////////////////
 	// login.php
 	function test_input($data) {
   		$data = trim($data);
