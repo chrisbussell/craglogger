@@ -13,6 +13,9 @@
 	<tr>
 		<th scope="row" class="visit" valign="middle">Visit</th>
 		{% for d in data %}
+		<th></th>
+		<th></th>
+		<th></th>
 		<input type="hidden" name="cragvisit_id" value="{{ d.cragvisit_id|escape }}"/>
 		<th>
 			<a href="/craglogger/dashboard/cragdetail.php?cragvisit_id={{d.cragvisit_id}}">{{ d.venue|escape }} {{d.area}}</a>
@@ -23,9 +26,19 @@
 		</th>
 		{% endfor %}
 	</tr>
+	<tr>
+		<th>Rank</th>
+		<th>Name</th>
+		<th>Visits</th>
+		<th>User ID</th>
+		<th>Logged</th>
+	</tr>
 	{% for m in member %}
 	<tr>
-		<td data-th="Cragger" class="cragger">{{m.user_id}} {{ m.firstname }} {{m.surname}} {%if m.nickname %}({{m.nickname}}) {% endif %}</td>
+		<td>{{loop.index}}</td>
+		<td data-th="Cragger" class="cragger">{{ m.firstname }} {{m.surname}} {%if m.nickname %}({{m.nickname}}) {% endif %}</td>
+		<td>{{m.visits}}</td>
+		<td>{{m.user_id}}</td>
 		{% for d in data %}
 			{% set has_attended_this_crag = 0 %}
 			{% for a in attended %}
