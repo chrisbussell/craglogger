@@ -1431,7 +1431,7 @@
 	// admin/termreportadd.php
 	function getvisithistoryyear($db)
 	{
-		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) < DATE_FORMAT(NOW(), '%Y') ORDER BY date DESC";
+		$query="SELECT distinct YEAR(date) as year from cragvisit WHERE YEAR(date) <= DATE_FORMAT(NOW(), '%Y') ORDER BY date DESC";
 
 		$results = $db->prepare($query);
         $results->execute();

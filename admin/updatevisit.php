@@ -38,7 +38,7 @@
 	}
 	else
 	{
-		$chosenyear = '2014';
+		$chosenyear = '2015';
 	}
 
 	// Update Crag Detail Data
@@ -61,7 +61,7 @@
 		// update crag details
 		updatecragvisit($db, $query_params);
 
-		$chosenyear = '2014';
+		$chosenyear = '2015';
 	}
 
 	$query_params = array(
